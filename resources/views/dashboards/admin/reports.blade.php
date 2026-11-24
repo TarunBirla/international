@@ -1,69 +1,81 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
-@section('title', 'Reports & Analytics — Admin Portal')
+@section('title', 'Reports & Financial Analytics — Perlcon Admin')
+@section('header_title', 'Marketplace Reports & Financial Analytics')
+@section('header_subtitle', 'Audit transaction volume, destination country distribution, and export data in CSV format')
 
 @section('content')
-<div class="bg-slate-50 border-b border-slate-200 py-6">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center">
-            <div>
-                <h1 class="text-2xl font-black text-slate-900 tracking-tight">Marketplace Reports & Financial Analytics</h1>
-                <p class="text-slate-600 text-xs sm:text-sm mt-0.5">Audit transaction volume, country-wise distribution, and export data.</p>
-            </div>
-            <a href="{{ route('admin.reports.export-csv') }}" class="px-5 py-2.5 bg-brand-700 hover:bg-brand-800 text-white font-bold rounded-xl text-xs transition shadow-sm flex items-center space-x-2">
-                <i class="fa-solid fa-file-csv"></i>
-                <span>Download Orders CSV Report</span>
-            </a>
-        </div>
+<div class="space-y-6">
 
-        <div class="flex flex-wrap gap-2 mt-4 text-xs font-bold">
-            <a href="{{ route('admin.dashboard') }}" class="px-4 py-2 bg-white text-slate-700 hover:bg-slate-100 rounded-xl border border-slate-200">Overview</a>
-            <a href="{{ route('admin.suppliers') }}" class="px-4 py-2 bg-white text-slate-700 hover:bg-slate-100 rounded-xl border border-slate-200">Suppliers</a>
-            <a href="{{ route('admin.buyers') }}" class="px-4 py-2 bg-white text-slate-700 hover:bg-slate-100 rounded-xl border border-slate-200">Buyers</a>
-            <a href="{{ route('admin.products') }}" class="px-4 py-2 bg-white text-slate-700 hover:bg-slate-100 rounded-xl border border-slate-200">Products</a>
-            <a href="{{ route('admin.categories') }}" class="px-4 py-2 bg-white text-slate-700 hover:bg-slate-100 rounded-xl border border-slate-200">Categories</a>
-            <a href="{{ route('admin.orders') }}" class="px-4 py-2 bg-white text-slate-700 hover:bg-slate-100 rounded-xl border border-slate-200">Orders</a>
-            <a href="{{ route('admin.rfqs') }}" class="px-4 py-2 bg-white text-slate-700 hover:bg-slate-100 rounded-xl border border-slate-200">RFQs</a>
-            <a href="{{ route('admin.reports') }}" class="px-4 py-2 bg-brand-700 text-white rounded-xl shadow-sm">Reports</a>
+    <!-- Top Action Banner -->
+    <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+            <h2 class="text-sm font-black text-slate-900">Export Raw Transaction Data</h2>
+            <p class="text-xs text-slate-500">Download comma-separated values file with full buyer, supplier PO, and landed cost breakdown</p>
         </div>
+        <a href="{{ route('admin.reports.export-csv') }}" class="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs transition shadow-sm flex items-center space-x-2 flex-shrink-0">
+            <i class="fa-solid fa-file-csv"></i>
+            <span>Download Orders CSV Report</span>
+        </a>
     </div>
-</div>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         
-        <!-- Country Distribution -->
-        <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm">
-            <h2 class="text-base font-black text-slate-900 mb-4">Destination Country Trade Distribution</h2>
+        <!-- Country Trade Distribution -->
+        <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <h2 class="text-sm font-black text-slate-900">Destination Country Trade Distribution</h2>
+                <span class="text-xs text-slate-400 font-semibold">Total Consignments</span>
+            </div>
+            
             <div class="space-y-3">
-                @foreach($countryWiseOrders as $item)
-                    <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-100 flex justify-between items-center text-xs">
-                        <div>
-                            <strong class="text-slate-900 text-sm block">{{ $item->destination_country }}</strong>
-                            <span class="text-slate-500">{{ $item->count }} Consignment(s)</span>
+                @forelse($countryWiseOrders as $item)
+                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex justify-between items-center text-xs hover:border-slate-200 transition">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-600 font-bold">
+                                <i class="fa-solid fa-earth-americas text-brand-600"></i>
+                            </div>
+                            <div>
+                                <strong class="text-slate-900 text-sm block">{{ $item->destination_country ?? 'United Kingdom' }}</strong>
+                                <span class="text-slate-500 text-[11px]">{{ $item->count }} Consignment(s)</span>
+                            </div>
                         </div>
                         <span class="font-black text-slate-900 text-sm">£{{ number_format($item->total, 2) }}</span>
                     </div>
-                @endforeach
+                @empty
+                    <p class="text-xs text-slate-400 text-center py-6">No order volume data available yet.</p>
+                @endforelse
             </div>
         </div>
 
         <!-- Monthly Sales Volume -->
-        <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm">
-            <h2 class="text-base font-black text-slate-900 mb-4">Monthly Trade Volume (GBP)</h2>
+        <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <h2 class="text-sm font-black text-slate-900">Monthly Procurement Volume</h2>
+                <span class="text-xs text-slate-400 font-semibold">Gross Merchandise Value</span>
+            </div>
+
             <div class="space-y-3">
-                @foreach($salesByMonth as $m)
-                    <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-100 flex justify-between items-center text-xs">
-                        <div>
-                            <strong class="text-slate-900 text-sm block">{{ $m->month }}</strong>
-                            <span class="text-slate-500">Gross Landed Volume</span>
+                @forelse($salesByMonth as $item)
+                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex justify-between items-center text-xs hover:border-slate-200 transition">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-600 font-bold">
+                                <i class="fa-solid fa-calendar text-brand-600"></i>
+                            </div>
+                            <div>
+                                <strong class="text-slate-900 text-sm block">{{ date('F Y', strtotime($item->month . '-01')) }}</strong>
+                                <span class="text-slate-500 text-[11px]">Monthly settlement</span>
+                            </div>
                         </div>
-                        <span class="font-black text-brand-700 text-base">£{{ number_format($m->total, 2) }}</span>
+                        <span class="font-black text-slate-900 text-sm">£{{ number_format($item->total, 2) }}</span>
                     </div>
-                @endforeach
+                @empty
+                    <p class="text-xs text-slate-400 text-center py-6">No monthly transactions recorded yet.</p>
+                @endforelse
             </div>
         </div>
 
     </div>
+
 </div>
 @endsection

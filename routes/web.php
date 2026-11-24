@@ -146,19 +146,68 @@ Route::middleware(['auth', 'role:supplier,super_admin,admin'])->prefix('supplier
 });
 
 // ==========================================
-// 7. SUPER ADMIN DASHBOARD
+// 7. SUPER ADMIN DASHBOARD & CRUD
 // ==========================================
 Route::middleware(['auth', 'role:super_admin,admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+    // 7.1 Users CRUD
+    Route::get('/users', [AdminDashboardController::class, 'users'])->name('users.index');
+    Route::get('/users/create', [AdminDashboardController::class, 'createUser'])->name('users.create');
+    Route::post('/users', [AdminDashboardController::class, 'storeUser'])->name('users.store');
+    Route::get('/users/{id}/edit', [AdminDashboardController::class, 'editUser'])->name('users.edit');
+    Route::put('/users/{id}', [AdminDashboardController::class, 'updateUser'])->name('users.update');
+    Route::delete('/users/{id}', [AdminDashboardController::class, 'deleteUser'])->name('users.destroy');
+
+    // 7.2 Suppliers Management & Verification
     Route::get('/suppliers', [AdminDashboardController::class, 'suppliers'])->name('suppliers');
+    Route::get('/suppliers/create', [AdminDashboardController::class, 'createSupplier'])->name('suppliers.create');
+    Route::post('/suppliers', [AdminDashboardController::class, 'storeSupplier'])->name('suppliers.store');
+    Route::get('/suppliers/{id}/edit', [AdminDashboardController::class, 'editSupplier'])->name('suppliers.edit');
+    Route::put('/suppliers/{id}', [AdminDashboardController::class, 'updateSupplier'])->name('suppliers.update');
+    Route::delete('/suppliers/{id}', [AdminDashboardController::class, 'deleteSupplier'])->name('suppliers.destroy');
     Route::post('/suppliers/{id}/toggle-verification', [AdminDashboardController::class, 'toggleSupplierVerification'])->name('suppliers.toggle-verification');
+
+    // 7.3 Buyers Management
     Route::get('/buyers', [AdminDashboardController::class, 'buyers'])->name('buyers');
-    Route::get('/products', [AdminDashboardController::class, 'products'])->name('products');
-    Route::post('/products/{id}/toggle-featured', [AdminDashboardController::class, 'toggleProductFeatured'])->name('products.toggle-featured');
+    Route::get('/buyers/create', [AdminDashboardController::class, 'createBuyer'])->name('buyers.create');
+    Route::post('/buyers', [AdminDashboardController::class, 'storeBuyer'])->name('buyers.store');
+    Route::get('/buyers/{id}/edit', [AdminDashboardController::class, 'editBuyer'])->name('buyers.edit');
+    Route::put('/buyers/{id}', [AdminDashboardController::class, 'updateBuyer'])->name('buyers.update');
+    Route::delete('/buyers/{id}', [AdminDashboardController::class, 'deleteBuyer'])->name('buyers.destroy');
+
+    // 7.4 Categories CRUD
     Route::get('/categories', [AdminDashboardController::class, 'categories'])->name('categories');
     Route::post('/categories', [AdminDashboardController::class, 'storeCategory'])->name('categories.store');
+    Route::put('/categories/{id}', [AdminDashboardController::class, 'updateCategory'])->name('categories.update');
+    Route::delete('/categories/{id}', [AdminDashboardController::class, 'deleteCategory'])->name('categories.destroy');
+
+    // 7.5 Products CRUD
+    Route::get('/products', [AdminDashboardController::class, 'products'])->name('products');
+    Route::get('/products/create', [AdminDashboardController::class, 'createProduct'])->name('products.create');
+    Route::post('/products', [AdminDashboardController::class, 'storeProduct'])->name('products.store');
+    Route::get('/products/{id}/edit', [AdminDashboardController::class, 'editProduct'])->name('products.edit');
+    Route::put('/products/{id}', [AdminDashboardController::class, 'updateProduct'])->name('products.update');
+    Route::delete('/products/{id}', [AdminDashboardController::class, 'deleteProduct'])->name('products.destroy');
+    Route::post('/products/{id}/toggle-featured', [AdminDashboardController::class, 'toggleProductFeatured'])->name('products.toggle-featured');
+
+    // 7.6 Orders Management
     Route::get('/orders', [AdminDashboardController::class, 'orders'])->name('orders');
+    Route::post('/orders/{id}/status', [AdminDashboardController::class, 'updateOrderStatus'])->name('orders.update-status');
+    Route::delete('/orders/{id}', [AdminDashboardController::class, 'deleteOrder'])->name('orders.destroy');
+
+    // 7.7 RFQs Management
     Route::get('/rfqs', [AdminDashboardController::class, 'rfqs'])->name('rfqs');
+    Route::post('/rfqs/{id}/status', [AdminDashboardController::class, 'updateRfqStatus'])->name('rfqs.update-status');
+    Route::delete('/rfqs/{id}', [AdminDashboardController::class, 'deleteRfq'])->name('rfqs.destroy');
+
+    // 7.8 Shipments & Customs
+    Route::get('/shipments', [AdminDashboardController::class, 'shipments'])->name('shipments');
+    Route::post('/shipments/{id}/update', [AdminDashboardController::class, 'updateShipment'])->name('shipments.update');
+    Route::get('/customs', [AdminDashboardController::class, 'customs'])->name('customs');
+    Route::post('/customs/{id}/update', [AdminDashboardController::class, 'updateCustoms'])->name('customs.update');
+
+    // 7.9 Reports & CSV Export
     Route::get('/reports', [AdminDashboardController::class, 'reports'])->name('reports');
     Route::get('/reports/export-csv', [AdminDashboardController::class, 'exportOrdersCsv'])->name('reports.export-csv');
 });
