@@ -1,0 +1,61 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Company extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'user_id',
+        'company_name',
+        'slug',
+        'logo',
+        'banner',
+        'business_type',
+        'country',
+        'country_code',
+        'city',
+        'state',
+        'address',
+        'postal_code',
+        'tax_id',
+        'year_established',
+        'employees_count',
+        'annual_turnover',
+        'export_markets',
+        'description',
+        'manufacturing_capabilities',
+        'certifications',
+        'website',
+        'is_verified',
+        'verification_documents',
+        'rating',
+        'reviews_count',
+    ];
+
+    protected $casts = [
+        'certifications' => 'array',
+        'verification_documents' => 'array',
+        'is_verified' => 'boolean',
+        'rating' => 'float',
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'company_id');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'supplier_id', 'user_id');
+    }
+}
