@@ -6,11 +6,41 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\CustomsClearance;
 use App\Models\TrackingUpdate;
+use App\Models\Order;
 
 class CustomsDashboardController extends Controller
 {
+    private function ensureClearanceForOrders()
+    {
+        $customsUser = Auth::user();
+        $unlinkedOrders = Order::doesntHave('customsClearances')->get();
+        foreach ($unlinkedOrders as $o) {
+            CustomsClearance::create([
+                'clearance_reference' => 'CUS-UK-' . date('Y') . '-' . rand(1000, 9999),
+                'order_id' => $o->id,
+                'shipment_id' => $o->shipments->first()->id ?? null,
+                'customs_partner_id' => $customsUser->id ?? null,
+                'port_of_entry' => 'Port of Felixstowe',
+                'country_of_origin' => 'India / China / Europe',
+                'hs_codes' => '8457.10.90',
+                'declared_cif_value' => $o->subtotal_amount + $o->shipping_amount,
+                'applicable_duty_rate' => 2.50,
+                'duty_payable_amount' => $o->customs_duty_amount ?? round(($o->subtotal_amount + $o->shipping_amount) * 0.025, 2),
+                'vat_rate' => 20.00,
+                'vat_payable_amount' => $o->vat_amount ?? round(($o->subtotal_amount + $o->shipping_amount + ($o->customs_duty_amount ?? 0)) * 0.20, 2),
+                'clearance_service_fee' => 120.00,
+                'total_customs_charges' => ($o->customs_duty_amount ?? 0) + ($o->vat_amount ?? 0) + 120.00,
+                'currency' => $o->currency ?? 'GBP',
+                'status' => 'declaration_filed',
+                'partner_notes' => 'Customs declaration pre-lodged for international consignment.',
+            ]);
+        }
+    }
+
     public function index()
     {
+        $this->ensureClearanceForOrders();
+
         $clearances = CustomsClearance::with(['order.buyer.company', 'shipment'])->latest()->paginate(10);
 
         $stats = [
@@ -21,6 +51,17 @@ class CustomsDashboardController extends Controller
         ];
 
         return view('dashboards.customs.index', compact('clearances', 'stats'));
+    }
+
+    public function orders()
+    {
+        $this->ensureClearanceForOrders();
+
+        $orders = Order::with(['buyer.company', 'orderItems', 'shipments', 'customsClearances'])
+            ->latest()
+            ->paginate(12);
+
+        return view('dashboards.customs.orders', compact('orders'));
     }
 
     public function updateStatus(Request $request, $id)

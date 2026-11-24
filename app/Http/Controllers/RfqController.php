@@ -241,9 +241,52 @@ class RfqController extends Controller
             'supplier_status' => 'accepted',
         ]);
 
+        // Create Shipment Booking for Logistics Partner
+        $logisticsUser = \App\Models\User::where('role', 'logistics_partner')->first();
+        $shipment = Shipment::create([
+            'shipment_number' => 'SHP-' . date('Y') . '-' . rand(1000, 9999),
+            'order_id' => $order->id,
+            'logistics_partner_id' => $logisticsUser->id ?? null,
+            'carrier_name' => 'Consolidated Freight / DHL',
+            'shipment_type' => 'sea_lcl',
+            'tracking_number' => 'TRK-' . strtoupper(Str::random(10)),
+            'origin_country' => $quotation->supplier->country ?? 'India',
+            'destination_country' => 'United Kingdom',
+            'destination_port_city' => 'Port of Felixstowe / London Gateway',
+            'total_weight_kg' => 500.0,
+            'packages_count' => 1,
+            'estimated_dispatch_date' => now()->addDays(5),
+            'estimated_delivery_date' => now()->addDays(20),
+            'current_location' => 'Quotation Accepted - Production Allocated',
+            'status' => 'booked',
+        ]);
+
+        // Create Customs Clearance Filing for Junaid & Co. (Customs Partner)
+        $customsUser = \App\Models\User::where('role', 'customs_partner')->first();
+        CustomsClearance::create([
+            'clearance_reference' => 'CUS-UK-' . date('Y') . '-' . rand(1000, 9999),
+            'order_id' => $order->id,
+            'shipment_id' => $shipment->id,
+            'customs_partner_id' => $customsUser->id ?? null,
+            'port_of_entry' => 'Port of Felixstowe',
+            'country_of_origin' => $quotation->supplier->country ?? 'India',
+            'hs_codes' => '8457.10.90',
+            'declared_cif_value' => $quotation->subtotal_amount + $quotation->shipping_cost,
+            'applicable_duty_rate' => 2.50,
+            'duty_payable_amount' => $quotation->estimated_customs_duty ?? round(($quotation->subtotal_amount + $quotation->shipping_cost) * 0.025, 2),
+            'vat_rate' => 20.00,
+            'vat_payable_amount' => $quotation->estimated_vat ?? round(($quotation->subtotal_amount + $quotation->shipping_cost + ($quotation->estimated_customs_duty ?? 0)) * 0.20, 2),
+            'clearance_service_fee' => 120.00,
+            'total_customs_charges' => ($quotation->estimated_customs_duty ?? 0) + ($quotation->estimated_vat ?? 0) + 120.00,
+            'currency' => 'GBP',
+            'status' => 'declaration_filed',
+            'partner_notes' => "Automatic customs pre-lodgement from accepted Quotation {$quotation->quotation_number}.",
+        ]);
+
         // Create initial tracking update
         TrackingUpdate::create([
             'order_id' => $order->id,
+            'shipment_id' => $shipment->id,
             'stage' => 'order_placed',
             'title' => 'Purchase Order Generated & Quotation Accepted',
             'description' => "Buyer accepted Quotation {$quotation->quotation_number}. Production order allocated to supplier.",

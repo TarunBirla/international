@@ -85,9 +85,14 @@
                 <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Clearance Operations</p>
                 <div class="space-y-1">
                     <a href="{{ route('customs.dashboard') }}" 
-                       class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-bold transition bg-amber-50 text-amber-800 shadow-sm border border-amber-200/50">
-                        <i class="fa-solid fa-stamp w-4 text-center text-amber-600"></i>
+                       class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('customs.dashboard') ? 'bg-amber-50 text-amber-800 shadow-sm border border-amber-200/50' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
+                        <i class="fa-solid fa-stamp w-4 text-center {{ request()->routeIs('customs.dashboard') ? 'text-amber-600' : 'text-slate-400' }}"></i>
                         <span>C88 Declarations</span>
+                    </a>
+                    <a href="{{ route('customs.orders') }}" 
+                       class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('customs.orders') ? 'bg-amber-50 text-amber-800 shadow-sm border border-amber-200/50' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
+                        <i class="fa-solid fa-boxes-packing w-4 text-center {{ request()->routeIs('customs.orders') ? 'text-amber-600' : 'text-slate-400' }}"></i>
+                        <span>Consignment Orders</span>
                     </a>
                     <a href="{{ route('calculator.index') }}" 
                        class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition">

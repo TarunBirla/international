@@ -228,5 +228,6 @@ Route::middleware(['auth', 'role:logistics_partner,super_admin,admin'])->prefix(
 // ==========================================
 Route::middleware(['auth', 'role:customs_partner,super_admin,admin'])->prefix('customs')->name('customs.')->group(function () {
     Route::get('/dashboard', [CustomsDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/orders', [CustomsDashboardController::class, 'orders'])->name('orders');
     Route::post('/clearances/{id}/update', [CustomsDashboardController::class, 'updateStatus'])->name('clearances.update');
 });

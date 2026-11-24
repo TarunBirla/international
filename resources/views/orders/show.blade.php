@@ -38,10 +38,10 @@
 @else
 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
     <div class="flex items-center space-x-3">
-        <a href="{{ auth()->user()->isAdmin() ? route('admin.orders') : (auth()->user()->isSupplier() ? route('supplier.orders') : route('buyer.orders')) }}"
+        <a href="{{ auth()->user()->isAdmin() ? route('admin.orders') : (auth()->user()->isSupplier() ? route('supplier.orders') : (auth()->user()->isCustoms() ? route('customs.orders') : (auth()->user()->isLogistics() ? route('logistics.dashboard') : route('buyer.orders')))) }}"
            class="p-2 text-slate-500 hover:text-slate-800 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition text-xs font-bold flex items-center space-x-1.5">
             <i class="fa-solid fa-arrow-left"></i>
-            <span>Back to Orders</span>
+            <span>Back to {{ auth()->user()->isCustoms() ? 'Customs Orders' : (auth()->user()->isLogistics() ? 'Logistics' : 'Orders') }}</span>
         </a>
         <span class="px-2.5 py-0.5 rounded-lg text-xs font-bold uppercase bg-brand-50 text-brand-700 border border-brand-200">
             {{ ucfirst(str_replace('_', ' ', $order->order_status)) }}
@@ -274,6 +274,35 @@
                             {{ ucfirst(str_replace('_', ' ', $customs->status)) }}
                         </span>
                     </div>
+                </div>
+
+                @if(auth()->check() && (auth()->user()->isCustoms() || auth()->user()->isAdmin()))
+                    <div class="pt-3 border-t border-slate-100">
+                        <p class="text-[11px] font-bold text-slate-500 mb-2 uppercase tracking-wider">Customs Broker Actions</p>
+                        <form action="{{ route('customs.clearances.update', $customs->id) }}" method="POST" class="space-y-2">
+                            @csrf
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                <input type="text" name="c88_entry_number" value="{{ $customs->c88_entry_number }}" placeholder="HMRC C88 / CDS Entry Ref" class="px-3 py-1.5 border border-slate-200 rounded-lg text-xs font-mono font-bold w-full">
+                                <select name="status" class="px-3 py-1.5 border border-slate-200 rounded-lg text-xs font-bold bg-white text-slate-800 w-full">
+                                    <option value="declaration_filed" {{ $customs->status == 'declaration_filed' ? 'selected' : '' }}>Declaration Filed</option>
+                                    <option value="under_review" {{ $customs->status == 'under_review' ? 'selected' : '' }}>Under Review</option>
+                                    <option value="documents_required" {{ $customs->status == 'documents_required' ? 'selected' : '' }}>Docs Required</option>
+                                    <option value="duty_paid" {{ $customs->status == 'duty_paid' ? 'selected' : '' }}>Duty Assessed</option>
+                                    <option value="physical_inspection" {{ $customs->status == 'physical_inspection' ? 'selected' : '' }}>Inspection</option>
+                                    <option value="cleared" {{ $customs->status == 'cleared' ? 'selected' : '' }}>Cleared (Green)</option>
+                                    <option value="released" {{ $customs->status == 'released' ? 'selected' : '' }}>Released for Delivery</option>
+                                </select>
+                            </div>
+                            <input type="text" name="partner_notes" value="{{ $customs->partner_notes }}" placeholder="Broker notes & customs audit status..." class="px-3 py-1.5 border border-slate-200 rounded-lg text-xs font-medium w-full">
+                            <button type="submit" class="w-full py-2 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-xs transition shadow-sm">
+                                Update C88 Clearance Status
+                            </button>
+                        </form>
+                    </div>
+                @endif
+            @else
+                <div class="text-xs text-slate-400 py-3 text-center">
+                    Customs declaration pre-lodgement is being prepared.
                 </div>
             @endif
         </div>

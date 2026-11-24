@@ -29,19 +29,31 @@
 
     <!-- Clearances Table -->
     <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm">
-        <h2 class="text-sm font-black text-slate-900 mb-4">C88 Import Customs Filings</h2>
+        <div class="flex items-center justify-between mb-4 pb-2 border-b border-slate-100">
+            <div>
+                <h2 class="text-sm font-black text-slate-900">C88 Import Customs Filings</h2>
+                <p class="text-xs text-slate-500">Active Single Administrative Documents (C88) pre-lodged for UK port entry</p>
+            </div>
+            <a href="{{ route('customs.orders') }}" class="px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center space-x-1.5">
+                <i class="fa-solid fa-boxes-packing text-amber-600"></i>
+                <span>View All Inbound Orders</span>
+            </a>
+        </div>
 
         <div class="space-y-4">
             @forelse($clearances as $clr)
                 <div class="p-6 rounded-2xl border border-slate-200 bg-slate-50/70 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 hover:border-slate-300 transition">
                     
                     <div class="space-y-1.5 min-w-0">
-                        <div class="flex items-center space-x-2">
+                        <div class="flex flex-wrap items-center gap-2">
                             <span class="font-mono text-xs font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">Entry: {{ $clr->c88_entry_number ?? 'PENDING' }}</span>
                             <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-amber-100 text-amber-900">
                                 {{ ucfirst(str_replace('_', ' ', $clr->status)) }}
                             </span>
-                            <span class="text-xs text-slate-400">Order: #{{ $clr->order->order_number ?? 'ORD' }}</span>
+                            <a href="{{ route('orders.show', $clr->order_id) }}" class="font-mono text-xs font-bold text-sky-700 hover:text-sky-900 bg-sky-50 px-2 py-0.5 rounded border border-sky-200 transition flex items-center space-x-1">
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                                <span>Order: #{{ $clr->order->order_number ?? 'ORD' }}</span>
+                            </a>
                         </div>
 
                         <h3 class="text-base font-extrabold text-slate-900">

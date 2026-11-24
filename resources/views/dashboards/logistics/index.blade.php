@@ -37,7 +37,10 @@
                             <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-blue-50 text-indigo-700 border border-indigo-200">
                                 {{ ucfirst(str_replace('_', ' ', $shp->status)) }}
                             </span>
-                            <span class="text-xs text-slate-400">Order: #{{ $shp->order->order_number ?? 'ORD' }}</span>
+                            <a href="{{ route('orders.show', $shp->order_id) }}" class="font-mono text-xs font-bold text-sky-700 hover:text-sky-900 bg-sky-50 px-2 py-0.5 rounded border border-sky-200 transition flex items-center space-x-1">
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                                <span>Order: #{{ $shp->order->order_number ?? 'ORD' }}</span>
+                            </a>
                         </div>
 
                         <h3 class="text-base font-extrabold text-slate-900">
