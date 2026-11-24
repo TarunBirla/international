@@ -1,9 +1,12 @@
-@extends('layouts.app')
+@extends(auth()->check() ? auth()->user()->getDashboardLayout() : 'layouts.app')
 
 @section('title', 'RFQ: ' . $rfq->product_name . ' — Perlcon International')
+@section('header_title', 'RFQ Tender: #' . $rfq->rfq_number)
+@section('header_subtitle', $rfq->product_name . ' • Requested Volume: ' . number_format($rfq->quantity) . ' ' . $rfq->unit)
 
 @section('content')
-<div class="bg-slate-50 border-b border-slate-200 py-8">
+@if(!auth()->check())
+<div class="bg-slate-50 border-b border-slate-200 py-6 mb-6">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center space-x-2 text-xs text-slate-500 mb-2">
             <a href="{{ route('home') }}" class="hover:text-brand-700">Home</a>
@@ -22,20 +25,35 @@
                 </div>
                 <h1 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">{{ $rfq->product_name }}</h1>
             </div>
-
-            @if(Auth::check() && (Auth::id() === $rfq->buyer_id || Auth::user()->isAdmin()))
-                @if($rfq->quotations->isNotEmpty())
-                    <a href="{{ route('rfqs.compare', $rfq->id) }}" class="px-6 py-3 bg-brand-700 hover:bg-brand-800 text-white font-extrabold rounded-xl text-xs sm:text-sm shadow-md transition flex items-center space-x-2">
-                        <i class="fa-solid fa-code-compare"></i>
-                        <span>Compare {{ count($rfq->quotations) }} Received Quotations Side-by-Side</span>
-                    </a>
-                @endif
-            @endif
         </div>
     </div>
 </div>
+@else
+<div class="flex items-center justify-between mb-6">
+    <a href="{{ auth()->user()->isBuyer() ? route('buyer.rfqs') : (auth()->user()->isAdmin() ? route('admin.rfqs') : route('rfqs.index')) }}" 
+       class="text-xs font-bold text-slate-500 hover:text-slate-800 flex items-center space-x-1.5">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Back to RFQs List</span>
+    </a>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    @if(Auth::id() === $rfq->buyer_id || Auth::user()->isAdmin())
+        <div class="flex items-center space-x-2">
+            <a href="{{ route('rfqs.edit', $rfq->id) }}" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition flex items-center space-x-1.5">
+                <i class="fa-solid fa-pen"></i>
+                <span>Edit RFQ</span>
+            </a>
+            @if($rfq->quotations->isNotEmpty())
+                <a href="{{ route('rfqs.compare', $rfq->id) }}" class="px-4 py-2 bg-brand-700 hover:bg-brand-800 text-white font-extrabold rounded-xl text-xs shadow-sm transition flex items-center space-x-2">
+                    <i class="fa-solid fa-code-compare"></i>
+                    <span>Compare {{ count($rfq->quotations) }} Quotes</span>
+                </a>
+            @endif
+        </div>
+    @endif
+</div>
+@endif
+
+<div class="{{ auth()->check() ? '' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10' }}">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         <!-- Left 2 Cols: RFQ Specs & Submitted Quotations -->

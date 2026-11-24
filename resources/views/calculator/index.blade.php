@@ -1,9 +1,12 @@
-@extends('layouts.app')
+@extends(auth()->check() ? auth()->user()->getDashboardLayout() : 'layouts.app')
 
 @section('title', 'UK Import Duty & VAT Landed Cost Calculator — Perlcon International')
+@section('header_title', 'UK Import Duty & VAT Calculator')
+@section('header_subtitle', 'Calculate landed import costs, customs duty, and 20% UK VAT before ordering')
 
 @section('content')
-<div class="bg-slate-50 border-b border-slate-200 py-8">
+@if(!auth()->check())
+<div class="bg-slate-50 border-b border-slate-200 py-8 mb-6">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center space-x-2 text-xs text-slate-500 mb-2">
             <a href="{{ route('home') }}" class="hover:text-brand-700">Home</a>
@@ -16,8 +19,9 @@
         </p>
     </div>
 </div>
+@endif
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+<div class="{{ auth()->check() ? 'space-y-6' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10' }}">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         <!-- Left 7 Cols: Calculator Input Form -->

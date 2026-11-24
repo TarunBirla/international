@@ -1,9 +1,12 @@
-@extends('layouts.app')
+@extends(auth()->check() ? auth()->user()->getDashboardLayout() : 'layouts.app')
 
 @section('title', 'Order ' . $order->order_number . ' Tracking & Details — Perlcon International')
+@section('header_title', 'Order ' . $order->order_number)
+@section('header_subtitle', 'End-to-End International Logistics, Stepper, and Customs Status')
 
 @section('content')
-<div class="bg-slate-50 border-b border-slate-200 py-8">
+@if(!auth()->check())
+<div class="bg-slate-50 border-b border-slate-200 py-8 mb-6">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center space-x-2 text-xs text-slate-500 mb-2">
             <a href="{{ route('home') }}" class="hover:text-brand-700">Home</a>
@@ -32,8 +35,30 @@
         </div>
     </div>
 </div>
+@else
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+    <div class="flex items-center space-x-3">
+        <a href="{{ auth()->user()->isAdmin() ? route('admin.orders') : (auth()->user()->isSupplier() ? route('supplier.orders') : route('buyer.orders')) }}"
+           class="p-2 text-slate-500 hover:text-slate-800 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition text-xs font-bold flex items-center space-x-1.5">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Back to Orders</span>
+        </a>
+        <span class="px-2.5 py-0.5 rounded-lg text-xs font-bold uppercase bg-brand-50 text-brand-700 border border-brand-200">
+            {{ ucfirst(str_replace('_', ' ', $order->order_status)) }}
+        </span>
+        <span class="text-xs text-slate-500">Placed {{ $order->created_at->format('d M Y') }}</span>
+    </div>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
+    <div class="flex items-center space-x-3">
+        <span class="px-3 py-1 rounded-xl text-xs font-bold bg-emerald-100 text-emerald-800 flex items-center">
+            <i class="fa-solid fa-shield-check mr-1.5"></i> Trade Assurance Escrow
+        </span>
+        <span class="text-xl font-black text-slate-900">£{{ number_format($order->total_amount, 2) }}</span>
+    </div>
+</div>
+@endif
+
+<div class="{{ auth()->check() ? 'space-y-8' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10' }}">
     
     <!-- 14-Stage Visual Order Tracking Stepper -->
     <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">

@@ -1,9 +1,12 @@
-@extends('layouts.app')
+@extends(auth()->check() ? auth()->user()->getDashboardLayout() : 'layouts.app')
 
 @section('title', 'Procurement Cart — Perlcon International')
+@section('header_title', 'Procurement Cart')
+@section('header_subtitle', 'Review order items and proceed to multi-supplier purchase order split')
 
 @section('content')
-<div class="bg-slate-50 border-b border-slate-200 py-8">
+@if(!auth()->check())
+<div class="bg-slate-50 border-b border-slate-200 py-8 mb-6">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center space-x-2 text-xs text-slate-500 mb-2">
             <a href="{{ route('home') }}" class="hover:text-brand-700">Home</a>
@@ -14,8 +17,9 @@
         <p class="text-slate-600 text-xs sm:text-sm mt-1">Multi-supplier orders are automatically consolidated and split into supplier-specific purchase orders.</p>
     </div>
 </div>
+@endif
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+<div class="{{ auth()->check() ? 'space-y-6' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10' }}">
     @if($cartItems->isEmpty())
         <div class="bg-white rounded-3xl border border-slate-200 p-12 text-center max-w-lg mx-auto shadow-sm">
             <div class="w-16 h-16 bg-blue-50 text-brand-700 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4">

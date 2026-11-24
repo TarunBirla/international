@@ -63,6 +63,26 @@ class User extends Authenticatable
         return $this->role === 'customs_partner';
     }
 
+    public function getDashboardLayout(): string
+    {
+        if ($this->isAdmin()) {
+            return 'layouts.admin';
+        }
+        if ($this->isBuyer()) {
+            return 'layouts.buyer';
+        }
+        if ($this->isSupplier()) {
+            return 'layouts.supplier';
+        }
+        if ($this->isLogistics()) {
+            return 'layouts.logistics';
+        }
+        if ($this->isCustoms()) {
+            return 'layouts.customs';
+        }
+        return 'layouts.app';
+    }
+
     public function company()
     {
         return $this->hasOne(Company::class);

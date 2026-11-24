@@ -1,9 +1,12 @@
-@extends('layouts.app')
+@extends(auth()->check() ? auth()->user()->getDashboardLayout() : 'layouts.app')
 
 @section('title', 'Open Requests For Quotation (RFQs) — Perlcon International')
+@section('header_title', 'Requests For Quotation (RFQs)')
+@section('header_subtitle', 'Browse open international procurement requirements and tenders')
 
 @section('content')
-<div class="bg-slate-50 border-b border-slate-200 py-8">
+@if(!auth()->check())
+<div class="bg-slate-50 border-b border-slate-200 py-8 mb-6">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
@@ -22,8 +25,21 @@
         </div>
     </div>
 </div>
+@else
+<div class="flex justify-between items-center mb-6">
+    <div>
+        <p class="text-xs text-slate-500">All active procurement requests published on the marketplace</p>
+    </div>
+    @if(auth()->user()->isBuyer() || auth()->user()->isAdmin())
+    <a href="{{ route('rfqs.create') }}" class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-xl text-xs transition shadow-sm flex items-center space-x-1.5">
+        <i class="fa-solid fa-plus"></i>
+        <span>+ Post A New RFQ</span>
+    </a>
+    @endif
+</div>
+@endif
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+<div class="{{ auth()->check() ? 'space-y-4' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-4' }}">
     <div class="space-y-4">
         @foreach($rfqs as $rfq)
             <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition flex flex-col md:flex-row justify-between items-start md:items-center gap-6">

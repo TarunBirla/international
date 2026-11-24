@@ -1,25 +1,35 @@
-@extends('layouts.app')
+@extends(auth()->check() ? auth()->user()->getDashboardLayout() : 'layouts.app')
 
 @section('title', 'Compare Quotations — ' . $rfq->product_name)
+@section('header_title', 'Compare Quotations Side-by-Side')
+@section('header_subtitle', 'Comparing ' . count($rfq->quotations) . ' binding bids for ' . $rfq->product_name . ' (' . number_format($rfq->quantity) . ' ' . $rfq->unit . ')')
 
 @section('content')
-<div class="bg-slate-50 border-b border-slate-200 py-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center space-x-2 text-xs text-slate-500 mb-2">
-            <a href="{{ route('home') }}" class="hover:text-brand-700">Home</a>
-            <span>/</span>
-            <a href="{{ route('rfqs.index') }}" class="hover:text-brand-700">RFQs</a>
-            <span>/</span>
-            <a href="{{ route('rfqs.show', $rfq->id) }}" class="hover:text-brand-700">{{ $rfq->rfq_number }}</a>
-            <span>/</span>
-            <span class="text-slate-900 font-semibold">Compare Quotations</span>
-        </div>
-        <h1 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Compare Quotations Side-by-Side</h1>
-        <p class="text-slate-600 text-xs sm:text-sm mt-1">Comparing {{ count($rfq->quotations) }} binding quotes submitted for <strong class="text-slate-900">{{ $rfq->product_name }}</strong> ({{ number_format($rfq->quantity) }} {{ $rfq->unit }}).</p>
-    </div>
-</div>
+<div class="space-y-6">
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    @if(!auth()->check())
+        <div class="bg-slate-50 border-b border-slate-200 py-6 px-4 rounded-2xl mb-6">
+            <div class="flex items-center space-x-2 text-xs text-slate-500 mb-2">
+                <a href="{{ route('home') }}" class="hover:text-brand-700">Home</a>
+                <span>/</span>
+                <a href="{{ route('rfqs.index') }}" class="hover:text-brand-700">RFQs</a>
+                <span>/</span>
+                <a href="{{ route('rfqs.show', $rfq->id) }}" class="hover:text-brand-700">{{ $rfq->rfq_number }}</a>
+                <span>/</span>
+                <span class="text-slate-900 font-semibold">Compare Quotations</span>
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Compare Quotations Side-by-Side</h1>
+            <p class="text-slate-600 text-xs sm:text-sm mt-1">Comparing {{ count($rfq->quotations) }} binding quotes submitted for <strong class="text-slate-900">{{ $rfq->product_name }}</strong> ({{ number_format($rfq->quantity) }} {{ $rfq->unit }}).</p>
+        </div>
+    @else
+        <div class="flex items-center justify-between">
+            <a href="{{ route('rfqs.show', $rfq->id) }}" class="text-xs font-bold text-slate-500 hover:text-slate-800 flex items-center space-x-1.5">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Back to RFQ Tender Details</span>
+            </a>
+        </div>
+    @endif
+
     <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-x-auto">
         <table class="w-full text-xs text-left border-collapse min-w-[700px]">
             <thead>

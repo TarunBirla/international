@@ -1,16 +1,20 @@
-@extends('layouts.app')
+@extends(auth()->check() ? auth()->user()->getDashboardLayout() : 'layouts.app')
 
 @section('title', 'Messages & Enquiries — Perlcon International')
+@section('header_title', 'Messages & Communications')
+@section('header_subtitle', 'Direct communication channel between international buyers and manufacturers')
 
 @section('content')
-<div class="bg-slate-50 border-b border-slate-200 py-6">
+@if(!auth()->check())
+<div class="bg-slate-50 border-b border-slate-200 py-6 mb-6">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 class="text-2xl font-black text-slate-900 tracking-tight">Messages & Trade Communications</h1>
         <p class="text-slate-600 text-xs sm:text-sm mt-1">Direct communication channel between international buyers and manufacturers.</p>
     </div>
 </div>
+@endif
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="{{ auth()->check() ? 'space-y-4' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8' }}">
     <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden grid grid-cols-1 md:grid-cols-12 min-h-[550px]">
         
         <!-- Left Contacts List (4 Cols) -->
