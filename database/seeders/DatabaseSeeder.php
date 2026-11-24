@@ -163,12 +163,25 @@ class DatabaseSeeder extends Seeder
             HsCodeDuty::create($duty);
         }
 
-        // 3. User Accounts
+        // 3. User Accounts with Exact Names Requested by User
         $password = Hash::make('password123');
 
-        // Super Admin
+        // 1. Tarun Birla (Super Admin / Executive Platform Owner)
         $superAdmin = User::create([
-            'name' => 'Perlcon Executive Admin',
+            'name' => 'Tarun Birla',
+            'email' => 'tarun@perlcon.com',
+            'phone' => '+44 20 7946 0991',
+            'password' => $password,
+            'role' => 'super_admin',
+            'status' => 'active',
+            'country' => 'United Kingdom',
+            'city' => 'London',
+            'email_verified_at' => now(),
+        ]);
+
+        // Alias for easy testing
+        User::create([
+            'name' => 'Tarun Birla (Admin Alias)',
             'email' => 'admin@perlcon.com',
             'phone' => '+44 20 7946 0991',
             'password' => $password,
@@ -179,9 +192,21 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
-        // Operations Admin
+        // 2. Hariom Birla (Operations & Sourcing Director / Admin)
         $admin = User::create([
-            'name' => 'Perlcon Operations Manager',
+            'name' => 'Hariom Birla',
+            'email' => 'hariom@perlcon.com',
+            'phone' => '+44 20 7946 0992',
+            'password' => $password,
+            'role' => 'admin',
+            'status' => 'active',
+            'country' => 'United Kingdom',
+            'city' => 'London',
+            'email_verified_at' => now(),
+        ]);
+
+        User::create([
+            'name' => 'Hariom Birla (Manager Alias)',
             'email' => 'manager@perlcon.com',
             'phone' => '+44 20 7946 0992',
             'password' => $password,
@@ -192,10 +217,10 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
-        // Buyer (UK based procurement manager)
+        // 3. Navdeep (UK Engineering Buyer / Procurement Manager)
         $buyer = User::create([
-            'name' => 'David Sterling',
-            'email' => 'buyer@perlcon.com',
+            'name' => 'Navdeep',
+            'email' => 'navdeep@perlcon.com',
             'phone' => '+44 121 496 0884',
             'password' => $password,
             'role' => 'buyer',
@@ -207,8 +232,8 @@ class DatabaseSeeder extends Seeder
 
         Company::create([
             'user_id' => $buyer->id,
-            'company_name' => 'Apex British Industrial Contracting Ltd',
-            'slug' => 'apex-british-industrial-contracting',
+            'company_name' => 'Navdeep Industrial UK Ltd',
+            'slug' => 'navdeep-industrial-uk-ltd',
             'business_type' => 'distributor',
             'country' => 'United Kingdom',
             'country_code' => 'GB',
@@ -220,10 +245,22 @@ class DatabaseSeeder extends Seeder
             'is_verified' => true,
         ]);
 
-        // Supplier 1: India (Heavy Engineering & Forgings)
+        User::create([
+            'name' => 'Navdeep (Buyer Alias)',
+            'email' => 'buyer@perlcon.com',
+            'phone' => '+44 121 496 0884',
+            'password' => $password,
+            'role' => 'buyer',
+            'status' => 'active',
+            'country' => 'United Kingdom',
+            'city' => 'Birmingham',
+            'email_verified_at' => now(),
+        ]);
+
+        // 4. Rohit (Supplier 1: India - Heavy Engineering & Forgings)
         $supplierIndia = User::create([
-            'name' => 'Rajesh Sharma',
-            'email' => 'supplier.india@perlcon.com',
+            'name' => 'Rohit',
+            'email' => 'rohit@perlcon.com',
             'phone' => '+91 98250 12345',
             'password' => $password,
             'role' => 'supplier',
@@ -235,8 +272,8 @@ class DatabaseSeeder extends Seeder
 
         $companyIndia = Company::create([
             'user_id' => $supplierIndia->id,
-            'company_name' => 'Bharat Heavy Forge & Precision Engineering Ltd',
-            'slug' => 'bharat-heavy-forge-precision-engineering',
+            'company_name' => 'Rohit Precision Forgings Pvt Ltd',
+            'slug' => 'rohit-precision-forgings-pvt-ltd',
             'logo' => 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=200&h=200&fit=crop',
             'banner' => 'https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?w=1200&h=400&fit=crop',
             'business_type' => 'manufacturer',
@@ -254,7 +291,7 @@ class DatabaseSeeder extends Seeder
             'description' => 'Premier ISO 9001:2015 and CE certified heavy engineering manufacturer specializing in forged industrial flanges, CNC turned mechanical components, high-torque gear assemblies, and cast steel valves.',
             'manufacturing_capabilities' => '40 CNC Turning Lathes, 15 Vertical Machining Centers (VMC), 5000-ton hydraulic forging press, spectrometer material testing lab, CMM quality inspection.',
             'certifications' => ['ISO 9001:2015', 'CE Certification', 'RoHS Compliant', 'TUV Nord Certified', 'PED 2014/68/EU'],
-            'website' => 'https://bharatforge-engineering.com',
+            'website' => 'https://rohit-forgings.com',
             'is_verified' => true,
             'rating' => 4.9,
             'reviews_count' => 38,
@@ -268,10 +305,22 @@ class DatabaseSeeder extends Seeder
             'status' => 'active',
         ]);
 
-        // Supplier 2: China (CNC Machinery & Automation)
+        User::create([
+            'name' => 'Rohit (Supplier India Alias)',
+            'email' => 'supplier.india@perlcon.com',
+            'phone' => '+91 98250 12345',
+            'password' => $password,
+            'role' => 'supplier',
+            'status' => 'active',
+            'country' => 'India',
+            'city' => 'Pune',
+            'email_verified_at' => now(),
+        ]);
+
+        // 5. Tarry (Supplier 2: China - CNC Machinery & Industrial Automation)
         $supplierChina = User::create([
-            'name' => 'Wei Chen',
-            'email' => 'supplier.china@perlcon.com',
+            'name' => 'Tarry',
+            'email' => 'tarry@perlcon.com',
             'phone' => '+86 755 8345 6789',
             'password' => $password,
             'role' => 'supplier',
@@ -283,8 +332,8 @@ class DatabaseSeeder extends Seeder
 
         $companyChina = Company::create([
             'user_id' => $supplierChina->id,
-            'company_name' => 'Shenzhen Precision CNC & Automation Co., Ltd',
-            'slug' => 'shenzhen-precision-cnc-automation',
+            'company_name' => 'Tarry Automation & CNC Systems Ltd',
+            'slug' => 'tarry-automation-cnc-systems',
             'logo' => 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=200&h=200&fit=crop',
             'banner' => 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1200&h=400&fit=crop',
             'business_type' => 'manufacturer',
@@ -302,7 +351,7 @@ class DatabaseSeeder extends Seeder
             'description' => 'Leading producer of 5-Axis CNC machining centers, high-speed automated robotic pick-and-place arms, programmable logic controllers (PLC), and industrial servo drive units.',
             'manufacturing_capabilities' => 'Modern 30,000 sqm digitalized factory with robotic assembly lines, high-precision laser interferometers, automated clean-room electronic assembly.',
             'certifications' => ['ISO 9001', 'ISO 14001', 'CE Machinery Directive', 'FCC', 'UL'],
-            'website' => 'https://sz-precisioncnc.com',
+            'website' => 'https://tarry-automation.com',
             'is_verified' => true,
             'rating' => 4.8,
             'reviews_count' => 52,
@@ -316,58 +365,22 @@ class DatabaseSeeder extends Seeder
             'status' => 'active',
         ]);
 
-        // Supplier 3: Europe / Germany (High-End Precision Hydraulics & Drives)
-        $supplierEurope = User::create([
-            'name' => 'Klaus Wagner',
-            'email' => 'supplier.europe@perlcon.com',
-            'phone' => '+49 711 8923 440',
+        User::create([
+            'name' => 'Tarry (Supplier China Alias)',
+            'email' => 'supplier.china@perlcon.com',
+            'phone' => '+86 755 8345 6789',
             'password' => $password,
             'role' => 'supplier',
             'status' => 'active',
-            'country' => 'Germany',
-            'city' => 'Stuttgart',
+            'country' => 'China',
+            'city' => 'Shenzhen',
             'email_verified_at' => now(),
         ]);
 
-        $companyEurope = Company::create([
-            'user_id' => $supplierEurope->id,
-            'company_name' => 'Vanguard Industrial Machinery GMBH',
-            'slug' => 'vanguard-industrial-machinery-gmbh',
-            'logo' => 'https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=200&h=200&fit=crop',
-            'banner' => 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1200&h=400&fit=crop',
-            'business_type' => 'manufacturer',
-            'country' => 'Germany',
-            'country_code' => 'DE',
-            'city' => 'Stuttgart',
-            'state' => 'Baden-Württemberg',
-            'address' => 'Industriestrasse 88, 70565 Stuttgart',
-            'postal_code' => '70565',
-            'tax_id' => 'DE 304 918 274',
-            'year_established' => '1984',
-            'employees_count' => '250 German Master Technicians',
-            'annual_turnover' => '€35M - €60M EUR',
-            'export_markets' => 'UK, Northern Europe, Switzerland, USA, Japan',
-            'description' => 'World-renowned German engineering firm producing ultra-precision hydraulic press systems, industrial gearboxes, and rotary screw air compressors engineered to DIN EN standards.',
-            'manufacturing_capabilities' => 'Full DIN ISO precision grinding, thermodynamic testing facilities, robotic laser hardening, DIN EN ISO 3834 certified welding.',
-            'certifications' => ['DIN EN ISO 9001', 'CE Mark', 'ATEX Explosion Proof', 'TÜV Rheinland'],
-            'website' => 'https://vanguard-machinery.de',
-            'is_verified' => true,
-            'rating' => 4.95,
-            'reviews_count' => 64,
-        ]);
-
-        SupplierSubscription::create([
-            'supplier_id' => $supplierEurope->id,
-            'plan_id' => $basicPlan->id,
-            'starts_at' => now()->subMonth(),
-            'expires_at' => now()->addMonths(11),
-            'status' => 'active',
-        ]);
-
-        // Logistics Partner (Heathrow / London)
+        // 6. Harry (Logistics Partner - Air, Sea, & UK Intermodal Freight)
         $logisticsUser = User::create([
-            'name' => 'James Harrison',
-            'email' => 'logistics@perlcon.com',
+            'name' => 'Harry',
+            'email' => 'harry@perlcon.com',
             'phone' => '+44 20 8759 2300',
             'password' => $password,
             'role' => 'logistics_partner',
@@ -379,8 +392,8 @@ class DatabaseSeeder extends Seeder
 
         Company::create([
             'user_id' => $logisticsUser->id,
-            'company_name' => 'Global Freight & Intermodal Logistics Ltd',
-            'slug' => 'global-freight-intermodal-logistics',
+            'company_name' => 'Harry Global Express & Freight Forwarding Ltd',
+            'slug' => 'harry-global-freight-forwarding',
             'business_type' => 'distributor',
             'country' => 'United Kingdom',
             'country_code' => 'GB',
@@ -392,10 +405,22 @@ class DatabaseSeeder extends Seeder
             'is_verified' => true,
         ]);
 
-        // Customs Partner (Junaid's Company / Customs Specialist)
+        User::create([
+            'name' => 'Harry (Logistics Alias)',
+            'email' => 'logistics@perlcon.com',
+            'phone' => '+44 20 8759 2300',
+            'password' => $password,
+            'role' => 'logistics_partner',
+            'status' => 'active',
+            'country' => 'United Kingdom',
+            'city' => 'Heathrow',
+            'email_verified_at' => now(),
+        ]);
+
+        // 7. Nasar (Customs Clearance Partner - C88 & HMRC CDS Specialist)
         $customsUser = User::create([
-            'name' => 'Junaid Khan',
-            'email' => 'customs@perlcon.com',
+            'name' => 'Nasar',
+            'email' => 'nasar@perlcon.com',
             'phone' => '+44 1394 670 120',
             'password' => $password,
             'role' => 'customs_partner',
@@ -407,8 +432,8 @@ class DatabaseSeeder extends Seeder
 
         Company::create([
             'user_id' => $customsUser->id,
-            'company_name' => 'Junaid & Co. Customs Clearance Specialists',
-            'slug' => 'junaid-customs-clearance-specialists',
+            'company_name' => 'Nasar & Co. UK Customs Clearance Specialists',
+            'slug' => 'nasar-customs-clearance-specialists',
             'business_type' => 'distributor',
             'country' => 'United Kingdom',
             'country_code' => 'GB',
@@ -418,6 +443,18 @@ class DatabaseSeeder extends Seeder
             'year_established' => '2010',
             'description' => 'Authorised Economic Operator (AEO-F) accredited customs broker providing direct HMRC CDS customs clearances, C88 processing, duty deferment handling, and import VAT optimization.',
             'is_verified' => true,
+        ]);
+
+        User::create([
+            'name' => 'Nasar (Customs Alias)',
+            'email' => 'customs@perlcon.com',
+            'phone' => '+44 1394 670 120',
+            'password' => $password,
+            'role' => 'customs_partner',
+            'status' => 'active',
+            'country' => 'United Kingdom',
+            'city' => 'Felixstowe',
+            'email_verified_at' => now(),
         ]);
 
         // 4. Product Categories & Subcategories
@@ -771,17 +808,17 @@ class DatabaseSeeder extends Seeder
                 'stock_quantity' => 350,
             ],
 
-            // Europe / Germany Products
+            // Global & Automation Products
             [
-                'supplier_id' => $supplierEurope->id,
-                'company_id' => $companyEurope->id,
+                'supplier_id' => $supplierChina->id,
+                'company_id' => $companyChina->id,
                 'category_id' => $categoryMap['mechanical-components']->id,
                 'name' => 'High-Torque Heavy Duty Planetary Gearbox Ratio 25:1 (DIN ISO Standard)',
                 'slug' => 'high-torque-heavy-duty-planetary-gearbox-ratio-25-1',
                 'sku' => 'GER-GBX-PLN-25',
                 'hs_code' => '8483.40.22',
-                'short_description' => 'German engineered precision planetary reduction gearbox with case-hardened alloy steel gears and 97% transmission efficiency.',
-                'full_description' => 'Engineered in Stuttgart, Germany. Features ground helical planetary gear teeth with low backlash (< 3 arcmin), synthetic long-life lubrication, and viton double-lip radial shaft seals. Built to withstand continuous high shock loads in marine winches, mining crushers, and automated assembly machinery.',
+                'short_description' => 'Precision planetary reduction gearbox with case-hardened alloy steel gears and 97% transmission efficiency.',
+                'full_description' => 'Features ground helical planetary gear teeth with low backlash (< 3 arcmin), synthetic long-life lubrication, and viton double-lip radial shaft seals. Built to withstand continuous high shock loads in marine winches, mining crushers, and automated assembly machinery.',
                 'technical_specifications' => [
                     'Nominal Output Torque' => '8,500 Nm (Peak Shock Torque 18,000 Nm)',
                     'Gear Ratio' => '25:1 Double Stage Reduction',
@@ -805,15 +842,15 @@ class DatabaseSeeder extends Seeder
                 'dimensions' => '65 x 48 x 50 cm',
                 'lead_time_days' => 15,
                 'manufacturing_capacity' => '200 Units / Month',
-                'origin_country' => 'Germany',
+                'origin_country' => 'China',
                 'direct_purchase_enabled' => true,
                 'status' => 'active',
                 'is_featured' => true,
                 'stock_quantity' => 18,
             ],
             [
-                'supplier_id' => $supplierEurope->id,
-                'company_id' => $companyEurope->id,
+                'supplier_id' => $supplierChina->id,
+                'company_id' => $companyChina->id,
                 'category_id' => $categoryMap['industrial-machinery']->id,
                 'name' => '250-Ton CNC Servo Hydraulic Stamping & Forming Press',
                 'slug' => '250-ton-cnc-servo-hydraulic-stamping-forming-press',
@@ -962,7 +999,7 @@ class DatabaseSeeder extends Seeder
             'sender_id' => $buyer->id,
             'receiver_id' => $supplierChina->id,
             'enquiry_id' => $enquiry1->id,
-            'message' => 'Hello Wei Chen, we are interested in ordering 2 sets of the 5-Axis VMC-850. Can you confirm if Heidenhain glass scales are pre-installed on all 5 axes?',
+            'message' => 'Hello Tarry, we are interested in ordering 2 sets of the 5-Axis VMC-850. Can you confirm if Heidenhain glass scales are pre-installed on all 5 axes?',
             'is_read' => true,
             'read_at' => now()->subHours(5),
             'created_at' => now()->subHours(6),
@@ -972,7 +1009,7 @@ class DatabaseSeeder extends Seeder
             'sender_id' => $supplierChina->id,
             'receiver_id' => $buyer->id,
             'enquiry_id' => $enquiry1->id,
-            'message' => 'Dear Mr. Sterling, yes, both machines come factory fitted with German Heidenhain LC485 linear optical encoders. Furthermore, Perlcon\'s UK engineering team can handle the on-site calibration and CE conformity certificate in Birmingham.',
+            'message' => 'Dear Navdeep, yes, both machines come factory fitted with German Heidenhain LC485 linear optical encoders. Furthermore, Perlcon\'s UK engineering team can handle the on-site calibration and CE conformity certificate in Birmingham.',
             'is_read' => true,
             'read_at' => now()->subHours(2),
             'created_at' => now()->subHours(3),
@@ -995,8 +1032,8 @@ class DatabaseSeeder extends Seeder
             'payment_reference' => 'ch_3N4jK82eZvKYlo2C09qPzV88',
             'order_status' => 'in_transit', // Demonstrates tracking stage 7
             'shipping_address' => [
-                'recipient_name' => 'David Sterling - Apex British Industrial',
-                'company_name' => 'Apex British Industrial Contracting Ltd',
+                'recipient_name' => 'Navdeep - Navdeep Industrial UK Ltd',
+                'company_name' => 'Navdeep Industrial UK Ltd',
                 'address_line_1' => 'Unit 14, West Midlands Industrial Park',
                 'address_line_2' => 'Aston Expressway Distribution Hub',
                 'city' => 'Birmingham',
@@ -1005,13 +1042,13 @@ class DatabaseSeeder extends Seeder
                 'contact_phone' => '+44 121 496 0884',
             ],
             'billing_address' => [
-                'company_name' => 'Apex British Industrial Contracting Ltd',
+                'company_name' => 'Navdeep Industrial UK Ltd',
                 'vat_number' => 'GB 984 2134 50',
                 'address' => 'Unit 14, West Midlands Industrial Park, Birmingham B7 4TR',
             ],
             'destination_country' => 'United Kingdom',
             'tracking_number' => 'PRL-UK-2025-8821',
-            'notes' => 'High-priority delivery for plant retrofit project. Please coordinate with Junaid & Co. for fast-track customs clearance at Port of Felixstowe.',
+            'notes' => 'High-priority delivery for plant retrofit project. Please coordinate with Nasar & Co. for fast-track customs clearance at Port of Felixstowe.',
         ]);
 
         // Split Purchase Order Item 1 (Supplier India: Flanges)
@@ -1096,7 +1133,7 @@ class DatabaseSeeder extends Seeder
             ],
         ]);
 
-        // 12. Customs Clearance Record with Junaid's Company
+        // 12. Customs Clearance Record with Nasar & Co.
         CustomsClearance::create([
             'clearance_reference' => 'CUS-UK-2025-4491',
             'order_id' => $order->id,

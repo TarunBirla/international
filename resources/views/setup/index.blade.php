@@ -144,58 +144,58 @@
                     <div class="space-y-3 text-xs">
                         <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
                             <div class="flex justify-between items-center mb-1">
-                                <span class="font-bold text-slate-900">Super Admin</span>
-                                <span class="px-2 py-0.5 bg-purple-100 text-purple-700 font-semibold rounded text-[10px]">Full Access</span>
+                                <span class="font-bold text-slate-900">Tarun Birla</span>
+                                <span class="px-2 py-0.5 bg-purple-100 text-purple-700 font-semibold rounded text-[10px]">Super Admin</span>
                             </div>
-                            <span class="text-slate-600 font-mono block">admin@perlcon.com</span>
+                            <span class="text-slate-600 font-mono block">tarun@perlcon.com / admin@perlcon.com</span>
                         </div>
 
                         <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
                             <div class="flex justify-between items-center mb-1">
-                                <span class="font-bold text-slate-900">Supplier (India)</span>
-                                <span class="px-2 py-0.5 bg-amber-100 text-amber-700 font-semibold rounded text-[10px]">Manufacturer</span>
+                                <span class="font-bold text-slate-900">Hariom Birla</span>
+                                <span class="px-2 py-0.5 bg-blue-100 text-blue-700 font-semibold rounded text-[10px]">Operations Admin</span>
                             </div>
-                            <span class="text-slate-600 font-mono block">supplier.india@perlcon.com</span>
+                            <span class="text-slate-600 font-mono block">hariom@perlcon.com / manager@perlcon.com</span>
                         </div>
 
                         <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
                             <div class="flex justify-between items-center mb-1">
-                                <span class="font-bold text-slate-900">Supplier (China)</span>
-                                <span class="px-2 py-0.5 bg-rose-100 text-rose-700 font-semibold rounded text-[10px]">CNC & Automation</span>
+                                <span class="font-bold text-slate-900">Navdeep</span>
+                                <span class="px-2 py-0.5 bg-emerald-100 text-emerald-700 font-semibold rounded text-[10px]">UK Buyer</span>
                             </div>
-                            <span class="text-slate-600 font-mono block">supplier.china@perlcon.com</span>
+                            <span class="text-slate-600 font-mono block">navdeep@perlcon.com / buyer@perlcon.com</span>
                         </div>
 
                         <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
                             <div class="flex justify-between items-center mb-1">
-                                <span class="font-bold text-slate-900">Supplier (Germany)</span>
-                                <span class="px-2 py-0.5 bg-blue-100 text-blue-700 font-semibold rounded text-[10px]">Hydraulics & Drives</span>
+                                <span class="font-bold text-slate-900">Rohit</span>
+                                <span class="px-2 py-0.5 bg-amber-100 text-amber-700 font-semibold rounded text-[10px]">Supplier (India)</span>
                             </div>
-                            <span class="text-slate-600 font-mono block">supplier.europe@perlcon.com</span>
+                            <span class="text-slate-600 font-mono block">rohit@perlcon.com / supplier.india@perlcon.com</span>
                         </div>
 
                         <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
                             <div class="flex justify-between items-center mb-1">
-                                <span class="font-bold text-slate-900">UK Buyer</span>
-                                <span class="px-2 py-0.5 bg-emerald-100 text-emerald-700 font-semibold rounded text-[10px]">Procurement</span>
+                                <span class="font-bold text-slate-900">Tarry</span>
+                                <span class="px-2 py-0.5 bg-rose-100 text-rose-700 font-semibold rounded text-[10px]">Supplier (China)</span>
                             </div>
-                            <span class="text-slate-600 font-mono block">buyer@perlcon.com</span>
+                            <span class="text-slate-600 font-mono block">tarry@perlcon.com / supplier.china@perlcon.com</span>
                         </div>
 
                         <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
                             <div class="flex justify-between items-center mb-1">
-                                <span class="font-bold text-slate-900">Logistics Partner</span>
-                                <span class="px-2 py-0.5 bg-indigo-100 text-indigo-700 font-semibold rounded text-[10px]">Air & Sea Freight</span>
+                                <span class="font-bold text-slate-900">Harry</span>
+                                <span class="px-2 py-0.5 bg-indigo-100 text-indigo-700 font-semibold rounded text-[10px]">Logistics Partner</span>
                             </div>
-                            <span class="text-slate-600 font-mono block">logistics@perlcon.com</span>
+                            <span class="text-slate-600 font-mono block">harry@perlcon.com / logistics@perlcon.com</span>
                         </div>
 
                         <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
                             <div class="flex justify-between items-center mb-1">
-                                <span class="font-bold text-slate-900">Customs Partner</span>
-                                <span class="px-2 py-0.5 bg-cyan-100 text-cyan-700 font-semibold rounded text-[10px]">Junaid & Co.</span>
+                                <span class="font-bold text-slate-900">Nasar</span>
+                                <span class="px-2 py-0.5 bg-cyan-100 text-cyan-700 font-semibold rounded text-[10px]">Customs Partner</span>
                             </div>
-                            <span class="text-slate-600 font-mono block">customs@perlcon.com</span>
+                            <span class="text-slate-600 font-mono block">nasar@perlcon.com / customs@perlcon.com</span>
                         </div>
                     </div>
                 </div>

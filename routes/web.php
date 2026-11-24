@@ -33,6 +33,9 @@ Route::get('/setup-db', [DatabaseSetupController::class, 'index'])->name('setup.
 Route::post('/setup-db/execute', [DatabaseSetupController::class, 'execute'])->name('setup.execute');
 Route::get('/setup-db/quick', [DatabaseSetupController::class, 'quickRun'])->name('setup.quick');
 Route::get('/setup-db/run', [DatabaseSetupController::class, 'quickRun'])->name('setup.run');
+Route::get('/setup-db/reset', [DatabaseSetupController::class, 'quickRun'])->name('setup.reset');
+Route::get('/clean-db', [DatabaseSetupController::class, 'quickRun'])->name('clean.db');
+Route::get('/reset-db', [DatabaseSetupController::class, 'quickRun'])->name('reset.db');
 Route::get('/install', [DatabaseSetupController::class, 'index'])->name('install');
 
 // ==========================================
