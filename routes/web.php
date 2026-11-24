@@ -96,6 +96,9 @@ Route::middleware(['auth'])->group(function () {
     // RFQ Creation & Management
     Route::get('/rfq/create', [RfqController::class, 'create'])->name('rfqs.create');
     Route::post('/rfq/store', [RfqController::class, 'store'])->name('rfqs.store');
+    Route::get('/rfqs/{id}/edit', [RfqController::class, 'edit'])->name('rfqs.edit');
+    Route::put('/rfqs/{id}', [RfqController::class, 'update'])->name('rfqs.update');
+    Route::delete('/rfqs/{id}', [RfqController::class, 'destroy'])->name('rfqs.destroy');
     Route::post('/rfqs/{id}/submit-quotation', [RfqController::class, 'submitQuotation'])->name('rfqs.submit-quotation');
     Route::get('/rfqs/{id}/compare', [RfqController::class, 'compare'])->name('rfqs.compare');
     Route::post('/quotations/{id}/accept', [RfqController::class, 'acceptQuotation'])->name('quotations.accept');

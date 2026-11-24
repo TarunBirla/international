@@ -254,4 +254,61 @@ class RfqController extends Controller
 
         return redirect()->route('orders.show', $order->id)->with('success', "Quotation accepted! Purchase Order {$orderNumber} has been successfully generated.");
     }
+
+    /**
+     * Show form to edit an RFQ
+     */
+    public function edit($id)
+    {
+        $rfq = Rfq::findOrFail($id);
+        if ($rfq->buyer_id !== Auth::id() && !Auth::user()->isAdmin()) {
+            abort(403, 'Unauthorized');
+        }
+        $categories = Category::whereNull('parent_id')->with('subcategories')->get();
+        return view('rfqs.edit', compact('rfq', 'categories'));
+    }
+
+    /**
+     * Update an RFQ
+     */
+    public function update(Request $request, $id)
+    {
+        $rfq = Rfq::findOrFail($id);
+        if ($rfq->buyer_id !== Auth::id() && !Auth::user()->isAdmin()) {
+            abort(403, 'Unauthorized');
+        }
+
+        $validated = $request->validate([
+            'product_name' => 'required|string|max:255',
+            'category_id' => 'nullable|exists:categories,id',
+            'quantity' => 'required|integer|min:1',
+            'unit' => 'required|string|max:50',
+            'target_price' => 'nullable|numeric|min:0',
+            'currency' => 'required|string|max:10',
+            'required_delivery_date' => 'nullable|date',
+            'technical_specifications' => 'required|string',
+            'additional_requirements' => 'nullable|string',
+            'destination_country' => 'required|string|max:100',
+            'destination_port_city' => 'nullable|string|max:100',
+        ]);
+
+        $rfq->update($validated);
+
+        return redirect()->route('buyer.rfqs')->with('success', "RFQ #{$rfq->rfq_number} updated successfully.");
+    }
+
+    /**
+     * Delete an RFQ
+     */
+    public function destroy($id)
+    {
+        $rfq = Rfq::findOrFail($id);
+        if ($rfq->buyer_id !== Auth::id() && !Auth::user()->isAdmin()) {
+            abort(403, 'Unauthorized');
+        }
+        $num = $rfq->rfq_number;
+        $rfq->delete();
+
+        return redirect()->route('buyer.rfqs')->with('success', "RFQ #{$num} deleted successfully.");
+    }
 }

@@ -1,64 +1,64 @@
-@extends('layouts.app')
+@extends('layouts.buyer')
 
-@section('title', 'My Orders & Consignments — Buyer Portal')
+@section('title', 'My Orders — Buyer Portal')
+@section('header_title', 'My Purchase Orders & Consignments')
+@section('header_subtitle', 'Track 14-stage logistics progress, inspection reports, customs clearance, and delivery')
 
 @section('content')
-<div class="bg-slate-50 border-b border-slate-200 py-6">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 class="text-2xl font-black text-slate-900 tracking-tight">Purchase Orders & Shipments</h1>
-        <p class="text-slate-600 text-xs sm:text-sm mt-0.5">Track multi-supplier purchase orders, shipping statuses, and UK customs clearances.</p>
+<div class="space-y-6">
 
-        <div class="flex flex-wrap gap-2 mt-4 text-xs font-bold">
-            <a href="{{ route('buyer.dashboard') }}" class="px-4 py-2 bg-white text-slate-700 hover:bg-slate-100 rounded-xl border border-slate-200">Overview</a>
-            <a href="{{ route('buyer.rfqs') }}" class="px-4 py-2 bg-white text-slate-700 hover:bg-slate-100 rounded-xl border border-slate-200">My RFQs</a>
-            <a href="{{ route('buyer.quotations') }}" class="px-4 py-2 bg-white text-slate-700 hover:bg-slate-100 rounded-xl border border-slate-200">Received Quotations</a>
-            <a href="{{ route('buyer.orders') }}" class="px-4 py-2 bg-brand-700 text-white rounded-xl shadow-sm">Purchase Orders</a>
-            <a href="{{ route('buyer.enquiries') }}" class="px-4 py-2 bg-white text-slate-700 hover:bg-slate-100 rounded-xl border border-slate-200">My Enquiries</a>
-            <a href="{{ route('buyer.profile') }}" class="px-4 py-2 bg-white text-slate-700 hover:bg-slate-100 rounded-xl border border-slate-200">Company Details</a>
-        </div>
-    </div>
-</div>
-
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
         @if($orders->isEmpty())
-            <div class="p-12 text-center text-slate-500 text-xs">No orders placed yet.</div>
+            <div class="p-12 text-center text-slate-400">
+                <i class="fa-solid fa-receipt text-3xl mb-3 text-slate-300 block"></i>
+                <p class="text-sm font-semibold">No purchase orders placed yet.</p>
+                <a href="{{ route('products.index') }}" class="inline-block mt-3 px-5 py-2 bg-sky-600 text-white font-bold rounded-xl text-xs">Browse Products</a>
+            </div>
         @else
             <div class="divide-y divide-slate-100">
                 @foreach($orders as $order)
-                    <div class="p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 hover:bg-slate-50 transition">
-                        <div class="space-y-1">
-                            <div class="flex items-center space-x-2">
-                                <span class="font-mono text-xs font-bold text-brand-700">{{ $order->order_number }}</span>
-                                <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-brand-100 text-brand-800">
-                                    {{ ucfirst(str_replace('_', ' ', $order->order_status)) }}
+                    <div class="p-6 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 hover:bg-slate-50/70 transition">
+                        
+                        <div class="space-y-1.5 min-w-0">
+                            <div class="flex items-center space-x-2.5">
+                                <span class="font-mono text-xs font-bold text-sky-800">#{{ $order->order_number }}</span>
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-amber-50 text-amber-700 border border-amber-200' }}">
+                                    {{ ucfirst($order->payment_status) }}
                                 </span>
-                                <span class="text-xs text-slate-400">{{ $order->created_at->format('d M Y, H:i') }}</span>
+                                <span class="text-xs text-slate-400">Placed on {{ $order->created_at->format('d M Y') }}</span>
                             </div>
+
                             <h3 class="text-base font-extrabold text-slate-900">
-                                {{ count($order->orderItems) }} Product Item(s) • Tracking: {{ $order->tracking_number ?? 'PRL-UK-TRACK' }}
+                                Total Landed Cost: £{{ number_format($order->total_amount, 2) }}
                             </h3>
+
+                            <div class="text-xs text-slate-600 font-medium">
+                                {{ count($order->orderItems) }} Item(s) across suppliers • Delivery: {{ $order->destination_country ?? 'UK' }}
+                            </div>
+
                             <div class="text-xs text-slate-500">
-                                Destination: {{ $order->shipping_address['address_line_1'] ?? 'UK' }}, {{ $order->shipping_address['city'] ?? 'London' }}
+                                Current Status: <strong class="text-slate-800 uppercase">{{ ucwords(str_replace('_', ' ', $order->order_status)) }}</strong>
                             </div>
                         </div>
 
-                        <div class="flex items-center space-x-4">
-                            <div class="text-right">
-                                <span class="text-xs text-slate-500 block">Landed Total</span>
-                                <span class="text-lg font-black text-slate-900">£{{ number_format($order->total_amount, 2) }}</span>
-                            </div>
-                            <a href="{{ route('orders.show', $order->id) }}" class="px-4 py-2.5 bg-brand-700 hover:bg-brand-800 text-white font-bold rounded-xl text-xs transition shadow-sm">
-                                View Order & 14-Stage Tracker &rarr;
+                        <div class="flex items-center space-x-3 flex-shrink-0">
+                            <a href="{{ route('orders.show', $order->id) }}" class="px-4 py-2 bg-brand-700 hover:bg-brand-800 text-white font-bold rounded-xl text-xs transition shadow-sm flex items-center space-x-1.5">
+                                <i class="fa-solid fa-route"></i>
+                                <span>Track 14-Stage Consignment &rarr;</span>
                             </a>
                         </div>
+
                     </div>
                 @endforeach
             </div>
-            <div class="p-4 border-t border-slate-100">
-                {{ $orders->links() }}
-            </div>
+
+            @if($orders->hasPages())
+                <div class="p-4 border-t border-slate-200 bg-slate-50/50">
+                    {{ $orders->links() }}
+                </div>
+            @endif
         @endif
     </div>
+
 </div>
 @endsection

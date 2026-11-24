@@ -1,17 +1,13 @@
-@extends('layouts.app')
+@extends('layouts.customs')
 
-@section('title', 'Customs Partner Portal — Junaid & Co.')
+@section('title', 'Customs Clearance — Junaid & Co.')
+@section('header_title', 'Junaid & Co. Customs Declarations (C88)')
+@section('header_subtitle', 'Audit Single Administrative Documents (C88), assess UK import duties, and issue green-channel release')
 
 @section('content')
-<div class="bg-slate-50 border-b border-slate-200 py-6">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider block">Customs Brokerage Partner Portal</span>
-        <h1 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Junaid & Co. Customs Clearance Specialists</h1>
-        <p class="text-slate-600 text-xs sm:text-sm mt-0.5">Authorised Economic Operator (AEO-F) • HMRC CDS Pre-Lodgement & C88 Entry Processing.</p>
-    </div>
-</div>
+<div class="space-y-8">
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <!-- KPI Metrics -->
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
             <span class="text-xs text-slate-500 font-semibold block mb-1">Total Declarations</span>
@@ -22,60 +18,88 @@
             <span class="text-2xl font-black text-amber-600">{{ $stats['pending_review'] }}</span>
         </div>
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-            <span class="text-xs text-slate-500 font-semibold block mb-1">Customs Cleared</span>
+            <span class="text-xs text-slate-500 font-semibold block mb-1">Cleared / Released</span>
             <span class="text-2xl font-black text-emerald-700">{{ $stats['total_cleared'] }}</span>
         </div>
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-            <span class="text-xs text-slate-500 font-semibold block mb-1">Duties & VAT Managed</span>
-            <span class="text-2xl font-black text-brand-700">£{{ number_format($stats['total_duty_vat_collected'], 2) }}</span>
+            <span class="text-xs text-slate-500 font-semibold block mb-1">Duty & VAT Assessed</span>
+            <span class="text-2xl font-black text-slate-900">£{{ number_format($stats['total_duty_vat_collected'], 2) }}</span>
         </div>
     </div>
 
-    <!-- Customs Declarations -->
+    <!-- Clearances Table -->
     <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm">
-        <h2 class="text-base font-black text-slate-900 mb-4">HMRC CDS Customs Declarations</h2>
+        <h2 class="text-sm font-black text-slate-900 mb-4">C88 Import Customs Filings</h2>
 
         <div class="space-y-4">
-            @foreach($clearances as $c)
-                <div class="p-5 rounded-2xl border border-slate-200 bg-slate-50/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                    <div class="space-y-1">
+            @forelse($clearances as $clr)
+                <div class="p-6 rounded-2xl border border-slate-200 bg-slate-50/70 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 hover:border-slate-300 transition">
+                    
+                    <div class="space-y-1.5 min-w-0">
                         <div class="flex items-center space-x-2">
-                            <span class="font-mono text-xs font-bold text-slate-700">{{ $c->clearance_reference }}</span>
-                            <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase {{ in_array($c->status, ['cleared', 'released']) ? 'bg-emerald-100 text-emerald-800' : 'bg-blue-100 text-brand-800' }}">
-                                {{ ucfirst(str_replace('_', ' ', $c->status)) }}
+                            <span class="font-mono text-xs font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">Entry: {{ $clr->c88_entry_number ?? 'PENDING' }}</span>
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-amber-100 text-amber-900">
+                                {{ ucfirst(str_replace('_', ' ', $clr->status)) }}
                             </span>
-                            <span class="text-xs text-slate-400">Port: {{ $c->port_of_entry }}</span>
+                            <span class="text-xs text-slate-400">Order: #{{ $clr->order->order_number ?? 'ORD' }}</span>
                         </div>
-                        <h3 class="text-sm font-bold text-slate-900">
-                            C88 Entry: <span class="font-mono text-brand-700">{{ $c->c88_entry_number ?? 'Pending Entry Number' }}</span>
+
+                        <h3 class="text-base font-extrabold text-slate-900">
+                            Port: {{ $clr->port_of_entry ?? 'Port of Felixstowe / London Gateway' }}
                         </h3>
-                        <div class="text-xs text-slate-500">
-                            Declared CIF: <strong>£{{ number_format($c->declared_cif_value, 2) }}</strong> • Duty: £{{ number_format($c->duty_payable_amount, 2) }} • VAT: £{{ number_format($c->vat_payable_amount, 2) }}
+
+                        <div class="text-xs text-slate-600 font-medium">
+                            Buyer: <strong class="text-slate-900">{{ $clr->order->buyer->company->company_name ?? $clr->order->buyer->name }}</strong>
                         </div>
-                        <div class="text-xs text-slate-500">
-                            Commodity Codes: <span class="font-mono font-bold text-slate-700">{{ $c->hs_codes }}</span>
+
+                        <div class="text-xs text-slate-500 flex flex-wrap gap-x-3 gap-y-1">
+                            <span>Assessed Duty: <strong class="text-slate-900">£{{ number_format($clr->duty_amount ?? 0, 2) }}</strong></span>
+                            <span>•</span>
+                            <span>Import VAT: <strong class="text-slate-900">£{{ number_format($clr->vat_amount ?? 0, 2) }}</strong></span>
+                            <span>•</span>
+                            <span>Total Charges: <strong class="text-slate-900">£{{ number_format($clr->total_customs_charges ?? 0, 2) }}</strong></span>
                         </div>
+
+                        @if($clr->partner_notes)
+                            <div class="text-xs text-amber-900 bg-amber-50/80 p-2.5 rounded-xl border border-amber-200/60 max-w-xl">
+                                <strong>Broker Note:</strong> {{ $clr->partner_notes }}
+                            </div>
+                        @endif
                     </div>
 
-                    <!-- Update Customs Status & C88 Entry Form -->
-                    <form action="{{ route('customs.clearances.update', $c->id) }}" method="POST" class="flex flex-wrap items-center gap-2 bg-white p-2.5 rounded-xl border border-slate-200">
-                        @csrf
-                        <input type="text" name="c88_entry_number" value="{{ $c->c88_entry_number }}" placeholder="CDS/C88 Entry #" required class="w-36 px-2 py-1.5 rounded-lg border border-slate-200 text-xs font-mono font-bold">
-                        <select name="status" class="px-2 py-1.5 rounded-lg border border-slate-200 text-xs font-bold">
-                            <option value="declaration_filed" {{ $c->status === 'declaration_filed' ? 'selected' : '' }}>Declaration Filed</option>
-                            <option value="under_review" {{ $c->status === 'under_review' ? 'selected' : '' }}>Under Review</option>
-                            <option value="documents_required" {{ $c->status === 'documents_required' ? 'selected' : '' }}>Docs Required</option>
-                            <option value="duty_paid" {{ $c->status === 'duty_paid' ? 'selected' : '' }}>Duty Paid</option>
-                            <option value="cleared" {{ $c->status === 'cleared' ? 'selected' : '' }}>Cleared (C88 Issued)</option>
-                            <option value="released" {{ $c->status === 'released' ? 'selected' : '' }}>Released for Delivery</option>
-                        </select>
-                        <button type="submit" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg text-xs transition shadow-sm">
-                            Update Entry
-                        </button>
-                    </form>
+                    <!-- Update Status Form -->
+                    <div class="w-full lg:w-auto bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex-shrink-0">
+                        <form action="{{ route('customs.clearances.update', $clr->id) }}" method="POST" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                            @csrf
+                            <input type="text" name="c88_entry_number" value="{{ $clr->c88_entry_number }}" placeholder="C88 Entry Ref" class="px-3 py-1.5 border border-slate-200 rounded-lg text-xs font-mono font-bold w-36">
+                            <select name="status" class="px-3 py-1.5 border border-slate-200 rounded-lg text-xs font-bold bg-white text-slate-800">
+                                <option value="declaration_filed" {{ $clr->status == 'declaration_filed' ? 'selected' : '' }}>Declaration Filed</option>
+                                <option value="under_review" {{ $clr->status == 'under_review' ? 'selected' : '' }}>Under Review</option>
+                                <option value="documents_required" {{ $clr->status == 'documents_required' ? 'selected' : '' }}>Docs Required</option>
+                                <option value="duty_paid" {{ $clr->status == 'duty_paid' ? 'selected' : '' }}>Duty Assessed</option>
+                                <option value="physical_inspection" {{ $clr->status == 'physical_inspection' ? 'selected' : '' }}>Inspection</option>
+                                <option value="cleared" {{ $clr->status == 'cleared' ? 'selected' : '' }}>Cleared (Green)</option>
+                                <option value="released" {{ $clr->status == 'released' ? 'selected' : '' }}>Released for Delivery</option>
+                            </select>
+                            <input type="text" name="partner_notes" value="{{ $clr->partner_notes }}" placeholder="Broker Notes" class="px-3 py-1.5 border border-slate-200 rounded-lg text-xs font-medium w-40">
+                            <button type="submit" class="px-4 py-1.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-lg text-xs transition shadow-sm whitespace-nowrap">
+                                Update
+                            </button>
+                        </form>
+                    </div>
+
                 </div>
-            @endforeach
+            @empty
+                <p class="text-xs text-slate-400 py-8 text-center">No customs filings submitted.</p>
+            @endforelse
         </div>
+
+        @if($clearances->hasPages())
+            <div class="mt-4 pt-4 border-t border-slate-100">
+                {{ $clearances->links() }}
+            </div>
+        @endif
     </div>
+
 </div>
 @endsection
