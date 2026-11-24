@@ -48,27 +48,77 @@
             </div>
         </div>
 
-        <!-- 1-Click Demo Login Account Switcher -->
-        <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm text-xs">
-            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2">1-Click Auto Fill Demo Accounts</span>
-            <div class="grid grid-cols-2 gap-1.5 font-medium">
-                <button type="button" onclick="fillLogin('admin@perlcon.com')" class="p-2 bg-slate-50 hover:bg-brand-50 text-slate-800 hover:text-brand-700 rounded-lg border border-slate-100 text-left transition truncate">
-                    👑 Super Admin
+        <!-- 1-Click Demo Login Account Switcher with Exact User Roles -->
+        <div class="bg-white rounded-3xl border border-slate-200 p-5 shadow-sm text-xs">
+            <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">
+                <span class="text-[11px] font-extrabold text-slate-700 uppercase tracking-wider flex items-center">
+                    <i class="fa-solid fa-bolt text-amber-500 mr-1.5"></i> 1-Click Fast Login Test Roles
+                </span>
+                <span class="text-[10px] font-mono font-bold bg-amber-50 text-amber-700 px-2 py-0.5 rounded border border-amber-200">Pass: password123</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 font-medium">
+                <!-- 1. Tarun Birla -->
+                <button type="button" onclick="fillLogin('tarun@perlcon.com')" class="p-2.5 bg-slate-50 hover:bg-purple-50 text-slate-800 hover:text-purple-800 rounded-xl border border-slate-200/80 text-left transition flex items-center justify-between group">
+                    <div>
+                        <strong class="block text-xs text-slate-900 group-hover:text-purple-900">👑 Tarun Birla</strong>
+                        <span class="text-[10px] text-slate-500">Super Admin (Owner)</span>
+                    </div>
+                    <span class="text-[10px] font-mono text-purple-600 bg-purple-50 px-1.5 py-0.5 rounded">tarun@</span>
                 </button>
-                <button type="button" onclick="fillLogin('buyer@perlcon.com')" class="p-2 bg-slate-50 hover:bg-brand-50 text-slate-800 hover:text-brand-700 rounded-lg border border-slate-100 text-left transition truncate">
-                    🇬🇧 UK Buyer
+
+                <!-- 2. Hariom Birla -->
+                <button type="button" onclick="fillLogin('hariom@perlcon.com')" class="p-2.5 bg-slate-50 hover:bg-blue-50 text-slate-800 hover:text-blue-800 rounded-xl border border-slate-200/80 text-left transition flex items-center justify-between group">
+                    <div>
+                        <strong class="block text-xs text-slate-900 group-hover:text-blue-900">🏢 Hariom Birla</strong>
+                        <span class="text-[10px] text-slate-500">Operations Admin</span>
+                    </div>
+                    <span class="text-[10px] font-mono text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded">hariom@</span>
                 </button>
-                <button type="button" onclick="fillLogin('supplier.india@perlcon.com')" class="p-2 bg-slate-50 hover:bg-brand-50 text-slate-800 hover:text-brand-700 rounded-lg border border-slate-100 text-left transition truncate">
-                    🇮🇳 Supplier (India)
+
+                <!-- 3. Navdeep -->
+                <button type="button" onclick="fillLogin('navdeep@perlcon.com')" class="p-2.5 bg-slate-50 hover:bg-sky-50 text-slate-800 hover:text-sky-800 rounded-xl border border-slate-200/80 text-left transition flex items-center justify-between group">
+                    <div>
+                        <strong class="block text-xs text-slate-900 group-hover:text-sky-900">🇬🇧 Navdeep</strong>
+                        <span class="text-[10px] text-slate-500">UK Buyer (Procurement)</span>
+                    </div>
+                    <span class="text-[10px] font-mono text-sky-600 bg-sky-50 px-1.5 py-0.5 rounded">navdeep@</span>
                 </button>
-                <button type="button" onclick="fillLogin('supplier.china@perlcon.com')" class="p-2 bg-slate-50 hover:bg-brand-50 text-slate-800 hover:text-brand-700 rounded-lg border border-slate-100 text-left transition truncate">
-                    🇨🇳 Supplier (China)
+
+                <!-- 4. Rohit -->
+                <button type="button" onclick="fillLogin('rohit@perlcon.com')" class="p-2.5 bg-slate-50 hover:bg-emerald-50 text-slate-800 hover:text-emerald-800 rounded-xl border border-slate-200/80 text-left transition flex items-center justify-between group">
+                    <div>
+                        <strong class="block text-xs text-slate-900 group-hover:text-emerald-900">🇮🇳 Rohit</strong>
+                        <span class="text-[10px] text-slate-500">Supplier (Forgings & Valves)</span>
+                    </div>
+                    <span class="text-[10px] font-mono text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded">rohit@</span>
                 </button>
-                <button type="button" onclick="fillLogin('supplier.europe@perlcon.com')" class="p-2 bg-slate-50 hover:bg-brand-50 text-slate-800 hover:text-brand-700 rounded-lg border border-slate-100 text-left transition truncate">
-                    🇩🇪 Supplier (Germany)
+
+                <!-- 5. Tarry -->
+                <button type="button" onclick="fillLogin('tarry@perlcon.com')" class="p-2.5 bg-slate-50 hover:bg-rose-50 text-slate-800 hover:text-rose-800 rounded-xl border border-slate-200/80 text-left transition flex items-center justify-between group">
+                    <div>
+                        <strong class="block text-xs text-slate-900 group-hover:text-rose-900">🇨🇳 Tarry</strong>
+                        <span class="text-[10px] text-slate-500">Supplier (CNC & Automation)</span>
+                    </div>
+                    <span class="text-[10px] font-mono text-rose-600 bg-rose-50 px-1.5 py-0.5 rounded">tarry@</span>
                 </button>
-                <button type="button" onclick="fillLogin('customs@perlcon.com')" class="p-2 bg-slate-50 hover:bg-brand-50 text-slate-800 hover:text-brand-700 rounded-lg border border-slate-100 text-left transition truncate">
-                    🛡️ Customs (Junaid)
+
+                <!-- 6. Harry -->
+                <button type="button" onclick="fillLogin('harry@perlcon.com')" class="p-2.5 bg-slate-50 hover:bg-indigo-50 text-slate-800 hover:text-indigo-800 rounded-xl border border-slate-200/80 text-left transition flex items-center justify-between group">
+                    <div>
+                        <strong class="block text-xs text-slate-900 group-hover:text-indigo-900">🚢 Harry</strong>
+                        <span class="text-[10px] text-slate-500">Logistics Partner (Freight)</span>
+                    </div>
+                    <span class="text-[10px] font-mono text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded">harry@</span>
+                </button>
+
+                <!-- 7. Nasar -->
+                <button type="button" onclick="fillLogin('nasar@perlcon.com')" class="sm:col-span-2 p-2.5 bg-slate-50 hover:bg-amber-50 text-slate-800 hover:text-amber-800 rounded-xl border border-slate-200/80 text-left transition flex items-center justify-between group">
+                    <div>
+                        <strong class="block text-xs text-slate-900 group-hover:text-amber-900">🛡️ Nasar</strong>
+                        <span class="text-[10px] text-slate-500">Customs Broker (Nasar & Co. • C88 & HMRC CDS)</span>
+                    </div>
+                    <span class="text-[10px] font-mono text-amber-700 bg-amber-50 px-2 py-0.5 rounded">nasar@perlcon.com</span>
                 </button>
             </div>
         </div>
