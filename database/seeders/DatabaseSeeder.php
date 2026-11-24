@@ -26,6 +26,26 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        // 0. Disable foreign keys and truncate all tables to guarantee zero integrity constraint violations
+        \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
+        SubscriptionPlan::truncate();
+        HsCodeDuty::truncate();
+        User::truncate();
+        Company::truncate();
+        Category::truncate();
+        Product::truncate();
+        Rfq::truncate();
+        Quotation::truncate();
+        Enquiry::truncate();
+        Message::truncate();
+        Order::truncate();
+        OrderItem::truncate();
+        Shipment::truncate();
+        CustomsClearance::truncate();
+        TrackingUpdate::truncate();
+        SupplierSubscription::truncate();
+        \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
+
         // 1. Subscription Plans
         $freePlan = SubscriptionPlan::create([
             'name' => 'Free Supplier',

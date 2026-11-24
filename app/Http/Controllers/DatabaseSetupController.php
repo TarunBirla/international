@@ -81,7 +81,7 @@ class DatabaseSetupController extends Controller
     {
         $connection = config('database.default');
         $dbConfig = config("database.connections.{$connection}");
-        $forceFresh = $request->boolean('force_fresh', true); // default true for clean fresh install
+        $forceFresh = true; // Always perform clean fresh migration and seeding
         $log = [];
 
         try {
@@ -98,32 +98,34 @@ class DatabaseSetupController extends Controller
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 ]);
 
-                $log[] = "Creating database `{$dbname}` if not exists...";
-                $pdo->exec("CREATE DATABASE IF NOT EXISTS `{$dbname}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
-                $log[] = "✓ Database `{$dbname}` is verified and ready.";
-
-                // Re-purge connection cache
-                DB::purge('mysql');
+                if ($forceFresh) {
+                    $log[] = "Re-creating fresh MySQL database `{$dbname}`...";
+                    $pdo->exec("DROP DATABASE IF EXISTS `{$dbname}`;");
+                    $pdo->exec("CREATE DATABASE `{$dbname}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
+                    DB::purge('mysql');
+                    $log[] = "✓ Database `{$dbname}` is recreated fresh and ready.";
+                } else {
+                    $log[] = "Creating database `{$dbname}` if not exists...";
+                    $pdo->exec("CREATE DATABASE IF NOT EXISTS `{$dbname}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
+                    $log[] = "✓ Database `{$dbname}` is verified and ready.";
+                    DB::purge('mysql');
+                }
             } elseif ($connection === 'sqlite') {
                 $dbPath = $dbConfig['database'] ?? database_path('database.sqlite');
-                if (!file_exists($dbPath)) {
-                    File::ensureDirectoryExists(dirname($dbPath));
-                    touch($dbPath);
-                    $log[] = "✓ Created SQLite database file at {$dbPath}";
-                } else {
-                    $log[] = "✓ Existing SQLite database located at {$dbPath}";
+                DB::disconnect();
+                if (file_exists($dbPath)) {
+                    @unlink($dbPath);
                 }
+                File::ensureDirectoryExists(dirname($dbPath));
+                touch($dbPath);
+                DB::purge('sqlite');
+                $log[] = "✓ Re-initialized clean SQLite database file at {$dbPath}";
             }
 
             // Step 2: Run Migrations
             $log[] = "Running database migrations...";
-            if ($forceFresh) {
-                Artisan::call('migrate:fresh', ['--force' => true]);
-                $log[] = "✓ Migrations executed (Fresh): " . trim(Artisan::output());
-            } else {
-                Artisan::call('migrate', ['--force' => true]);
-                $log[] = "✓ Migrations executed: " . trim(Artisan::output());
-            }
+            Artisan::call('migrate:fresh', ['--force' => true]);
+            $log[] = "✓ Migrations executed (Fresh): " . trim(Artisan::output());
 
             // Step 3: Run Seeders
             $log[] = "Seeding demo marketplace data (Admin, Suppliers, Buyers, Categories, Products, RFQs, Logistics, Customs)...";
@@ -147,7 +149,7 @@ class DatabaseSetupController extends Controller
             }
 
             $success = true;
-            $message = 'Perlcon International B2B Marketplace database has been successfully created and configured!';
+            $message = 'Perlcon International B2B Marketplace database has been successfully cleaned and fresh seeded!';
         } catch (Exception $e) {
             $success = false;
             $message = 'Database Setup Encountered An Error: ' . $e->getMessage();
@@ -166,11 +168,11 @@ class DatabaseSetupController extends Controller
     }
 
     /**
-     * Direct 1-Click Route: Visit /setup-db/quick to run migrations and seeder immediately
+     * Direct 1-Click Route: Visit /setup-db/quick or /clean-db to run migrations and seeder immediately
      */
     public function quickRun(Request $request)
     {
-        $request->merge(['force_fresh' => $request->has('fresh')]);
+        $request->merge(['force_fresh' => true]);
         return $this->execute($request);
     }
 }
