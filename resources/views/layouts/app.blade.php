@@ -79,7 +79,6 @@
                         <div>
                             <span class="text-2xl font-black tracking-tight text-slate-900 flex items-center">
                                 Mart
-                                <span class="ml-1.5 px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-600 text-white tracking-normal uppercase">B2B</span>
                             </span>
                         </div>
                     </a>
@@ -88,13 +87,22 @@
                 <!-- Global Search Bar with Category Dropdown -->
                 <div class="hidden lg:flex flex-1 max-w-2xl mx-4">
                     <form action="{{ route('products.index') }}" method="GET" class="w-full flex rounded-xl border-2 border-slate-200 hover:border-brand-500 focus-within:border-brand-600 focus-within:ring-2 focus-within:ring-brand-100 transition bg-white overflow-hidden shadow-sm">
-                        <select name="category" class="bg-slate-50 text-slate-700 text-xs font-semibold px-3 py-2.5 border-r border-slate-200 focus:outline-none cursor-pointer">
+                        <select name="category" class="bg-slate-50 text-slate-700 text-xs font-semibold px-3 py-2.5 border-r border-slate-200 focus:outline-none cursor-pointer max-w-[170px]">
                             <option value="">All Categories</option>
-                            <option value="industrial-machinery">Industrial Machinery</option>
-                            <option value="building-construction">Building & Construction</option>
-                            <option value="electronics-electrical">Electronics & Electrical</option>
-                            <option value="packaging-paper">Packaging & Paper</option>
-                            <option value="chemicals-dyes">Chemicals & Solvents</option>
+                            @if(isset($globalCategories))
+                                @foreach($globalCategories as $cat)
+                                    <option value="{{ $cat->slug }}" {{ request('category') === $cat->slug ? 'selected' : '' }}>
+                                        {{ $cat->name }}
+                                    </option>
+                                    @if($cat->subcategories && $cat->subcategories->count() > 0)
+                                        @foreach($cat->subcategories as $sub)
+                                            <option value="{{ $sub->slug }}" {{ request('category') === $sub->slug ? 'selected' : '' }}>
+                                                &nbsp;&nbsp;↳ {{ $sub->name }}
+                                            </option>
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                            @endif
                         </select>
                         <input type="text" name="q" value="{{ request('q') }}" placeholder="Search products, machinery, suppliers, materials..." class="flex-1 px-4 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none">
                         <button type="submit" class="bg-brand-700 hover:bg-brand-800 text-white px-6 font-bold text-sm flex items-center justify-center transition">
@@ -106,11 +114,6 @@
                 <!-- Right Action Buttons -->
                 <div class="flex items-center space-x-3 sm:space-x-4">
                     
-                    <!-- Post RFQ Button -->
-                    <a href="{{ route('rfqs.create') }}" class="hidden sm:inline-flex items-center px-4 py-2.5 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-600 text-white shadow-sm transition">
-                        <i class="fa-solid fa-file-pen mr-1.5"></i> Post RFQ
-                    </a>
-
                     <!-- Cart Link -->
                     @php
                         $cartCount = Auth::check() ? Auth::user()->cartItems()->count() : count(session('cart', []));
@@ -206,11 +209,47 @@
                 </div>
             </div>
 
-            <!-- Secondary Subnav -->
+            <!-- Secondary Subnav with Dynamic Category Dropdown -->
             <nav class="hidden lg:flex items-center space-x-6 py-2.5 border-t border-slate-100 text-xs font-semibold text-slate-600">
-                <a href="{{ route('categories.index') }}" class="text-brand-700 hover:text-brand-800 flex items-center font-bold">
-                    <i class="fa-solid fa-bars mr-1.5"></i> Categories
-                </a>
+                <div class="relative" x-data="{ catOpen: false }">
+                    <button @click="catOpen = !catOpen" 
+                            @mouseenter="catOpen = true"
+                            class="text-brand-700 hover:text-brand-800 flex items-center font-bold focus:outline-none py-1">
+                        <i class="fa-solid fa-bars mr-1.5"></i> All Categories
+                        <i class="fa-solid fa-chevron-down text-[9px] ml-1.5 transition-transform" :class="catOpen ? 'rotate-180' : ''"></i>
+                    </button>
+                    <div x-show="catOpen" 
+                         @mouseleave="catOpen = false" 
+                         @click.away="catOpen = false" 
+                         x-cloak 
+                         class="absolute left-0 mt-2 w-72 bg-white rounded-2xl shadow-2xl border border-slate-200 py-2 z-50 divide-y divide-slate-100">
+                        @if(isset($globalCategories) && $globalCategories->count() > 0)
+                            @foreach($globalCategories as $gCat)
+                                <div class="p-2">
+                                    <a href="{{ route('categories.show', $gCat->slug) }}" class="flex items-center px-3 py-2 rounded-xl text-xs font-bold text-slate-800 hover:bg-brand-50 hover:text-brand-700 transition">
+                                        <i class="fa-solid {{ $gCat->icon ?? 'fa-cube' }} w-4 text-center mr-2 text-brand-600"></i>
+                                        <span class="truncate">{{ $gCat->name }}</span>
+                                    </a>
+                                    @if($gCat->subcategories && $gCat->subcategories->count() > 0)
+                                        <div class="pl-6 pt-1 space-y-0.5">
+                                            @foreach($gCat->subcategories->take(4) as $gSub)
+                                                <a href="{{ route('products.index', ['category' => $gSub->slug]) }}" class="block px-3 py-1 rounded-lg text-[11px] font-medium text-slate-500 hover:text-brand-700 hover:bg-slate-50 transition truncate">
+                                                    ↳ {{ $gSub->name }}
+                                                </a>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </div>
+                            @endforeach
+                        @endif
+                        <div class="p-2 bg-slate-50/60 rounded-b-2xl">
+                            <a href="{{ route('categories.index') }}" class="block text-center text-xs font-bold text-brand-700 hover:underline py-1">
+                                View All Categories &rarr;
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
                 <a href="{{ route('products.index') }}" class="hover:text-brand-700 transition">
                     Products
                 </a>
@@ -241,49 +280,37 @@
                 </button>
             </form>
             <div class="grid grid-cols-2 gap-2 text-xs font-semibold text-slate-700">
-                <a href="{{ route('categories.index') }}" class="p-2 bg-slate-50 rounded-lg text-center">Categories</a>
+                <a href="{{ route('categories.index') }}" class="p-2 bg-slate-50 rounded-lg text-center font-bold text-brand-700">Categories</a>
                 <a href="{{ route('products.index') }}" class="p-2 bg-slate-50 rounded-lg text-center">Products</a>
                 <a href="{{ route('suppliers.index') }}" class="p-2 bg-slate-50 rounded-lg text-center">Suppliers</a>
                 <a href="{{ route('rfqs.index') }}" class="p-2 bg-slate-50 rounded-lg text-center">RFQs</a>
                 <a href="{{ route('shipping') }}" class="p-2 bg-slate-50 rounded-lg text-center">Shipping</a>
                 <a href="{{ route('calculator.index') }}" class="p-2 bg-slate-50 rounded-lg text-center">Calculator</a>
             </div>
-            <a href="{{ route('rfqs.create') }}" class="block text-center py-2.5 bg-amber-500 text-white font-bold rounded-xl text-sm">
+
+            <!-- Dynamic Mobile Category List -->
+            @if(isset($globalCategories) && $globalCategories->count() > 0)
+                <div class="pt-2 border-t border-slate-100">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Categories</p>
+                    <div class="space-y-1">
+                        @foreach($globalCategories as $mCat)
+                            <a href="{{ route('categories.show', $mCat->slug) }}" class="flex items-center justify-between px-3 py-1.5 text-xs text-slate-700 hover:bg-slate-50 rounded-lg">
+                                <span class="font-medium truncate">{{ $mCat->name }}</span>
+                                <i class="fa-solid fa-chevron-right text-[9px] text-slate-400"></i>
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+
+            <a href="{{ route('rfqs.create') }}" class="block text-center py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl text-sm transition shadow-sm">
                 <i class="fa-solid fa-file-pen mr-1"></i> Post RFQ
             </a>
         </div>
     </header>
 
-    <!-- Global Flash Alerts -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 w-full">
-        @if(session('success'))
-            <div class="bg-emerald-50 border border-emerald-200 text-emerald-900 rounded-xl p-4 flex items-center space-x-3 shadow-sm mb-4">
-                <i class="fa-solid fa-circle-check text-emerald-600 text-lg flex-shrink-0"></i>
-                <div class="text-sm font-semibold flex-1">{{ session('success') }}</div>
-            </div>
-        @endif
-
-        @if(session('error'))
-            <div class="bg-rose-50 border border-rose-200 text-rose-900 rounded-xl p-4 flex items-center space-x-3 shadow-sm mb-4">
-                <i class="fa-solid fa-circle-xmark text-rose-600 text-lg flex-shrink-0"></i>
-                <div class="text-sm font-semibold flex-1">{{ session('error') }}</div>
-            </div>
-        @endif
-
-        @if($errors->any())
-            <div class="bg-rose-50 border border-rose-200 text-rose-900 rounded-xl p-4 shadow-sm mb-4">
-                <div class="flex items-center space-x-2 font-bold text-sm mb-1 text-rose-800">
-                    <i class="fa-solid fa-triangle-exclamation text-rose-600"></i>
-                    <span>Please review the following errors:</span>
-                </div>
-                <ul class="list-disc pl-5 text-xs space-y-1">
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-    </div>
+    <!-- Global Floating Toaster (Top Right) -->
+    @include('partials.toaster')
 
     <!-- Main Page Content -->
     <main class="flex-grow">

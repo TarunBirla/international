@@ -28,8 +28,10 @@ class ProductController extends Controller
 
         // Category Filter
         if ($request->filled('category')) {
-            $catSlug = $request->input('category');
-            $category = Category::where('slug', $catSlug)->first();
+            $catParam = $request->input('category');
+            $category = is_numeric($catParam)
+                ? Category::find($catParam)
+                : Category::where('slug', $catParam)->first();
             if ($category) {
                 $catIds = $category->subcategories->pluck('id')->push($category->id);
                 $query->whereIn('category_id', $catIds);

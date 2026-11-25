@@ -224,7 +224,7 @@
     </aside>
 
     <!-- MAIN CONTENT AREA -->
-    <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-slate-50">
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-white">
         
         <!-- TOPBAR -->
         <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 sm:px-6 z-20 flex-shrink-0">
@@ -300,50 +300,8 @@
             </div>
         </header>
 
-        <!-- FLASH MESSAGES -->
-        @if(session('success'))
-            <div class="px-6 pt-4">
-                <div class="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-2xl flex items-center justify-between text-xs font-bold shadow-sm" x-data="{ show: true }" x-show="show">
-                    <div class="flex items-center space-x-2.5">
-                        <i class="fa-solid fa-circle-check text-emerald-600 text-base"></i>
-                        <span>{{ session('success') }}</span>
-                    </div>
-                    <button @click="show = false" class="text-emerald-500 hover:text-emerald-700">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-            </div>
-        @endif
-
-        @if(session('error'))
-            <div class="px-6 pt-4">
-                <div class="p-4 bg-rose-50 border border-rose-200 text-rose-800 rounded-2xl flex items-center justify-between text-xs font-bold shadow-sm" x-data="{ show: true }" x-show="show">
-                    <div class="flex items-center space-x-2.5">
-                        <i class="fa-solid fa-circle-exclamation text-rose-600 text-base"></i>
-                        <span>{{ session('error') }}</span>
-                    </div>
-                    <button @click="show = false" class="text-rose-500 hover:text-rose-700">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-            </div>
-        @endif
-
-        @if($errors->any())
-            <div class="px-6 pt-4">
-                <div class="p-4 bg-rose-50 border border-rose-200 text-rose-800 rounded-2xl text-xs space-y-1 shadow-sm">
-                    <p class="font-bold flex items-center space-x-2">
-                        <i class="fa-solid fa-triangle-exclamation text-rose-600"></i>
-                        <span>Please fix the following errors:</span>
-                    </p>
-                    <ul class="list-disc list-inside space-y-0.5 text-rose-700">
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-        @endif
+        <!-- Global Floating Toaster (Top Right) -->
+        @include('partials.toaster')
 
         <!-- MAIN SCROLLABLE CONTENT -->
         <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">

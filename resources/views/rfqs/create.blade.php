@@ -8,7 +8,7 @@
 <div class="max-w-4xl mx-auto space-y-6">
 
     @if(!auth()->check())
-        <div class="bg-slate-50 border-b border-slate-200 py-6 px-4 sm:px-6 rounded-2xl mb-6">
+        <div class="bg-white border-b border-slate-100 py-6 px-4 sm:px-6 rounded-2xl mb-6">
             <div class="flex items-center space-x-2 text-xs text-slate-500 mb-2">
                 <a href="{{ route('home') }}" class="hover:text-brand-700">Home</a>
                 <span>/</span>

@@ -36,10 +36,10 @@ class AuthController extends Controller
 
             if ($user->status === 'suspended') {
                 Auth::logout();
-                return back()->withErrors(['email' => 'Your account has been suspended. Please contact Perlcon support.']);
+                return back()->withErrors(['email' => 'Your account has been suspended. Please contact Mart support.']);
             }
 
-            return $this->redirectBasedOnRole($user);
+            return $this->redirectBasedOnRole($user)->with('success', 'Welcome back, ' . $user->name . '!');
         }
 
         return back()->withErrors([
@@ -98,7 +98,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return $this->redirectBasedOnRole($user)->with('success', 'Welcome to Perlcon International B2B Marketplace!');
+        return $this->redirectBasedOnRole($user)->with('success', 'Welcome to Mart, ' . $user->name . '!');
     }
 
     public function logout(Request $request)

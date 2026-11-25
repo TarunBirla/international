@@ -3,7 +3,7 @@
 @section('title', 'Join Mart — Register as Buyer or Supplier')
 
 @section('content')
-<div class="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-slate-50" x-data="{ userRole: '{{ old('role', $role) }}' }">
+<div class="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-white" x-data="{ userRole: '{{ old('role', $role) }}' }">
     <div class="max-w-xl w-full space-y-6">
         
         <div class="text-center">

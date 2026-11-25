@@ -6,7 +6,7 @@
 
 @section('content')
 @if(!auth()->check())
-<div class="bg-slate-50 border-b border-slate-200 py-8 mb-6">
+<div class="bg-white border-b border-slate-100 py-8 mb-6">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center space-x-2 text-xs text-slate-500 mb-2">
             <a href="{{ route('home') }}" class="hover:text-brand-700">Home</a>

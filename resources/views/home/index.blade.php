@@ -5,7 +5,7 @@
 @section('content')
 
 <!-- Hero Section: IndiaMART Style Sourcing & Quick RFQ -->
-<section class="relative bg-gradient-to-b from-slate-50 via-white to-slate-50 border-b border-slate-200 py-10 md:py-14">
+<section class="relative bg-white border-b border-slate-100 py-10 md:py-14">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
@@ -138,7 +138,7 @@
 </section>
 
 <!-- Section 2: 5 Core Categories Grid -->
-<section class="py-12 bg-slate-50 border-b border-slate-200">
+<section class="py-12 bg-white border-b border-slate-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-2xl mx-auto mb-10">
             <span class="text-xs font-bold text-brand-700 uppercase tracking-wider block">Browse by Industry</span>
@@ -265,7 +265,7 @@
 </section>
 
 <!-- Section 4: How Mart Works (3 Simple Steps) -->
-<section class="py-12 bg-slate-50 border-b border-slate-200">
+<section class="py-12 bg-white border-b border-slate-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-xl mx-auto mb-10">
             <span class="text-xs font-bold text-brand-700 uppercase tracking-wider block">Simple Process</span>

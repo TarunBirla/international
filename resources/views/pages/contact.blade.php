@@ -3,7 +3,7 @@
 @section('title', 'Contact Mart — B2B Support')
 
 @section('content')
-<div class="bg-slate-50 border-b border-slate-200 py-10">
+<div class="bg-white border-b border-slate-100 py-10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">Contact Mart</h1>
         <p class="text-slate-600 text-sm mt-2 max-w-2xl">
