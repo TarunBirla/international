@@ -63,32 +63,7 @@
 </head>
 <body class="bg-white text-slate-800 antialiased flex flex-col min-h-screen">
 
-    <!-- Top Announcement Bar -->
-    <div class="bg-slate-900 text-white text-xs py-2 px-4 border-b border-slate-800">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
-            <div class="flex items-center space-x-3 text-slate-300">
-                <span class="inline-flex items-center text-amber-400 font-semibold">
-                    <i class="fa-solid fa-shield-halved mr-1.5"></i> Mart Verified Suppliers
-                </span>
-                <span class="hidden md:inline">|</span>
-                <span class="hidden md:inline text-slate-300">
-                    Direct Sourcing from <strong class="text-white">Verified Manufacturers & Wholesale Suppliers</strong>
-                </span>
-            </div>
-            <div class="flex items-center space-x-4 text-slate-300">
-                <a href="{{ route('setup.index') }}" class="hover:text-amber-300 text-amber-400 font-semibold flex items-center transition">
-                    <i class="fa-solid fa-server mr-1"></i> Setup DB
-                </a>
-                <a href="{{ route('calculator.index') }}" class="hover:text-white transition flex items-center">
-                    <i class="fa-solid fa-calculator mr-1"></i> Landed Cost Calculator
-                </a>
-                <div class="hidden sm:flex items-center space-x-1 text-slate-300 font-medium">
-                    <span>Currency:</span>
-                    <strong class="text-white">GBP (£)</strong>
-                </div>
-            </div>
-        </div>
-    </div>
+   
 
     <!-- Main Navigation Header -->
     <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm" x-data="{ mobileMenuOpen: false }">
@@ -360,14 +335,13 @@
                 <!-- Col 3: Logistics & Customs -->
                 <div>
                     <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider">Logistics & Customs</h4>
-                    <ul class="space-y-2 text-xs text-slate-400">
+                    <!-- <ul class="space-y-2 text-xs text-slate-400">
                         <li><a href="{{ route('calculator.index') }}" class="hover:text-white transition">UK Landed Cost Calculator</a></li>
                         <li><a href="{{ route('shipping') }}" class="hover:text-white transition">LCL & FCL Ocean Freight</a></li>
                         <li><a href="{{ route('shipping') }}" class="hover:text-white transition">Air Cargo Express (DHL/FedEx)</a></li>
                         <li><a href="{{ route('customs') }}" class="hover:text-white transition">Junaid & Co. Customs Clearance</a></li>
                         <li><a href="{{ route('customs') }}" class="hover:text-white transition">HMRC CDS & C88 Processing</a></li>
-                        <li><a href="{{ route('setup.index') }}" class="text-amber-400 font-semibold hover:text-amber-300 transition">Server 1-Click DB Setup</a></li>
-                    </ul>
+                    </ul> -->
                 </div>
 
                 <!-- Col 4: International Offices -->
