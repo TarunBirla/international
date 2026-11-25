@@ -69,10 +69,25 @@ class SupplierDashboardController extends Controller
             'origin_country' => 'required|string|max:100',
             'short_description' => 'required|string',
             'full_description' => 'nullable|string',
-            'main_image' => 'nullable|url',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif,svg|max:10240',
+            'main_image' => 'nullable',
             'direct_purchase_enabled' => 'nullable|boolean',
             'status' => 'required|in:active,draft,out_of_stock',
         ]);
+
+        $mainImagePath = 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&h=600&fit=crop';
+        $uploadedFile = $request->file('image') ?? $request->file('main_image');
+        if ($uploadedFile && $uploadedFile->isValid()) {
+            $uploadDir = public_path('uploads/products');
+            if (!file_exists($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+            $filename = time() . '_' . uniqid() . '.' . $uploadedFile->getClientOriginalExtension();
+            $uploadedFile->move($uploadDir, $filename);
+            $mainImagePath = 'uploads/products/' . $filename;
+        } elseif ($request->filled('main_image') && is_string($request->input('main_image'))) {
+            $mainImagePath = $request->input('main_image');
+        }
 
         $company = Auth::user()->company;
 
@@ -96,7 +111,7 @@ class SupplierDashboardController extends Controller
             'origin_country' => $validated['origin_country'],
             'short_description' => $validated['short_description'],
             'full_description' => $validated['full_description'],
-            'main_image' => $validated['main_image'] ?? 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&h=600&fit=crop',
+            'main_image' => $mainImagePath,
             'direct_purchase_enabled' => $request->boolean('direct_purchase_enabled', true),
             'status' => $validated['status'],
         ]);
@@ -131,11 +146,27 @@ class SupplierDashboardController extends Controller
             'origin_country' => 'required|string|max:100',
             'short_description' => 'required|string',
             'full_description' => 'nullable|string',
-            'main_image' => 'nullable|url',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif,svg|max:10240',
+            'main_image' => 'nullable',
             'status' => 'required|in:active,draft,out_of_stock',
         ]);
 
+        $mainImagePath = $product->getRawOriginal('main_image') ?? $product->main_image;
+        $uploadedFile = $request->file('image') ?? $request->file('main_image');
+        if ($uploadedFile && $uploadedFile->isValid()) {
+            $uploadDir = public_path('uploads/products');
+            if (!file_exists($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+            $filename = time() . '_' . uniqid() . '.' . $uploadedFile->getClientOriginalExtension();
+            $uploadedFile->move($uploadDir, $filename);
+            $mainImagePath = 'uploads/products/' . $filename;
+        } elseif ($request->filled('main_image') && is_string($request->input('main_image'))) {
+            $mainImagePath = $request->input('main_image');
+        }
+
         $product->update(array_merge($validated, [
+            'main_image' => $mainImagePath,
             'price_on_request' => $request->boolean('price_on_request'),
             'direct_purchase_enabled' => $request->boolean('direct_purchase_enabled'),
         ]));

@@ -15,7 +15,7 @@
     </div>
 
     <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
-        <form action="{{ route('admin.products.store') }}" method="POST" class="space-y-6">
+        <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
 
             <!-- Section 1: Manufacturer & Classification -->
@@ -126,11 +126,28 @@
                                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-brand-500 focus:bg-white focus:outline-none">
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Image URL</label>
-                        <input type="text" name="main_image" value="{{ old('main_image') }}" 
-                               placeholder="https://images.unsplash.com/..."
-                               class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-brand-500 focus:bg-white focus:outline-none">
+                    <div class="sm:col-span-3">
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">Product Image (Choose File)</label>
+                        <div class="flex flex-col sm:flex-row items-center gap-4 p-4 border-2 border-dashed border-slate-300 hover:border-brand-500 rounded-2xl bg-slate-50 transition">
+                            <div class="relative w-28 h-28 rounded-xl bg-white border border-slate-200 overflow-hidden flex-shrink-0 flex items-center justify-center shadow-sm">
+                                <img id="imagePreview" src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&q=80" alt="Preview" class="w-full h-full object-cover">
+                            </div>
+
+                            <div class="flex-1 text-center sm:text-left space-y-2">
+                                <div>
+                                    <label for="imageUpload" class="inline-flex items-center space-x-2 px-4 py-2.5 bg-brand-700 hover:bg-brand-800 text-white text-xs font-bold rounded-xl cursor-pointer shadow-sm transition">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                                        <span>Choose Image</span>
+                                    </label>
+                                    <input type="file" id="imageUpload" name="image" accept="image/*" class="hidden" onchange="previewProductImage(this)">
+                                    <span id="fileNameDisplay" class="block sm:inline sm:ml-3 text-xs text-slate-500 mt-2 sm:mt-0 font-medium">No file chosen (JPG, PNG, WEBP, GIF up to 10MB)</span>
+                                </div>
+                                <p class="text-[11px] text-slate-400">Select an image file from your device. Image will be uploaded directly to the server.</p>
+                            </div>
+                        </div>
+                        @error('image')
+                            <p class="text-xs text-rose-600 mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
             </div>
@@ -188,3 +205,27 @@
 
 </div>
 @endsection
+
+@push('scripts')
+<script>
+function previewProductImage(input) {
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        const imagePreview = document.getElementById('imagePreview');
+        if (fileNameDisplay) {
+            fileNameDisplay.textContent = file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+            fileNameDisplay.classList.remove('text-slate-500');
+            fileNameDisplay.classList.add('text-brand-600', 'font-bold');
+        }
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            if (imagePreview) {
+                imagePreview.src = e.target.result;
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+}
+</script>
+@endpush

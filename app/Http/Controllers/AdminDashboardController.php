@@ -599,10 +599,25 @@ class AdminDashboardController extends Controller
             'full_description' => 'nullable|string',
             'weight_kg' => 'nullable|numeric',
             'lead_time_days' => 'nullable|integer',
-            'main_image' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif,svg|max:10240',
+            'main_image' => 'nullable',
             'is_featured' => 'nullable|boolean',
             'direct_purchase_enabled' => 'nullable|boolean',
         ]);
+
+        $mainImagePath = 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&q=80';
+        $uploadedFile = $request->file('image') ?? $request->file('main_image');
+        if ($uploadedFile && $uploadedFile->isValid()) {
+            $uploadDir = public_path('uploads/products');
+            if (!file_exists($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+            $filename = time() . '_' . uniqid() . '.' . $uploadedFile->getClientOriginalExtension();
+            $uploadedFile->move($uploadDir, $filename);
+            $mainImagePath = 'uploads/products/' . $filename;
+        } elseif ($request->filled('main_image') && is_string($request->input('main_image'))) {
+            $mainImagePath = $request->input('main_image');
+        }
 
         $supplier = User::with('company')->findOrFail($validated['supplier_id']);
 
@@ -623,7 +638,7 @@ class AdminDashboardController extends Controller
             'full_description' => $validated['full_description'] ?? null,
             'weight_kg' => $validated['weight_kg'] ?? 10.0,
             'lead_time_days' => $validated['lead_time_days'] ?? 14,
-            'main_image' => $validated['main_image'] ?? 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&q=80',
+            'main_image' => $mainImagePath,
             'is_featured' => $request->boolean('is_featured'),
             'direct_purchase_enabled' => $request->boolean('direct_purchase_enabled', true),
             'status' => 'active',
@@ -659,11 +674,26 @@ class AdminDashboardController extends Controller
             'full_description' => 'nullable|string',
             'weight_kg' => 'nullable|numeric',
             'lead_time_days' => 'nullable|integer',
-            'main_image' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif,svg|max:10240',
+            'main_image' => 'nullable',
             'is_featured' => 'nullable|boolean',
             'direct_purchase_enabled' => 'nullable|boolean',
             'status' => 'required|in:active,inactive,out_of_stock',
         ]);
+
+        $mainImagePath = $product->getRawOriginal('main_image') ?? $product->main_image;
+        $uploadedFile = $request->file('image') ?? $request->file('main_image');
+        if ($uploadedFile && $uploadedFile->isValid()) {
+            $uploadDir = public_path('uploads/products');
+            if (!file_exists($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+            $filename = time() . '_' . uniqid() . '.' . $uploadedFile->getClientOriginalExtension();
+            $uploadedFile->move($uploadDir, $filename);
+            $mainImagePath = 'uploads/products/' . $filename;
+        } elseif ($request->filled('main_image') && is_string($request->input('main_image'))) {
+            $mainImagePath = $request->input('main_image');
+        }
 
         $product->update([
             'category_id' => $validated['category_id'],
@@ -679,7 +709,7 @@ class AdminDashboardController extends Controller
             'full_description' => $validated['full_description'] ?? null,
             'weight_kg' => $validated['weight_kg'] ?? $product->weight_kg,
             'lead_time_days' => $validated['lead_time_days'] ?? $product->lead_time_days,
-            'main_image' => $validated['main_image'] ?? $product->main_image,
+            'main_image' => $mainImagePath,
             'is_featured' => $request->boolean('is_featured'),
             'direct_purchase_enabled' => $request->boolean('direct_purchase_enabled'),
             'status' => $validated['status'],

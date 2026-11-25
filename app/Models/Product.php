@@ -101,4 +101,17 @@ class Product extends Model
 
         return (float) $this->base_price;
     }
+
+    public function getMainImageAttribute($value): string
+    {
+        if (empty($value)) {
+            return 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&q=80';
+        }
+
+        if (str_starts_with($value, 'http://') || str_starts_with($value, 'https://')) {
+            return $value;
+        }
+
+        return asset(ltrim($value, '/'));
+    }
 }
