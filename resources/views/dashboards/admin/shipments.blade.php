@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Manage Shipments & Consignments — Perlcon Admin')
+@section('title', 'Manage Shipments & Consignments — Mart Admin')
 @section('header_title', 'International Logistics & Freight Tracking')
 @section('header_subtitle', 'Monitor multimodal transport: DHL/FedEx small parcels, LCL ocean freight, and FCL containers')
 

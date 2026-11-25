@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Buyer Procurement Portal — Perlcon International')</title>
+    <title>@yield('title', 'Buyer Portal — Mart')</title>
 
     <!-- Tailwind CSS (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -66,10 +66,10 @@
         <div class="h-16 flex items-center justify-between px-6 border-b border-slate-200 bg-white">
             <a href="{{ route('buyer.dashboard') }}" class="flex items-center space-x-3">
                 <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-800 to-sky-600 flex items-center justify-center text-white shadow-md shadow-sky-500/20 font-black text-xl tracking-tight">
-                    P
+                    M
                 </div>
                 <div>
-                    <span class="text-base font-black text-slate-900 tracking-tight leading-none block">PERLCON</span>
+                    <span class="text-base font-black text-slate-900 tracking-tight leading-none block">Mart</span>
                     <span class="text-[10px] font-bold text-sky-700 uppercase tracking-widest block mt-0.5">Buyer Portal</span>
                 </div>
             </a>

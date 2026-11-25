@@ -1,6 +1,6 @@
 @extends(auth()->check() ? auth()->user()->getDashboardLayout() : 'layouts.app')
 
-@section('title', 'RFQ: ' . $rfq->product_name . ' — Perlcon International')
+@section('title', 'RFQ: ' . $rfq->product_name . ' — Mart')
 @section('header_title', 'RFQ Tender: #' . $rfq->rfq_number)
 @section('header_subtitle', $rfq->product_name . ' • Requested Volume: ' . number_format($rfq->quantity) . ' ' . $rfq->unit)
 
@@ -221,7 +221,7 @@
                     </div>
                 </div>
                 <div class="text-xs text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-100">
-                    <i class="fa-solid fa-shield-halved text-emerald-600 mr-1.5"></i> Protected by Perlcon Trade Assurance Escrow.
+                    <i class="fa-solid fa-shield-halved text-emerald-600 mr-1.5"></i> Protected by Mart Trade Assurance Escrow.
                 </div>
             </div>
         </div>

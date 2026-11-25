@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Reports & Financial Analytics — Perlcon Admin')
+@section('title', 'Reports & Financial Analytics — Mart Admin')
 @section('header_title', 'Marketplace Reports & Financial Analytics')
 @section('header_subtitle', 'Audit transaction volume, destination country distribution, and export data in CSV format')
 

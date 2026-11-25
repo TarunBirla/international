@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Join Perlcon — Register as Buyer or Supplier')
+@section('title', 'Join Mart — Register as Buyer or Supplier')
 
 @section('content')
 <div class="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-slate-50" x-data="{ userRole: '{{ old('role', $role) }}' }">
@@ -8,10 +8,10 @@
         
         <div class="text-center">
             <div class="w-12 h-12 rounded-2xl bg-brand-700 text-white font-black text-2xl flex items-center justify-center mx-auto shadow-md mb-3">
-                <i class="fa-solid fa-cube"></i>
+                <i class="fa-solid fa-bag-shopping"></i>
             </div>
-            <h1 class="text-2xl font-black text-slate-900 tracking-tight">Create Your Perlcon Account</h1>
-            <p class="text-xs text-slate-500 mt-1">Join the global industrial marketplace as a buyer or verified supplier.</p>
+            <h1 class="text-2xl font-black text-slate-900 tracking-tight">Create Your Mart Account</h1>
+            <p class="text-xs text-slate-500 mt-1">Join the verified B2B marketplace as a wholesale buyer or supplier.</p>
         </div>
 
         <div class="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">

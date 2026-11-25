@@ -1,6 +1,6 @@
 @extends('layouts.buyer')
 
-@section('title', 'Edit RFQ Tender — Perlcon International')
+@section('title', 'Edit RFQ Tender — Mart')
 @section('header_title', 'Edit RFQ Tender: #' . $rfq->rfq_number)
 @section('header_subtitle', 'Update technical specifications, volume, target price or delivery requirements')
 

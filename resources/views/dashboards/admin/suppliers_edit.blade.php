@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit Supplier — Perlcon Admin')
+@section('title', 'Edit Supplier — Mart Admin')
 @section('header_title', 'Edit Supplier: ' . ($supplier->company->company_name ?? $supplier->name))
 @section('header_subtitle', 'Update manufacturing plant capabilities, contact details, export markets, and verification status')
 

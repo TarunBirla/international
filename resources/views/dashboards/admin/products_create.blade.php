@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Add New Product — Perlcon Admin')
+@section('title', 'Add New Product — Mart Admin')
 @section('header_title', 'Create Catalog Product')
 @section('header_subtitle', 'List a new machinery or industrial component with tariff HS code, volume tiers, and origin')
 

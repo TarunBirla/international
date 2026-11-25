@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'About Perlcon International — Global B2B Marketplace')
+@section('title', 'About Mart — B2B Marketplace')
 
 @section('content')
 <div class="bg-slate-50 border-b border-slate-200 py-10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">About Perlcon International</h1>
+        <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">About Mart</h1>
         <p class="text-slate-600 text-sm mt-2 max-w-2xl">
-            Bridging international manufacturing prowess with British and European engineering procurement.
+            Connecting wholesale buyers directly with verified manufacturers and industrial suppliers.
         </p>
     </div>
 </div>
@@ -16,10 +16,10 @@
     <div class="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm space-y-4">
         <h2 class="text-xl font-extrabold text-slate-900">Our Mission</h2>
         <p>
-            Perlcon was founded to transform cross-border industrial procurement. While retail e-commerce has made international consumer shopping effortless, B2B procurement for heavy machinery, precision components, and industrial parts has traditionally been hindered by fragmented suppliers, language barriers, opaque landed costs, and cumbersome customs regulations.
+            Mart was created to make B2B wholesale trade simple, fast, and transparent. We help businesses easily discover trusted manufacturers, post their buying requirements, compare quotations, and purchase quality goods at direct factory prices.
         </p>
         <p>
-            By combining an IndiaMART-style supplier discovery network, an Alibaba-style product catalogue, automated landed cost calculations, and dedicated logistics and customs partnerships, Perlcon provides an enterprise-grade platform for seamless international procurement.
+            Like IndiaMART, Mart empowers businesses with an intuitive supplier discovery network, real-time RFQ negotiation, verified seller badges, and safe order management.
         </p>
     </div>
 

@@ -149,7 +149,7 @@ class DatabaseSetupController extends Controller
             }
 
             $success = true;
-            $message = 'Perlcon International B2B Marketplace database has been successfully cleaned and fresh seeded!';
+            $message = 'Mart B2B Marketplace database has been successfully cleaned and fresh seeded with 5 categories & 5 products!';
         } catch (Exception $e) {
             $success = false;
             $message = 'Database Setup Encountered An Error: ' . $e->getMessage();

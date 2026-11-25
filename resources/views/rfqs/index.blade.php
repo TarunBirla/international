@@ -1,6 +1,6 @@
 @extends(auth()->check() ? auth()->user()->getDashboardLayout() : 'layouts.app')
 
-@section('title', 'Open Requests For Quotation (RFQs) — Perlcon International')
+@section('title', 'Open Requests For Quotation (RFQs) — Mart')
 @section('header_title', 'Requests For Quotation (RFQs)')
 @section('header_subtitle', 'Browse open international procurement requirements and tenders')
 

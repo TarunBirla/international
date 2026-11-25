@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Contact Perlcon International — Global Procurement Support')
+@section('title', 'Contact Mart — B2B Support')
 
 @section('content')
 <div class="bg-slate-50 border-b border-slate-200 py-10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">Contact Perlcon International</h1>
+        <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">Contact Mart</h1>
         <p class="text-slate-600 text-sm mt-2 max-w-2xl">
             Our procurement, logistics, and customs engineering teams are based across London, Felixstowe, Pune, and Shenzhen.
         </p>
@@ -48,7 +48,7 @@
 
         <div class="lg:col-span-5 space-y-6">
             <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4 text-xs">
-                <h3 class="text-base font-extrabold text-slate-900">Perlcon Global Hubs</h3>
+                <h3 class="text-base font-extrabold text-slate-900">Mart Global Hubs</h3>
                 <div class="space-y-3 divide-y divide-slate-100">
                     <div class="pt-2">
                         <strong class="text-slate-900 block font-bold">🇬🇧 London Corporate Headquarters</strong>

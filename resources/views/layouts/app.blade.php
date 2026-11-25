@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'Perlcon International — Global B2B Marketplace & Industrial Procurement')</title>
-    <meta name="description" content="@yield('meta_description', 'Connect with verified industrial manufacturers from India, China and Europe. Heavy machinery, spare parts, automation, customs clearance and UK delivery.')">
+    <title>@yield('title', 'Mart — B2B Marketplace & Sourcing')</title>
+    <meta name="description" content="@yield('meta_description', 'Mart connects verified manufacturers and suppliers with wholesale buyers. Simple B2B sourcing, instant quotations, and trade assurance.')">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -64,23 +64,23 @@
 <body class="bg-white text-slate-800 antialiased flex flex-col min-h-screen">
 
     <!-- Top Announcement Bar -->
-    <div class="bg-perlcon-navy text-white text-xs py-2 px-4 border-b border-slate-800">
+    <div class="bg-slate-900 text-white text-xs py-2 px-4 border-b border-slate-800">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
             <div class="flex items-center space-x-3 text-slate-300">
                 <span class="inline-flex items-center text-amber-400 font-semibold">
-                    <i class="fa-solid fa-shield-halved mr-1.5"></i> Perlcon Trade Assurance Escrow
+                    <i class="fa-solid fa-shield-halved mr-1.5"></i> Mart Verified Suppliers
                 </span>
                 <span class="hidden md:inline">|</span>
                 <span class="hidden md:inline text-slate-300">
-                    Sourcing from <strong class="text-white">India, China & Europe</strong> with Integrated UK Customs Clearance
+                    Direct Sourcing from <strong class="text-white">Verified Manufacturers & Wholesale Suppliers</strong>
                 </span>
             </div>
             <div class="flex items-center space-x-4 text-slate-300">
                 <a href="{{ route('setup.index') }}" class="hover:text-amber-300 text-amber-400 font-semibold flex items-center transition">
-                    <i class="fa-solid fa-server mr-1"></i> Server DB Setup Route
+                    <i class="fa-solid fa-server mr-1"></i> Setup DB
                 </a>
                 <a href="{{ route('calculator.index') }}" class="hover:text-white transition flex items-center">
-                    <i class="fa-solid fa-calculator mr-1"></i> UK Landed Cost Calculator
+                    <i class="fa-solid fa-calculator mr-1"></i> Landed Cost Calculator
                 </a>
                 <div class="hidden sm:flex items-center space-x-1 text-slate-300 font-medium">
                     <span>Currency:</span>
@@ -97,16 +97,15 @@
                 
                 <!-- Logo & Brand -->
                 <div class="flex items-center space-x-3 flex-shrink-0">
-                    <a href="{{ route('home') }}" class="flex items-center space-x-3 group">
-                        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-brand-900 via-brand-700 to-blue-500 flex items-center justify-center text-white text-2xl font-black shadow-md shadow-brand-900/20 group-hover:scale-105 transition transform">
-                            <i class="fa-solid fa-cube"></i>
+                    <a href="{{ route('home') }}" class="flex items-center space-x-2.5 group">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-700 to-blue-500 flex items-center justify-center text-white text-xl font-black shadow-md shadow-brand-700/20 group-hover:scale-105 transition transform">
+                            <i class="fa-solid fa-bag-shopping"></i>
                         </div>
                         <div>
                             <span class="text-2xl font-black tracking-tight text-slate-900 flex items-center">
-                                PERLCON
-                                <span class="ml-1.5 px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-500 text-white tracking-normal uppercase">B2B</span>
+                                Mart
+                                <span class="ml-1.5 px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-600 text-white tracking-normal uppercase">B2B</span>
                             </span>
-                            <span class="text-[11px] font-semibold text-slate-500 block tracking-wider uppercase -mt-1">International Trade</span>
                         </div>
                     </a>
                 </div>
@@ -117,13 +116,12 @@
                         <select name="category" class="bg-slate-50 text-slate-700 text-xs font-semibold px-3 py-2.5 border-r border-slate-200 focus:outline-none cursor-pointer">
                             <option value="">All Categories</option>
                             <option value="industrial-machinery">Industrial Machinery</option>
-                            <option value="electrical-equipment">Electrical Equipment</option>
-                            <option value="mechanical-components">Mechanical Components</option>
-                            <option value="spare-parts">Spare Parts</option>
-                            <option value="industrial-automation">Automation & Robotics</option>
-                            <option value="construction-equipment">Construction</option>
+                            <option value="building-construction">Building & Construction</option>
+                            <option value="electronics-electrical">Electronics & Electrical</option>
+                            <option value="packaging-paper">Packaging & Paper</option>
+                            <option value="chemicals-dyes">Chemicals & Solvents</option>
                         </select>
-                        <input type="text" name="q" value="{{ request('q') }}" placeholder="Search industrial machinery, CNC, valves, flanges, HS codes, manufacturers..." class="flex-1 px-4 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none">
+                        <input type="text" name="q" value="{{ request('q') }}" placeholder="Search products, machinery, suppliers, materials..." class="flex-1 px-4 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none">
                         <button type="submit" class="bg-brand-700 hover:bg-brand-800 text-white px-6 font-bold text-sm flex items-center justify-center transition">
                             <i class="fa-solid fa-magnifying-glass mr-2"></i> Search
                         </button>
@@ -325,19 +323,19 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
                 
-                <!-- Col 1: About Perlcon -->
+                <!-- Col 1: About Mart -->
                 <div class="lg:col-span-2 space-y-4">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-black text-xl shadow">
-                            <i class="fa-solid fa-cube"></i>
+                    <div class="flex items-center space-x-2.5">
+                        <div class="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center text-white font-black text-xl shadow">
+                            <i class="fa-solid fa-bag-shopping"></i>
                         </div>
                         <div>
-                            <span class="text-2xl font-black text-white tracking-tight">PERLCON</span>
-                            <span class="text-[11px] font-semibold text-blue-400 block uppercase -mt-1">International B2B Marketplace</span>
+                            <span class="text-2xl font-black text-white tracking-tight">Mart</span>
+                            <span class="text-[11px] font-semibold text-emerald-400 block uppercase -mt-1">B2B Marketplace</span>
                         </div>
                     </div>
                     <p class="text-slate-400 text-xs leading-relaxed max-w-sm">
-                        Perlcon connects UK and European industrial buyers with verified manufacturing plants in India, China and Germany. End-to-end procurement with RFQ negotiation, multi-supplier order consolidation, sea & air freight logistics, and seamless UK HMRC customs clearance.
+                        Mart is a simple, modern B2B marketplace connecting verified manufacturers and wholesale suppliers directly with buyers. Get quotations, compare prices, and order with confidence.
                     </p>
                     <div class="pt-2 flex items-center space-x-3 text-sm">
                         <span class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:bg-blue-600 transition"><i class="fa-brands fa-linkedin-in"></i></span>
@@ -390,7 +388,7 @@
                         </li>
                         <li class="flex items-start space-x-2">
                             <i class="fa-solid fa-envelope mt-0.5 text-blue-500"></i>
-                            <span>contact@perlcon.com</span>
+                            <span>support@mart.com</span>
                         </li>
                     </ul>
                 </div>
@@ -398,7 +396,7 @@
 
             <!-- Bottom Copyright & Compliance Bar -->
             <div class="border-t border-slate-800 pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-3">
-                <p>&copy; {{ date('Y') }} Perlcon International B2B Marketplace. All rights reserved.</p>
+                <p>&copy; {{ date('Y') }} Mart. All rights reserved.</p>
                 <div class="flex items-center space-x-4">
                     <span>Privacy Policy</span>
                     <span>Terms of Trade</span>

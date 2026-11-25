@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit Product — Perlcon Admin')
+@section('title', 'Edit Product — Mart Admin')
 @section('header_title', 'Edit Product: ' . $product->name)
 @section('header_subtitle', 'Update technical parameters, tariff classification, pricing, and stock status')
 

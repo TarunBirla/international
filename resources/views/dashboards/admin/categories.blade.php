@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Category Management — Perlcon Admin')
+@section('title', 'Category Management — Mart Admin')
 @section('header_title', 'Categories & Subcategories')
 @section('header_subtitle', 'Manage hierarchical taxonomy, product classification, and public storefront navigation')
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Database Setup Status — Perlcon International B2B</title>
+    <title>Database Setup Status — Mart B2B</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -21,7 +21,7 @@
                     <i class="fa-solid fa-cube"></i>
                 </div>
                 <div>
-                    <span class="text-xl font-extrabold tracking-tight text-slate-900">PERLCON</span>
+                    <span class="text-xl font-extrabold tracking-tight text-slate-900">Mart</span>
                     <span class="text-xs font-semibold uppercase tracking-wider text-blue-600 block -mt-1">International B2B</span>
                 </div>
             </div>
@@ -171,7 +171,7 @@
 
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
-        &copy; {{ date('Y') }} Perlcon International B2B Marketplace. All rights reserved.
+        &copy; {{ date('Y') }} Mart. All rights reserved.
     </footer>
 
 </body>

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Manage Marketplace Users — Perlcon Admin')
+@section('title', 'Manage Marketplace Users — Mart Admin')
 @section('header_title', 'All Marketplace Users')
 @section('header_subtitle', 'Full CRUD control over administrators, buyers, manufacturers, freight and customs partners')
 

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit User — Perlcon Admin')
+@section('title', 'Edit User — Mart Admin')
 @section('header_title', 'Edit User: ' . $user->name)
 @section('header_subtitle', 'Update role, contact details, authentication password, or company associations')
 

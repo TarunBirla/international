@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Manage Products — Perlcon Admin')
+@section('title', 'Manage Products — Mart Admin')
 @section('header_title', 'Marketplace Products Catalog')
 @section('header_subtitle', 'Audit industrial equipment listings, toggle featured status, and verify international HS codes')
 

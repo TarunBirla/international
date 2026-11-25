@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Manage Suppliers & Verification — Perlcon Admin')
+@section('title', 'Manage Suppliers & Verification — Mart Admin')
 @section('header_title', 'Suppliers & Manufacturers')
 @section('header_subtitle', 'Audit international plants, manage KYC verification badges, and control supplier accounts')
 

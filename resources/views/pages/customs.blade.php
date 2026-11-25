@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'UK Customs Clearance Integration & Junaid & Co. — Perlcon International')
+@section('title', 'UK Customs Clearance Integration & Junaid & Co. — Mart')
 
 @section('content')
 <div class="bg-slate-50 border-b border-slate-200 py-10">
@@ -28,7 +28,7 @@
         <div class="space-y-4">
             <h2 class="text-2xl font-black text-slate-900">Dedicated UK Customs Brokerage for Industrial Cargo</h2>
             <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Importing heavy machinery and fabricated steel into the UK requires strict adherence to HMRC trade classification, Rules of Origin, and environmental declarations. Perlcon has integrated direct electronic documentation sharing with Junaid & Co. Customs Clearance Specialists at the Port of Felixstowe and London Gateway.
+                Importing heavy machinery and fabricated steel into the UK requires strict adherence to HMRC trade classification, Rules of Origin, and environmental declarations. Mart has integrated direct electronic documentation sharing with Junaid & Co. Customs Clearance Specialists at the Port of Felixstowe and London Gateway.
             </p>
             <div class="space-y-2 text-xs text-slate-700">
                 <div class="flex items-center space-x-2">

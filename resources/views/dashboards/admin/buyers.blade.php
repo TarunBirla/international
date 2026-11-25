@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Manage Buyers — Perlcon Admin')
+@section('title', 'Manage Buyers — Mart Admin')
 @section('header_title', 'Registered Buyers & EPC Contractors')
 @section('header_subtitle', 'Oversee industrial procurement managers, RFQ history, and corporate purchasing accounts')
 

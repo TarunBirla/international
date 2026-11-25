@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Add New User — Perlcon Admin')
+@section('title', 'Add New User — Mart Admin')
 @section('header_title', 'Create User Account')
 @section('header_subtitle', 'Provision a new administrator, industrial supplier, UK buyer, or trade partner')
 

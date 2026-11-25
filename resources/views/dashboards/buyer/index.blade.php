@@ -1,6 +1,6 @@
 @extends('layouts.buyer')
 
-@section('title', 'Buyer Dashboard — Perlcon International')
+@section('title', 'Buyer Dashboard — Mart')
 @section('header_title', 'Procurement Control Center')
 @section('header_subtitle', 'Manage custom machinery tenders, compare bids, and track international orders')
 

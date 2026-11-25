@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $category->name . ' — Perlcon International')
+@section('title', $category->name . ' — Mart')
 
 @section('content')
 <div class="bg-slate-50 border-b border-slate-200 py-8">

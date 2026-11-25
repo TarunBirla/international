@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Add New Supplier — Perlcon Admin')
+@section('title', 'Add New Supplier — Mart Admin')
 @section('header_title', 'Register Industrial Supplier')
 @section('header_subtitle', 'Onboard a manufacturer or exporter from India, China, Europe or other global origins')
 

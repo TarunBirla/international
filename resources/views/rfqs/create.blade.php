@@ -1,6 +1,6 @@
 @extends(auth()->check() ? auth()->user()->getDashboardLayout() : 'layouts.app')
 
-@section('title', 'Post Request for Quotation (RFQ) — Perlcon International')
+@section('title', 'Post Request for Quotation (RFQ) — Mart')
 @section('header_title', 'Post Request for Quotation (RFQ)')
 @section('header_subtitle', 'Submit your engineering specifications to verified international manufacturers in India, China, and Europe')
 

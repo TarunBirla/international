@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Add New Buyer — Perlcon Admin')
+@section('title', 'Add New Buyer — Mart Admin')
 @section('header_title', 'Register Buyer Account')
 @section('header_subtitle', 'Onboard an engineering procurement company or institutional buyer')
 

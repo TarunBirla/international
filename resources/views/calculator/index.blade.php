@@ -1,6 +1,6 @@
 @extends(auth()->check() ? auth()->user()->getDashboardLayout() : 'layouts.app')
 
-@section('title', 'UK Import Duty & VAT Landed Cost Calculator — Perlcon International')
+@section('title', 'UK Import Duty & VAT Landed Cost Calculator — Mart')
 @section('header_title', 'UK Import Duty & VAT Calculator')
 @section('header_subtitle', 'Calculate landed import costs, customs duty, and 20% UK VAT before ordering')
 

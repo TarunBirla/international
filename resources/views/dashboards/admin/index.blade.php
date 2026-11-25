@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Super Admin Command Center — Perlcon International')
+@section('title', 'Super Admin Command Center — Mart')
 @section('header_title', 'Marketplace Command Center')
 @section('header_subtitle', 'Global procurement oversight, supplier verification, and consignment control')
 

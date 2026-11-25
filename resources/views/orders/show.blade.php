@@ -1,6 +1,6 @@
 @extends(auth()->check() ? auth()->user()->getDashboardLayout() : 'layouts.app')
 
-@section('title', 'Order ' . $order->order_number . ' Tracking & Details — Perlcon International')
+@section('title', 'Order ' . $order->order_number . ' Tracking & Details — Mart')
 @section('header_title', 'Order ' . $order->order_number)
 @section('header_subtitle', 'End-to-End International Logistics, Stepper, and Customs Status')
 

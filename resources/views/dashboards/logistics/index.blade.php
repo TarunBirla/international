@@ -1,6 +1,6 @@
 @extends('layouts.logistics')
 
-@section('title', 'Logistics Freight Portal — Perlcon International')
+@section('title', 'Logistics Freight Portal — Mart')
 @section('header_title', 'Global Freight & Intermodal Logistics')
 @section('header_subtitle', 'Update multimodal container freight status, carrier reference numbers, and live milestones')
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Database Setup & Server Migration — Perlcon International B2B</title>
+    <title>Database Setup & Server Migration — Mart B2B</title>
     <!-- Tailwind CSS CDN for guaranteed instant rendering on any server -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -24,7 +24,7 @@
                     <i class="fa-solid fa-cube"></i>
                 </div>
                 <div>
-                    <span class="text-xl font-extrabold tracking-tight text-slate-900">PERLCON</span>
+                    <span class="text-xl font-extrabold tracking-tight text-slate-900">Mart</span>
                     <span class="text-xs font-semibold uppercase tracking-wider text-blue-600 block -mt-1">International B2B</span>
                 </div>
             </div>
@@ -44,7 +44,7 @@
             </div>
             <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Database & Server Initializer</h1>
             <p class="text-slate-600 mt-2 text-base max-w-2xl">
-                Upload this project to your cPanel, Plesk, VPS or shared hosting, then hit this route (<code class="bg-slate-100 text-blue-700 px-2 py-0.5 rounded text-sm font-mono">/setup-db</code>) to create tables, seed data, and launch Perlcon International immediately.
+                Upload this project to your cPanel, Plesk, VPS or shared hosting, then hit this route (<code class="bg-slate-100 text-blue-700 px-2 py-0.5 rounded text-sm font-mono">/setup-db</code>) to create tables, seed data, and launch Mart immediately.
             </p>
         </div>
 
@@ -218,7 +218,7 @@
 
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
-        &copy; {{ date('Y') }} Perlcon International B2B Marketplace. All rights reserved.
+        &copy; {{ date('Y') }} Mart. All rights reserved.
     </footer>
 
 </body>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Industrial Products Catalogue — Perlcon International')
+@section('title', 'Products Catalogue — Mart')
 
 @section('content')
 <div class="bg-slate-50 border-b border-slate-200 py-6">

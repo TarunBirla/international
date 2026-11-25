@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Manage RFQs & Tenders — Perlcon Admin')
+@section('title', 'Manage RFQs & Tenders — Mart Admin')
 @section('header_title', 'Marketplace RFQs & Quotations')
 @section('header_subtitle', 'Oversee industrial procurement tenders, supplier bidding, and quotation awards')
 

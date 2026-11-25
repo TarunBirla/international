@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit Buyer — Perlcon Admin')
+@section('title', 'Edit Buyer — Mart Admin')
 @section('header_title', 'Edit Buyer: ' . $buyer->name)
 @section('header_subtitle', 'Update buyer profile, organization, and delivery contact info')
 

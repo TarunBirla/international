@@ -1,6 +1,6 @@
 @extends(auth()->check() ? auth()->user()->getDashboardLayout() : 'layouts.app')
 
-@section('title', 'Procurement Cart — Perlcon International')
+@section('title', 'Procurement Cart — Mart')
 @section('header_title', 'Procurement Cart')
 @section('header_subtitle', 'Review order items and proceed to multi-supplier purchase order split')
 

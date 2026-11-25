@@ -1,6 +1,6 @@
 @extends('layouts.supplier')
 
-@section('title', 'Supplier Command Center — Perlcon International')
+@section('title', 'Supplier Command Center — Mart')
 @section('header_title', 'Manufacturing Control Center')
 @section('header_subtitle', 'Oversee plant machinery catalog, RFQ quotation bids, and export orders')
 

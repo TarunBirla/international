@@ -1,6 +1,6 @@
 @extends('layouts.supplier')
 
-@section('title', 'Supplier Subscription Plans — Perlcon International')
+@section('title', 'Supplier Subscription Plans — Mart')
 @section('header_title', 'Exporter Membership Tiers')
 @section('header_subtitle', 'Upgrade your manufacturer tier to unlock higher product limits, priority RFQs, and featured placement')
 

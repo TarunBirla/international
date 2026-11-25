@@ -1,6 +1,6 @@
 @extends(auth()->check() ? auth()->user()->getDashboardLayout() : 'layouts.app')
 
-@section('title', 'Messages & Enquiries — Perlcon International')
+@section('title', 'Messages & Enquiries — Mart')
 @section('header_title', 'Messages & Communications')
 @section('header_subtitle', 'Direct communication channel between international buyers and manufacturers')
 

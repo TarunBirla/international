@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Manage Orders & Split POs — Perlcon Admin')
+@section('title', 'Manage Orders & Split POs — Mart Admin')
 @section('header_title', 'Marketplace Orders & Purchase Orders')
 @section('header_subtitle', 'Control procurement orders, multi-supplier automated split POs, landed payments, and 14-stage tracking')
 

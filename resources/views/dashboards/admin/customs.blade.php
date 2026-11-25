@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Customs Declarations & Clearance — Perlcon Admin')
+@section('title', 'Customs Declarations & Clearance — Mart Admin')
 @section('header_title', 'UK Customs Clearance Oversight')
 @section('header_subtitle', 'Review C88 single administrative documents, duty deferment, and Junaid & Co. filings')
 

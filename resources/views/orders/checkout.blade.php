@@ -1,6 +1,6 @@
 @extends(auth()->check() ? auth()->user()->getDashboardLayout() : 'layouts.app')
 
-@section('title', 'Secure Checkout & PO Generation — Perlcon International')
+@section('title', 'Secure Checkout & PO Generation — Mart')
 @section('header_title', 'Procurement Checkout')
 @section('header_subtitle', 'Multi-supplier order routing, international freight booking and HMRC customs pre-lodgement')
 
@@ -34,7 +34,7 @@
                     <i class="fa-solid fa-code-fork text-blue-600 text-lg mt-0.5"></i>
                     <div>
                         <strong class="text-sm font-bold block mb-1">Automated Multi-Supplier Order Splitting</strong>
-                        <span>Your order contains items from {{ count($suppliers) }} different suppliers. Perlcon will issue 1 unified invoice to your company, while automatically creating separate Purchase Orders (POs) for each overseas factory.</span>
+                        <span>Your order contains items from {{ count($suppliers) }} different suppliers. Mart will issue 1 unified invoice to your company, while automatically creating separate Purchase Orders (POs) for each overseas factory.</span>
                     </div>
                 </div>
 
@@ -100,7 +100,7 @@
                             <input type="radio" name="payment_method" value="bank_transfer" class="w-4 h-4 text-brand-700">
                             <div>
                                 <strong class="text-slate-900 text-sm block">BACS / CHAPS UK Bank Wire Transfer</strong>
-                                <span class="text-slate-500 text-[11px]">Pro-forma invoice generated for bank transfer directly to Perlcon UK client account.</span>
+                                <span class="text-slate-500 text-[11px]">Pro-forma invoice generated for bank transfer directly to Mart UK client account.</span>
                             </div>
                         </label>
 
