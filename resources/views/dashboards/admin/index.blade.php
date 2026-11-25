@@ -121,13 +121,7 @@
                 <span class="text-xs font-bold text-slate-800 group-hover:text-slate-900 block">Export Orders</span>
                 <span class="text-[10px] text-slate-500 block">CSV File</span>
             </a>
-            <a href="{{ route('setup.index') }}" class="p-3 bg-amber-50/60 hover:bg-amber-100/70 border border-amber-200 rounded-2xl text-center group transition">
-                <div class="w-9 h-9 mx-auto rounded-xl bg-white shadow-xs flex items-center justify-center text-amber-700 group-hover:text-amber-800 mb-2">
-                    <i class="fa-solid fa-server text-sm"></i>
-                </div>
-                <span class="text-xs font-bold text-amber-900 block">Server Setup</span>
-                <span class="text-[10px] text-amber-700 block">Auto DB Route</span>
-            </a>
+           
         </div>
     </div>
 
