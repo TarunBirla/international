@@ -44,6 +44,17 @@ class Company extends Model
         'rating' => 'float',
     ];
 
+    public function getLogoUrlAttribute(): string
+    {
+        if (!empty($this->logo)) {
+            if (str_starts_with($this->logo, 'http://') || str_starts_with($this->logo, 'https://')) {
+                return $this->logo;
+            }
+            return asset(ltrim($this->logo, '/'));
+        }
+        return 'https://ui-avatars.com/api/?name=' . urlencode($this->company_name) . '&background=059669&color=fff&bold=true';
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

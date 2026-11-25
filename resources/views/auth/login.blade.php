@@ -24,12 +24,17 @@
                             class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none">
                     </div>
 
-                    <div>
+                    <div x-data="{ showPass: false }">
                         <div class="flex justify-between items-center mb-1">
                             <label class="block text-xs font-bold text-slate-700">Password</label>
                         </div>
-                        <input type="password" id="passwordInput" name="password" value="password123" required
-                            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                        <div class="relative">
+                            <input :type="showPass ? 'text' : 'password'" id="passwordInput" name="password" value="password123" required
+                                class="w-full px-3.5 py-2.5 pr-10 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                            <button type="button" @click="showPass = !showPass" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none" title="Toggle password visibility">
+                                <i class="fa-solid text-sm" :class="showPass ? 'fa-eye-slash text-brand-600' : 'fa-eye'"></i>
+                            </button>
+                        </div>
                     </div>
 
                     <div class="flex items-center justify-between text-xs">

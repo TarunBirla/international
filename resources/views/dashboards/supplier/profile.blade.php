@@ -8,8 +8,29 @@
 <div class="max-w-4xl mx-auto space-y-6">
 
     <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
-        <form action="{{ route('supplier.profile.update') }}" method="POST" class="space-y-6">
+        <form action="{{ route('supplier.profile.update') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
+
+            <!-- Company Logo / Image Upload -->
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-2">Company Logo / Factory Image</label>
+                <div class="flex items-center space-x-6 p-4 bg-slate-50 border border-slate-200 rounded-2xl">
+                    <div class="w-20 h-20 rounded-2xl bg-white border border-slate-200 overflow-hidden flex items-center justify-center shrink-0 shadow-sm">
+                        <img id="supplierLogoPreview" 
+                             src="{{ $user->company ? $user->company->logo_url : $user->avatar_url }}" 
+                             alt="{{ $user->company->company_name ?? $user->name }}" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1">
+                        <input type="file" name="logo" id="supplierLogoInput" accept="image/*" class="hidden" onchange="previewSupplierLogo(event)">
+                        <button type="button" onclick="document.getElementById('supplierLogoInput').click()" class="px-4 py-2 bg-white border border-slate-300 hover:border-slate-400 text-slate-700 font-bold rounded-xl text-xs transition shadow-sm inline-flex items-center space-x-2">
+                            <i class="fa-solid fa-cloud-arrow-up text-emerald-600"></i>
+                            <span>Choose Logo Image</span>
+                        </button>
+                        <p class="text-[11px] text-slate-500 mt-1.5">PNG, JPG, WEBP, or SVG up to 4MB. Square ratio recommended.</p>
+                    </div>
+                </div>
+            </div>
 
             <!-- Section 1: Legal Entity & Classification -->
             <div>
@@ -105,4 +126,17 @@
     </div>
 
 </div>
+
+<script>
+function previewSupplierLogo(event) {
+    const input = event.target;
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('supplierLogoPreview').src = e.target.result;
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
 @endsection

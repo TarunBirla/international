@@ -244,7 +244,17 @@ class SupplierDashboardController extends Controller
             'description' => 'nullable|string',
             'manufacturing_capabilities' => 'nullable|string',
             'website' => 'nullable|url',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:4096',
         ]);
+
+        if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $filename = 'company_' . time() . '_' . \Illuminate\Support\Str::random(8) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/companies'), $filename);
+            $logoPath = 'uploads/companies/' . $filename;
+            $validated['logo'] = $logoPath;
+            $user->update(['avatar' => $logoPath]);
+        }
 
         if ($company) {
             $company->update($validated);

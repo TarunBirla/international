@@ -8,8 +8,29 @@
 <div class="max-w-4xl mx-auto space-y-6">
 
     <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
-        <form action="{{ route('buyer.profile.update') }}" method="POST" class="space-y-6">
+        <form action="{{ route('buyer.profile.update') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
+
+            <!-- Company Logo / Buyer Photo Upload -->
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-2">Company Logo / Profile Photo</label>
+                <div class="flex items-center space-x-6 p-4 bg-slate-50 border border-slate-200 rounded-2xl">
+                    <div class="w-20 h-20 rounded-2xl bg-white border border-slate-200 overflow-hidden flex items-center justify-center shrink-0 shadow-sm">
+                        <img id="buyerLogoPreview" 
+                             src="{{ $user->company && $user->company->logo ? $user->company->logo_url : $user->avatar_url }}" 
+                             alt="{{ $user->company->company_name ?? $user->name }}" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1">
+                        <input type="file" name="logo" id="buyerLogoInput" accept="image/*" class="hidden" onchange="previewBuyerProfileLogo(event)">
+                        <button type="button" onclick="document.getElementById('buyerLogoInput').click()" class="px-4 py-2 bg-white border border-slate-300 hover:border-slate-400 text-slate-700 font-bold rounded-xl text-xs transition shadow-sm inline-flex items-center space-x-2">
+                            <i class="fa-solid fa-cloud-arrow-up text-sky-600"></i>
+                            <span>Choose Logo / Photo</span>
+                        </button>
+                        <p class="text-[11px] text-slate-500 mt-1.5">PNG, JPG, WEBP, or SVG up to 4MB.</p>
+                    </div>
+                </div>
+            </div>
 
             <!-- Section 1: Contact Details -->
             <div>
@@ -97,4 +118,17 @@
     </div>
 
 </div>
+
+<script>
+function previewBuyerProfileLogo(event) {
+    const input = event.target;
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('buyerLogoPreview').src = e.target.result;
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
 @endsection

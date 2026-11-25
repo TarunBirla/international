@@ -72,8 +72,8 @@
                             <!-- Company Name & Contact -->
                             <td class="p-4">
                                 <div class="flex items-center space-x-3">
-                                    <div class="w-10 h-10 rounded-xl bg-slate-100 border border-slate-200 text-slate-800 font-black flex items-center justify-center text-xs flex-shrink-0">
-                                        <i class="fa-solid fa-industry text-brand-700 text-sm"></i>
+                                    <div class="w-10 h-10 rounded-xl bg-slate-100 border border-slate-200 overflow-hidden flex-shrink-0 flex items-center justify-center">
+                                        <img src="{{ $supplier->company ? $supplier->company->logo_url : $supplier->avatar_url }}" alt="{{ $supplier->name }}" class="w-full h-full object-cover">
                                     </div>
                                     <div>
                                         <span class="font-extrabold text-slate-900 text-sm block">

@@ -66,9 +66,7 @@
                             <!-- User Name & Email -->
                             <td class="p-4">
                                 <div class="flex items-center space-x-3">
-                                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-slate-200 to-slate-100 text-slate-800 font-black flex items-center justify-center text-xs shadow-xs border border-slate-200">
-                                        {{ strtoupper(substr($user->name, 0, 2)) }}
-                                    </div>
+                                    <img src="{{ $user->avatar_url }}" alt="{{ $user->name }}" class="w-9 h-9 rounded-xl object-cover border border-slate-200 shrink-0 bg-slate-50">
                                     <div>
                                         <p class="font-bold text-slate-900">{{ $user->name }}</p>
                                         <p class="text-[11px] text-slate-500">{{ $user->email }}</p>

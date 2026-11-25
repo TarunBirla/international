@@ -75,22 +75,38 @@ class BuyerDashboardController extends Controller
             'tax_id' => 'nullable|string|max:100',
             'address' => 'nullable|string',
             'description' => 'nullable|string',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:4096',
         ]);
 
-        $user->update([
+        $userData = [
             'name' => $validated['name'],
             'phone' => $validated['phone'],
             'city' => $validated['city'],
             'country' => $validated['country'],
-        ]);
+        ];
+
+        $logoPath = null;
+        if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $filename = 'company_' . time() . '_' . \Illuminate\Support\Str::random(8) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/companies'), $filename);
+            $logoPath = 'uploads/companies/' . $filename;
+            $userData['avatar'] = $logoPath;
+        }
+
+        $user->update($userData);
 
         if ($user->company) {
-            $user->company->update([
+            $companyData = [
                 'company_name' => $validated['company_name'],
                 'tax_id' => $validated['tax_id'],
                 'address' => $validated['address'],
                 'description' => $validated['description'],
-            ]);
+            ];
+            if ($logoPath) {
+                $companyData['logo'] = $logoPath;
+            }
+            $user->company->update($companyData);
         }
 
         return back()->with('success', 'Profile and company information updated successfully.');

@@ -15,8 +15,29 @@
     </div>
 
     <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
-        <form action="{{ route('admin.users.store') }}" method="POST" class="space-y-6">
+        <form action="{{ route('admin.users.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
+
+            <!-- User Avatar Upload -->
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-2">Profile Avatar / Photo (Optional)</label>
+                <div class="flex items-center space-x-6 p-4 bg-slate-50 border border-slate-200 rounded-2xl">
+                    <div class="w-16 h-16 rounded-2xl bg-white border border-slate-200 overflow-hidden flex items-center justify-center shrink-0 shadow-sm">
+                        <img id="userAvatarPreview" 
+                             src="https://ui-avatars.com/api/?name=New+User&background=0F172A&color=fff&bold=true" 
+                             alt="User Avatar Preview" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1">
+                        <input type="file" name="avatar" id="userAvatarInput" accept="image/*" class="hidden" onchange="previewUserAvatar(event)">
+                        <button type="button" onclick="document.getElementById('userAvatarInput').click()" class="px-4 py-2 bg-white border border-slate-300 hover:border-slate-400 text-slate-700 font-bold rounded-xl text-xs transition shadow-sm inline-flex items-center space-x-2">
+                            <i class="fa-solid fa-cloud-arrow-up text-indigo-600"></i>
+                            <span>Choose Avatar Photo</span>
+                        </button>
+                        <p class="text-[11px] text-slate-500 mt-1.5">PNG, JPG, WEBP, or SVG up to 4MB.</p>
+                    </div>
+                </div>
+            </div>
 
             <!-- Section 1: User Identity & Account -->
             <div>
@@ -45,11 +66,16 @@
                                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-brand-500 focus:bg-white focus:outline-none">
                     </div>
 
-                    <div>
+                    <div x-data="{ showPass: false }">
                         <label class="block text-xs font-bold text-slate-700 mb-1">Password <span class="text-rose-500">*</span></label>
-                        <input type="password" name="password" required 
-                               placeholder="Minimum 6 characters"
-                               class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-brand-500 focus:bg-white focus:outline-none">
+                        <div class="relative">
+                            <input :type="showPass ? 'text' : 'password'" name="password" required 
+                                   placeholder="Minimum 6 characters"
+                                   class="w-full px-4 py-2.5 pr-10 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-brand-500 focus:bg-white focus:outline-none">
+                            <button type="button" @click="showPass = !showPass" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none" title="Toggle password visibility">
+                                <i class="fa-solid text-xs" :class="showPass ? 'fa-eye-slash text-brand-600' : 'fa-eye'"></i>
+                            </button>
+                        </div>
                     </div>
 
                     <div>
@@ -129,4 +155,17 @@
     </div>
 
 </div>
+
+<script>
+function previewUserAvatar(event) {
+    const input = event.target;
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('userAvatarPreview').src = e.target.result;
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
 @endsection

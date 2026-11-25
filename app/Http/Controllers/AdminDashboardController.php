@@ -96,7 +96,16 @@ class AdminDashboardController extends Controller
             'company_name' => 'nullable|string|max:255',
             'business_type' => 'nullable|string|max:100',
             'is_verified' => 'nullable|boolean',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:4096',
         ]);
+
+        $avatarPath = null;
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
+            $filename = 'user_' . time() . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/avatars'), $filename);
+            $avatarPath = 'uploads/avatars/' . $filename;
+        }
 
         $user = User::create([
             'name' => $validated['name'],
@@ -106,6 +115,7 @@ class AdminDashboardController extends Controller
             'password' => Hash::make($validated['password']),
             'country' => $validated['country'],
             'city' => $validated['city'] ?? null,
+            'avatar' => $avatarPath,
             'status' => 'active',
             'email_verified_at' => now(),
         ]);
@@ -118,6 +128,7 @@ class AdminDashboardController extends Controller
                 'business_type' => $validated['business_type'] ?? 'Manufacturer',
                 'country' => $validated['country'],
                 'city' => $validated['city'] ?? null,
+                'logo' => $avatarPath,
                 'is_verified' => $request->boolean('is_verified'),
             ]);
         }
@@ -155,6 +166,7 @@ class AdminDashboardController extends Controller
             'company_name' => 'nullable|string|max:255',
             'business_type' => 'nullable|string|max:100',
             'is_verified' => 'nullable|boolean',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:4096',
         ]);
 
         $userData = [
@@ -171,6 +183,15 @@ class AdminDashboardController extends Controller
             $userData['password'] = Hash::make($validated['password']);
         }
 
+        $avatarPath = null;
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
+            $filename = 'user_' . time() . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/avatars'), $filename);
+            $avatarPath = 'uploads/avatars/' . $filename;
+            $userData['avatar'] = $avatarPath;
+        }
+
         $user->update($userData);
 
         if (!empty($validated['company_name'])) {
@@ -183,6 +204,9 @@ class AdminDashboardController extends Controller
             $company->country = $validated['country'];
             $company->city = $validated['city'] ?? null;
             $company->is_verified = $request->boolean('is_verified');
+            if ($avatarPath) {
+                $company->logo = $avatarPath;
+            }
             $company->save();
         }
 
@@ -250,6 +274,7 @@ class AdminDashboardController extends Controller
             'manufacturing_capabilities' => 'nullable|string',
             'description' => 'nullable|string',
             'is_verified' => 'nullable|boolean',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:4096',
         ]);
 
         $user = User::create([
@@ -264,6 +289,15 @@ class AdminDashboardController extends Controller
             'email_verified_at' => now(),
         ]);
 
+        $logoPath = null;
+        if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $filename = 'company_' . time() . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/companies'), $filename);
+            $logoPath = 'uploads/companies/' . $filename;
+            $user->update(['avatar' => $logoPath]);
+        }
+
         Company::create([
             'user_id' => $user->id,
             'company_name' => $validated['company_name'],
@@ -274,6 +308,7 @@ class AdminDashboardController extends Controller
             'export_markets' => $validated['export_markets'] ?? 'United Kingdom, Europe, USA',
             'manufacturing_capabilities' => $validated['manufacturing_capabilities'] ?? null,
             'description' => $validated['description'] ?? null,
+            'logo' => $logoPath,
             'is_verified' => $request->boolean('is_verified'),
         ]);
 
@@ -302,18 +337,35 @@ class AdminDashboardController extends Controller
             'manufacturing_capabilities' => 'nullable|string',
             'description' => 'nullable|string',
             'is_verified' => 'nullable|boolean',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:4096',
+            'password' => 'nullable|string|min:6',
         ]);
 
-        $supplier->update([
+        $userData = [
             'name' => $validated['name'],
             'email' => $validated['email'],
             'phone' => $validated['phone'] ?? null,
             'country' => $validated['country'],
             'city' => $validated['city'] ?? null,
-        ]);
+        ];
+
+        if ($request->filled('password')) {
+            $userData['password'] = Hash::make($request->password);
+        }
+
+        $logoPath = null;
+        if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $filename = 'company_' . time() . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/companies'), $filename);
+            $logoPath = 'uploads/companies/' . $filename;
+            $userData['avatar'] = $logoPath;
+        }
+
+        $supplier->update($userData);
 
         if ($supplier->company) {
-            $supplier->company->update([
+            $companyData = [
                 'company_name' => $validated['company_name'],
                 'business_type' => $validated['business_type'],
                 'country' => $validated['country'],
@@ -322,7 +374,13 @@ class AdminDashboardController extends Controller
                 'manufacturing_capabilities' => $validated['manufacturing_capabilities'] ?? null,
                 'description' => $validated['description'] ?? null,
                 'is_verified' => $request->boolean('is_verified'),
-            ]);
+            ];
+
+            if ($logoPath) {
+                $companyData['logo'] = $logoPath;
+            }
+
+            $supplier->company->update($companyData);
         }
 
         return redirect()->route('admin.suppliers')->with('success', "Supplier details updated successfully.");
@@ -385,6 +443,7 @@ class AdminDashboardController extends Controller
             'city' => 'nullable|string|max:100',
             'company_name' => 'nullable|string|max:255',
             'business_type' => 'nullable|string|max:100',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:4096',
         ]);
 
         $user = User::create([
@@ -399,6 +458,15 @@ class AdminDashboardController extends Controller
             'email_verified_at' => now(),
         ]);
 
+        $logoPath = null;
+        if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $filename = 'company_' . time() . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/companies'), $filename);
+            $logoPath = 'uploads/companies/' . $filename;
+            $user->update(['avatar' => $logoPath]);
+        }
+
         if (!empty($validated['company_name'])) {
             Company::create([
                 'user_id' => $user->id,
@@ -407,6 +475,7 @@ class AdminDashboardController extends Controller
                 'business_type' => $validated['business_type'] ?? 'Procurement Contractor',
                 'country' => $validated['country'],
                 'city' => $validated['city'] ?? null,
+                'logo' => $logoPath,
                 'is_verified' => true,
             ]);
         }
@@ -432,15 +501,32 @@ class AdminDashboardController extends Controller
             'city' => 'nullable|string|max:100',
             'company_name' => 'nullable|string|max:255',
             'business_type' => 'nullable|string|max:100',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:4096',
+            'password' => 'nullable|string|min:6',
         ]);
 
-        $buyer->update([
+        $userData = [
             'name' => $validated['name'],
             'email' => $validated['email'],
             'phone' => $validated['phone'] ?? null,
             'country' => $validated['country'],
             'city' => $validated['city'] ?? null,
-        ]);
+        ];
+
+        if ($request->filled('password')) {
+            $userData['password'] = Hash::make($request->password);
+        }
+
+        $logoPath = null;
+        if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $filename = 'company_' . time() . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/companies'), $filename);
+            $logoPath = 'uploads/companies/' . $filename;
+            $userData['avatar'] = $logoPath;
+        }
+
+        $buyer->update($userData);
 
         if (!empty($validated['company_name'])) {
             $company = Company::firstOrNew(['user_id' => $buyer->id]);
@@ -451,6 +537,9 @@ class AdminDashboardController extends Controller
             $company->business_type = $validated['business_type'] ?? 'Procurement Contractor';
             $company->country = $validated['country'];
             $company->city = $validated['city'] ?? null;
+            if ($logoPath) {
+                $company->logo = $logoPath;
+            }
             $company->save();
         }
 

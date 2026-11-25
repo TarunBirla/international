@@ -11,7 +11,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div class="flex items-center space-x-5">
-                <img src="{{ $company->logo ?? 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=160&h=160&fit=crop' }}" class="w-20 h-20 md:w-24 md:h-24 rounded-2xl object-cover bg-white p-1 border-2 border-white/20 shadow-xl" alt="{{ $company->company_name }}">
+                <img src="{{ $company->logo_url }}" class="w-20 h-20 md:w-24 md:h-24 rounded-2xl object-cover bg-white p-1 border-2 border-white/20 shadow-xl" alt="{{ $company->company_name }}">
                 <div>
                     <div class="flex items-center space-x-2 mb-1.5">
                         <span class="text-xl">{{ $company->country === 'India' ? '🇮🇳' : ($company->country === 'China' ? '🇨🇳' : '🇩🇪') }}</span>

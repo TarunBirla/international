@@ -55,7 +55,7 @@
             <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition flex flex-col justify-between">
                 <div>
                     <div class="flex items-center space-x-3.5 mb-4">
-                        <img src="{{ $company->logo ?? 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=120&h=120&fit=crop' }}" class="w-14 h-14 rounded-2xl object-cover border border-slate-100 shadow-sm" alt="{{ $company->company_name }}">
+                        <img src="{{ $company->logo_url }}" class="w-14 h-14 rounded-2xl object-cover border border-slate-100 shadow-sm" alt="{{ $company->company_name }}">
                         <div>
                             <h3 class="font-extrabold text-slate-900 text-base leading-tight hover:text-brand-700 transition">
                                 <a href="{{ route('suppliers.show', $company->slug) }}">{{ $company->company_name }}</a>

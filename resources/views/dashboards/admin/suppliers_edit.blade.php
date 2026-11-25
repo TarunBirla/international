@@ -24,7 +24,7 @@
     </div>
 
     <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
-        <form action="{{ route('admin.suppliers.update', $supplier->id) }}" method="POST" class="space-y-6">
+        <form action="{{ route('admin.suppliers.update', $supplier->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
             @method('PUT')
 
@@ -50,6 +50,18 @@
                         <label class="block text-xs font-bold text-slate-700 mb-1">WhatsApp / Phone Number</label>
                         <input type="text" name="phone" value="{{ old('phone', $supplier->phone) }}" 
                                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-brand-500 focus:bg-white focus:outline-none">
+                    </div>
+
+                    <div x-data="{ showPass: false }">
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Change Password (Optional)</label>
+                        <div class="relative">
+                            <input :type="showPass ? 'text' : 'password'" name="password" 
+                                   placeholder="Leave blank to keep existing password"
+                                   class="w-full px-4 py-2.5 pr-10 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-brand-500 focus:bg-white focus:outline-none">
+                            <button type="button" @click="showPass = !showPass" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none" title="Toggle password visibility">
+                                <i class="fa-solid text-xs" :class="showPass ? 'fa-eye-slash text-brand-600' : 'fa-eye'"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -104,6 +116,26 @@
                     </div>
 
                     <div class="sm:col-span-2">
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Company Logo / Plant Photo</label>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-16 h-16 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center overflow-hidden flex-shrink-0" id="suppEditLogoBox">
+                                @if($supplier->company && $supplier->company->logo)
+                                    <img id="suppEditLogoImg" src="{{ $supplier->company->logo_url }}" class="w-full h-full object-cover">
+                                @else
+                                    <i class="fa-solid fa-industry text-slate-400 text-xl" id="suppEditDefaultIcon"></i>
+                                    <img id="suppEditLogoImg" src="" class="w-full h-full object-cover hidden">
+                                @endif
+                            </div>
+                            <div class="flex-1">
+                                <input type="file" name="logo" id="suppEditLogoInput" accept="image/*"
+                                       onchange="previewEditLogo(this)"
+                                       class="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 cursor-pointer">
+                                <p class="text-[10px] text-slate-400 mt-1">Upload new logo or photo to replace existing (JPG, PNG, WEBP)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sm:col-span-2">
                         <label class="block text-xs font-bold text-slate-700 mb-1">Company Overview / Description</label>
                         <textarea name="description" rows="3" 
                                   class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-brand-500 focus:bg-white focus:outline-none">{{ old('description', $supplier->company->description ?? '') }}</textarea>
@@ -134,4 +166,20 @@
     </div>
 
 </div>
+
+<script>
+function previewEditLogo(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = document.getElementById('suppEditLogoImg');
+            const defaultIcon = document.getElementById('suppEditDefaultIcon');
+            preview.src = e.target.result;
+            preview.classList.remove('hidden');
+            if (defaultIcon) defaultIcon.classList.add('hidden');
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
 @endsection

@@ -42,13 +42,23 @@
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
+                    <div x-data="{ showPass: false }">
                         <label class="block text-xs font-bold text-slate-700 mb-1">Password *</label>
-                        <input type="password" name="password" required placeholder="Min 8 characters" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                        <div class="relative">
+                            <input :type="showPass ? 'text' : 'password'" name="password" required placeholder="Min 8 characters" class="w-full px-3.5 py-2.5 pr-10 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                            <button type="button" @click="showPass = !showPass" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none" title="Toggle password visibility">
+                                <i class="fa-solid text-xs" :class="showPass ? 'fa-eye-slash text-brand-600' : 'fa-eye'"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div>
+                    <div x-data="{ showConfirm: false }">
                         <label class="block text-xs font-bold text-slate-700 mb-1">Confirm Password *</label>
-                        <input type="password" name="password_confirmation" required placeholder="Repeat password" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                        <div class="relative">
+                            <input :type="showConfirm ? 'text' : 'password'" name="password_confirmation" required placeholder="Repeat password" class="w-full px-3.5 py-2.5 pr-10 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                            <button type="button" @click="showConfirm = !showConfirm" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none" title="Toggle password visibility">
+                                <i class="fa-solid text-xs" :class="showConfirm ? 'fa-eye-slash text-brand-600' : 'fa-eye'"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
 

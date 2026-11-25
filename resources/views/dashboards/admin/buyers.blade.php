@@ -48,8 +48,8 @@
                             <!-- Buyer Name -->
                             <td class="p-4">
                                 <div class="flex items-center space-x-3">
-                                    <div class="w-9 h-9 rounded-xl bg-sky-50 text-sky-700 font-black flex items-center justify-center text-xs border border-sky-100 flex-shrink-0">
-                                        {{ strtoupper(substr($buyer->name, 0, 2)) }}
+                                    <div class="w-9 h-9 rounded-xl bg-sky-50 border border-slate-200 overflow-hidden flex-shrink-0 flex items-center justify-center">
+                                        <img src="{{ $buyer->company && $buyer->company->logo ? $buyer->company->logo_url : $buyer->avatar_url }}" alt="{{ $buyer->name }}" class="w-full h-full object-cover">
                                     </div>
                                     <div>
                                         <span class="font-extrabold text-slate-900 text-sm block">{{ $buyer->name }}</span>
