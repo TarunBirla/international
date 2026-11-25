@@ -87,7 +87,7 @@
                 <!-- Global Search Bar with Category Dropdown -->
                 <div class="hidden lg:flex flex-1 max-w-2xl mx-4">
                     <form action="{{ route('products.index') }}" method="GET" class="w-full flex rounded-xl border-2 border-slate-200 hover:border-brand-500 focus-within:border-brand-600 focus-within:ring-2 focus-within:ring-brand-100 transition bg-white overflow-hidden shadow-sm">
-                        <select name="category" class="bg-slate-50 text-slate-700 text-xs font-semibold px-3 py-2.5 border-r border-slate-200 focus:outline-none cursor-pointer max-w-[170px]">
+                        <!-- <select name="category" class="bg-slate-50 text-slate-700 text-xs font-semibold px-3 py-2.5 border-r border-slate-200 focus:outline-none cursor-pointer max-w-[170px]">
                             <option value="">All Categories</option>
                             @if(isset($globalCategories))
                                 @foreach($globalCategories as $cat)
@@ -103,7 +103,11 @@
                                     @endif
                                 @endforeach
                             @endif
-                        </select>
+                        </select> -->
+                         <a href="{{ route('categories.index') }}"
+            class="bg-slate-50 text-slate-700 text-xs font-semibold px-4 py-2.5 border-r border-slate-200 flex items-center justify-center whitespace-nowrap hover:bg-slate-100 transition">
+            All Categories
+        </a>
                         <input type="text" name="q" value="{{ request('q') }}" placeholder="Search products, machinery, suppliers, materials..." class="flex-1 px-4 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none">
                         <button type="submit" class="bg-brand-700 hover:bg-brand-800 text-white px-6 font-bold text-sm flex items-center justify-center transition">
                             <i class="fa-solid fa-magnifying-glass mr-2"></i> Search
