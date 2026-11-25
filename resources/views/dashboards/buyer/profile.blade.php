@@ -67,6 +67,17 @@
                         <input type="text" name="city" value="{{ old('city', $user->city) }}" 
                                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-brand-500 focus:bg-white focus:outline-none">
                     </div>
+
+                    <div x-data="{ showPass: false }">
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Change Password (Optional)</label>
+                        <div class="relative">
+                            <input :type="showPass ? 'text' : 'password'" name="password" placeholder="New password (leave blank to keep current)" 
+                                   class="w-full px-4 py-2.5 pr-10 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-brand-500 focus:bg-white focus:outline-none">
+                            <button type="button" @click="showPass = !showPass" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none" title="Toggle password">
+                                <i class="fa-solid text-xs" :class="showPass ? 'fa-eye-slash text-brand-600' : 'fa-eye'"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 

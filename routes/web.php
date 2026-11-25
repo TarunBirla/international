@@ -216,6 +216,10 @@ Route::middleware(['auth', 'role:super_admin,admin'])->prefix('admin')->name('ad
     // 7.9 Reports & CSV Export
     Route::get('/reports', [AdminDashboardController::class, 'reports'])->name('reports');
     Route::get('/reports/export-csv', [AdminDashboardController::class, 'exportOrdersCsv'])->name('reports.export-csv');
+
+    // 7.10 Admin Profile & Password
+    Route::get('/profile', [AdminDashboardController::class, 'profile'])->name('profile');
+    Route::post('/profile', [AdminDashboardController::class, 'updateProfile'])->name('profile.update');
 });
 
 // ==========================================

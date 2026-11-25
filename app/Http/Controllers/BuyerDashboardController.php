@@ -76,6 +76,7 @@ class BuyerDashboardController extends Controller
             'address' => 'nullable|string',
             'description' => 'nullable|string',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:4096',
+            'password' => 'nullable|string|min:6',
         ]);
 
         $userData = [
@@ -84,6 +85,10 @@ class BuyerDashboardController extends Controller
             'city' => $validated['city'],
             'country' => $validated['country'],
         ];
+
+        if ($request->filled('password')) {
+            $userData['password'] = \Illuminate\Support\Facades\Hash::make($request->password);
+        }
 
         $logoPath = null;
         if ($request->hasFile('logo')) {

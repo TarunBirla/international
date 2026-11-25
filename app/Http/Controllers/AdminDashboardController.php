@@ -1030,4 +1030,47 @@ class AdminDashboardController extends Controller
 
         return response()->stream($callback, 200, $headers);
     }
+
+    // =========================================================================
+    // 10. ADMIN PROFILE & PASSWORD MANAGEMENT
+    // =========================================================================
+    public function profile()
+    {
+        $user = auth()->user();
+        return view('dashboards.admin.profile', compact('user'));
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user = auth()->user();
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'phone' => 'nullable|string|max:50',
+            'password' => 'nullable|string|min:6',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:4096',
+        ]);
+
+        $userData = [
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'] ?? null,
+        ];
+
+        if ($request->filled('password')) {
+            $userData['password'] = Hash::make($request->password);
+        }
+
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
+            $filename = 'admin_' . time() . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/avatars'), $filename);
+            $userData['avatar'] = 'uploads/avatars/' . $filename;
+        }
+
+        $user->update($userData);
+
+        return back()->with('success', 'Admin profile and credentials updated successfully.');
+    }
 }

@@ -245,7 +245,21 @@ class SupplierDashboardController extends Controller
             'manufacturing_capabilities' => 'nullable|string',
             'website' => 'nullable|url',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:4096',
+            'contact_name' => 'nullable|string|max:255',
+            'contact_phone' => 'nullable|string|max:50',
+            'password' => 'nullable|string|min:6',
         ]);
+
+        $userData = [];
+        if ($request->filled('contact_name')) {
+            $userData['name'] = $request->contact_name;
+        }
+        if ($request->filled('contact_phone')) {
+            $userData['phone'] = $request->contact_phone;
+        }
+        if ($request->filled('password')) {
+            $userData['password'] = \Illuminate\Support\Facades\Hash::make($request->password);
+        }
 
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
@@ -253,7 +267,11 @@ class SupplierDashboardController extends Controller
             $file->move(public_path('uploads/companies'), $filename);
             $logoPath = 'uploads/companies/' . $filename;
             $validated['logo'] = $logoPath;
-            $user->update(['avatar' => $logoPath]);
+            $userData['avatar'] = $logoPath;
+        }
+
+        if (!empty($userData)) {
+            $user->update($userData);
         }
 
         if ($company) {

@@ -114,6 +114,39 @@
                 </div>
             </div>
 
+            <hr class="border-slate-100">
+
+            <!-- Section 3: Account & Security -->
+            <div>
+                <h3 class="text-sm font-black text-slate-900 mb-1">Account & Security</h3>
+                <p class="text-xs text-slate-500 mb-4">Update contact information or reset your account password</p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Contact Person Name</label>
+                        <input type="text" name="contact_name" value="{{ old('contact_name', $user->name) }}" 
+                               class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Contact Phone / WhatsApp</label>
+                        <input type="text" name="contact_phone" value="{{ old('contact_phone', $user->phone) }}" 
+                               class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none">
+                    </div>
+
+                    <div class="sm:col-span-2" x-data="{ showPass: false }">
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Change Password (Leave blank to keep current)</label>
+                        <div class="relative">
+                            <input :type="showPass ? 'text' : 'password'" name="password" placeholder="New password (optional)" 
+                                   class="w-full px-4 py-2.5 pr-10 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none">
+                            <button type="button" @click="showPass = !showPass" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none" title="Toggle password">
+                                <i class="fa-solid text-xs" :class="showPass ? 'fa-eye-slash text-emerald-600' : 'fa-eye'"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Form Actions -->
             <div class="flex items-center justify-end space-x-3 pt-4 border-t border-slate-100">
                 <button type="submit" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition shadow-md flex items-center space-x-2">
