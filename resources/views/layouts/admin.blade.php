@@ -192,11 +192,7 @@
                         <i class="fa-solid fa-chart-line w-4 text-center {{ request()->routeIs('admin.reports*') ? 'text-brand-600' : 'text-slate-400' }}"></i>
                         <span>Reports</span>
                     </a>
-                    <a href="{{ route('setup.index') }}" 
-                       class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-bold text-amber-700 bg-amber-50 hover:bg-amber-100 transition border border-amber-200/60">
-                        <i class="fa-solid fa-server w-4 text-center text-amber-600"></i>
-                        <span>Setup</span>
-                    </a>
+                    
                 </div>
             </div>
 
