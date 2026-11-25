@@ -206,31 +206,28 @@
                 </div>
             </div>
 
-            <!-- Secondary Category Subnav -->
+            <!-- Secondary Subnav -->
             <nav class="hidden lg:flex items-center space-x-6 py-2.5 border-t border-slate-100 text-xs font-semibold text-slate-600">
                 <a href="{{ route('categories.index') }}" class="text-brand-700 hover:text-brand-800 flex items-center font-bold">
-                    <i class="fa-solid fa-bars mr-1.5"></i> All Categories
+                    <i class="fa-solid fa-bars mr-1.5"></i> Categories
                 </a>
-                <a href="{{ route('products.index', ['country' => 'India']) }}" class="hover:text-brand-700 transition flex items-center">
-                    <span class="mr-1">🇮🇳</span> India Manufacturers
-                </a>
-                <a href="{{ route('products.index', ['country' => 'China']) }}" class="hover:text-brand-700 transition flex items-center">
-                    <span class="mr-1">🇨🇳</span> China CNC & Machinery
-                </a>
-                <a href="{{ route('products.index', ['country' => 'Germany']) }}" class="hover:text-brand-700 transition flex items-center">
-                    <span class="mr-1">🇩🇪</span> European Engineering
+                <a href="{{ route('products.index') }}" class="hover:text-brand-700 transition">
+                    Products
                 </a>
                 <a href="{{ route('suppliers.index') }}" class="hover:text-brand-700 transition">
-                    Supplier Directory
+                    Suppliers
                 </a>
                 <a href="{{ route('rfqs.index') }}" class="hover:text-brand-700 transition">
-                    Open RFQs
+                    RFQs
                 </a>
                 <a href="{{ route('shipping') }}" class="hover:text-brand-700 transition">
-                    Freight & Logistics
+                    Shipping
                 </a>
                 <a href="{{ route('customs') }}" class="hover:text-brand-700 transition">
-                    UK Customs Clearance
+                    Customs
+                </a>
+                <a href="{{ route('calculator.index') }}" class="hover:text-brand-700 transition">
+                    Calculator
                 </a>
             </nav>
         </div>
@@ -238,21 +235,21 @@
         <!-- Mobile Menu Drawer -->
         <div x-show="mobileMenuOpen" x-cloak class="lg:hidden border-t border-slate-200 bg-white px-4 py-4 space-y-3">
             <form action="{{ route('products.index') }}" method="GET" class="flex rounded-xl border border-slate-200 overflow-hidden mb-3">
-                <input type="text" name="q" placeholder="Search industrial products..." class="flex-1 px-3 py-2 text-sm focus:outline-none">
+                <input type="text" name="q" placeholder="Search products..." class="flex-1 px-3 py-2 text-sm focus:outline-none">
                 <button type="submit" class="bg-brand-700 text-white px-4">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </form>
             <div class="grid grid-cols-2 gap-2 text-xs font-semibold text-slate-700">
-                <a href="{{ route('categories.index') }}" class="p-2 bg-slate-50 rounded-lg">Categories</a>
-                <a href="{{ route('suppliers.index') }}" class="p-2 bg-slate-50 rounded-lg">Suppliers</a>
-                <a href="{{ route('rfqs.index') }}" class="p-2 bg-slate-50 rounded-lg">Browse RFQs</a>
-                <a href="{{ route('calculator.index') }}" class="p-2 bg-slate-50 rounded-lg">Duty Calculator</a>
-                <a href="{{ route('shipping') }}" class="p-2 bg-slate-50 rounded-lg">Logistics</a>
-                <a href="{{ route('customs') }}" class="p-2 bg-slate-50 rounded-lg">Customs</a>
+                <a href="{{ route('categories.index') }}" class="p-2 bg-slate-50 rounded-lg text-center">Categories</a>
+                <a href="{{ route('products.index') }}" class="p-2 bg-slate-50 rounded-lg text-center">Products</a>
+                <a href="{{ route('suppliers.index') }}" class="p-2 bg-slate-50 rounded-lg text-center">Suppliers</a>
+                <a href="{{ route('rfqs.index') }}" class="p-2 bg-slate-50 rounded-lg text-center">RFQs</a>
+                <a href="{{ route('shipping') }}" class="p-2 bg-slate-50 rounded-lg text-center">Shipping</a>
+                <a href="{{ route('calculator.index') }}" class="p-2 bg-slate-50 rounded-lg text-center">Calculator</a>
             </div>
             <a href="{{ route('rfqs.create') }}" class="block text-center py-2.5 bg-amber-500 text-white font-bold rounded-xl text-sm">
-                <i class="fa-solid fa-file-pen mr-1"></i> Post Request for Quotation (RFQ)
+                <i class="fa-solid fa-file-pen mr-1"></i> Post RFQ
             </a>
         </div>
     </header>

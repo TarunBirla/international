@@ -570,7 +570,7 @@ class AdminDashboardController extends Controller
         }
 
         $products = $query->latest()->paginate(12)->withQueryString();
-        $categories = Category::all();
+        $categories = Category::whereNull('parent_id')->with('subcategories')->orderBy('name')->get();
 
         return view('dashboards.admin.products', compact('products', 'categories'));
     }
@@ -578,7 +578,7 @@ class AdminDashboardController extends Controller
     public function createProduct()
     {
         $suppliers = User::where('role', 'supplier')->with('company')->get();
-        $categories = Category::whereNotNull('parent_id')->orWhereDoesntHave('subcategories')->get();
+        $categories = Category::whereNull('parent_id')->with('subcategories')->orderBy('name')->get();
         return view('dashboards.admin.products_create', compact('suppliers', 'categories'));
     }
 
@@ -652,7 +652,7 @@ class AdminDashboardController extends Controller
     {
         $product = Product::findOrFail($id);
         $suppliers = User::where('role', 'supplier')->with('company')->get();
-        $categories = Category::all();
+        $categories = Category::whereNull('parent_id')->with('subcategories')->orderBy('name')->get();
         return view('dashboards.admin.products_edit', compact('product', 'suppliers', 'categories'));
     }
 

@@ -82,31 +82,31 @@
         <nav class="flex-1 overflow-y-auto px-4 py-5 space-y-6">
             
             <div>
-                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Freight Operations</p>
+                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Operations</p>
                 <div class="space-y-1">
                     <a href="{{ route('logistics.dashboard') }}" 
                        class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-bold transition bg-indigo-50 text-indigo-700 shadow-sm">
                         <i class="fa-solid fa-truck-fast w-4 text-center text-indigo-600"></i>
-                        <span>Active Consignments</span>
+                        <span>Consignments</span>
                     </a>
                     <a href="{{ route('home') }}" target="_blank"
                        class="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition">
                         <span class="flex items-center space-x-3">
                             <i class="fa-solid fa-arrow-up-right-from-square w-4 text-center text-slate-400"></i>
-                            <span>Public Storefront</span>
+                            <span>Live Store</span>
                         </span>
-                        <span class="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">Store</span>
+                        <span class="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">View</span>
                     </a>
                 </div>
             </div>
 
             <div>
-                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Communication</p>
+                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Messages</p>
                 <div class="space-y-1">
                     <a href="{{ route('messages.index') }}" 
                        class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-bold transition text-slate-600 hover:bg-slate-100 hover:text-slate-900">
                         <i class="fa-solid fa-comments w-4 text-center text-slate-400"></i>
-                        <span>Messages & Dispatch Notes</span>
+                        <span>Messages</span>
                     </a>
                 </div>
             </div>

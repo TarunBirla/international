@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
-@section('title', 'Category Management — Mart Admin')
-@section('header_title', 'Categories & Subcategories')
-@section('header_subtitle', 'Manage hierarchical taxonomy, product classification, and public storefront navigation')
+@section('title', 'Categories — Mart Admin')
+@section('header_title', 'Categories')
+@section('header_subtitle', 'Manage product categories and subcategories')
 
 @section('content')
 <div class="space-y-6" x-data="{ editModal: false, editId: '', editName: '', editParentId: '', editIcon: '', editDesc: '', editFeatured: false }">
@@ -13,9 +13,9 @@
         <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm h-fit">
             <h2 class="text-sm font-black text-slate-900 mb-1 flex items-center space-x-2">
                 <i class="fa-solid fa-folder-plus text-brand-600"></i>
-                <span>Add Category or Subcategory</span>
+                <span>Add Category</span>
             </h2>
-            <p class="text-xs text-slate-500 mb-5">Create a top-level parent or link as a subcategory</p>
+            <p class="text-xs text-slate-500 mb-5">Create a main category or subcategory</p>
 
             <form action="{{ route('admin.categories.store') }}" method="POST" class="space-y-4">
                 @csrf
@@ -72,7 +72,7 @@
             
             <div class="flex items-center justify-between px-2">
                 <h2 class="text-sm font-black text-slate-900">
-                    Existing Hierarchy ({{ $categories->count() }} Primary Categories)
+                    All Categories ({{ $categories->count() }})
                 </h2>
                 <span class="text-xs text-slate-500 font-medium">Click Edit to modify or Delete to remove</span>
             </div>

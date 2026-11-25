@@ -83,86 +83,86 @@
             
             <!-- Core -->
             <div>
-                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Main Menu</p>
+                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">General</p>
                 <div class="space-y-1">
                     <a href="{{ route('buyer.dashboard') }}" 
                        class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('buyer.dashboard') ? 'bg-sky-50 text-sky-700 shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                         <i class="fa-solid fa-chart-pie w-4 text-center {{ request()->routeIs('buyer.dashboard') ? 'text-sky-600' : 'text-slate-400' }}"></i>
-                        <span>Procurement Overview</span>
+                        <span>Dashboard</span>
                     </a>
                     <a href="{{ route('home') }}" target="_blank"
                        class="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition">
                         <span class="flex items-center space-x-3">
                             <i class="fa-solid fa-arrow-up-right-from-square w-4 text-center text-slate-400"></i>
-                            <span>Browse Marketplace</span>
+                            <span>Live Store</span>
                         </span>
-                        <span class="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">Store</span>
+                        <span class="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">View</span>
                     </a>
                 </div>
             </div>
 
             <!-- Tenders & Quotations -->
             <div>
-                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Tenders & Quotes</p>
+                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Quotes</p>
                 <div class="space-y-1">
                     <a href="{{ route('buyer.rfqs') }}" 
                        class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-bold transition {{ request()->routeIs('buyer.rfqs*') ? 'bg-sky-50 text-sky-700 shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                         <i class="fa-solid fa-file-invoice-dollar w-4 text-center {{ request()->routeIs('buyer.rfqs*') ? 'text-sky-600' : 'text-slate-400' }}"></i>
-                        <span>My RFQs & Tenders</span>
+                        <span>RFQs</span>
                     </a>
                     <a href="{{ route('rfqs.create') }}" 
                        class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition">
                         <i class="fa-solid fa-plus-circle w-4 text-center text-slate-400"></i>
-                        <span>Post New RFQ</span>
+                        <span>Post RFQ</span>
                     </a>
                     <a href="{{ route('buyer.quotations') }}" 
                        class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-bold transition {{ request()->routeIs('buyer.quotations*') ? 'bg-sky-50 text-sky-700 shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                         <i class="fa-solid fa-comments-dollar w-4 text-center {{ request()->routeIs('buyer.quotations*') ? 'text-sky-600' : 'text-slate-400' }}"></i>
-                        <span>Received Quotations</span>
+                        <span>Quotations</span>
                     </a>
                     <a href="{{ route('buyer.enquiries') }}" 
                        class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-bold transition {{ request()->routeIs('buyer.enquiries*') ? 'bg-sky-50 text-sky-700 shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                         <i class="fa-solid fa-envelope-open-text w-4 text-center {{ request()->routeIs('buyer.enquiries*') ? 'text-sky-600' : 'text-slate-400' }}"></i>
-                        <span>Direct Inquiries</span>
+                        <span>Inquiries</span>
                     </a>
                 </div>
             </div>
 
             <!-- Orders & Logistics -->
             <div>
-                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Orders & Delivery</p>
+                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Orders</p>
                 <div class="space-y-1">
                     <a href="{{ route('buyer.orders') }}" 
                        class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-bold transition {{ request()->routeIs('buyer.orders*') ? 'bg-sky-50 text-sky-700 shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                         <i class="fa-solid fa-receipt w-4 text-center {{ request()->routeIs('buyer.orders*') ? 'text-sky-600' : 'text-slate-400' }}"></i>
-                        <span>My Purchase Orders</span>
+                        <span>Orders</span>
                     </a>
                     <a href="{{ route('cart.index') }}" 
                        class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-bold transition {{ request()->routeIs('cart.*') ? 'bg-sky-50 text-sky-700 shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                         <i class="fa-solid fa-cart-shopping w-4 text-center {{ request()->routeIs('cart.*') ? 'text-sky-600' : 'text-slate-400' }}"></i>
-                        <span>Procurement Cart</span>
+                        <span>Cart</span>
                     </a>
                     <a href="{{ route('calculator.index') }}" 
                        class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition">
                         <i class="fa-solid fa-calculator w-4 text-center text-slate-400"></i>
-                        <span>Duty & Landed Calc</span>
+                        <span>Calculator</span>
                     </a>
                 </div>
             </div>
 
             <!-- Profile & Account -->
             <div>
-                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Company Settings</p>
+                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Account</p>
                 <div class="space-y-1">
                     <a href="{{ route('buyer.profile') }}" 
                        class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-bold transition {{ request()->routeIs('buyer.profile*') ? 'bg-sky-50 text-sky-700 shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                         <i class="fa-solid fa-building w-4 text-center {{ request()->routeIs('buyer.profile*') ? 'text-sky-600' : 'text-slate-400' }}"></i>
-                        <span>Company & Delivery Info</span>
+                        <span>Profile</span>
                     </a>
                     <a href="{{ route('messages.index') }}" 
                        class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-bold transition {{ request()->routeIs('messages.*') ? 'bg-sky-50 text-sky-700 shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                         <i class="fa-solid fa-comments w-4 text-center {{ request()->routeIs('messages.*') ? 'text-sky-600' : 'text-slate-400' }}"></i>
-                        <span>Messages Inbox</span>
+                        <span>Messages</span>
                     </a>
                 </div>
             </div>

@@ -36,9 +36,9 @@
                         <select name="category_id" required class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:ring-2 focus:ring-brand-500 focus:bg-white focus:outline-none">
                             <option value="">Select Category</option>
                             @foreach($categories as $cat)
-                                <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected' : '' }}>{{ $cat->name }}</option>
+                                <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected' : '' }}>📁 {{ $cat->name }}</option>
                                 @foreach($cat->subcategories as $sub)
-                                    <option value="{{ $sub->id }}" {{ old('category_id') == $sub->id ? 'selected' : '' }}>&nbsp;&nbsp;-- {{ $sub->name }}</option>
+                                    <option value="{{ $sub->id }}" {{ old('category_id') == $sub->id ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;↳ {{ $sub->name }}</option>
                                 @endforeach
                             @endforeach
                         </select>

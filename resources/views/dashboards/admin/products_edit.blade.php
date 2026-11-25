@@ -37,9 +37,16 @@
                         <label class="block text-xs font-bold text-slate-700 mb-1">Product Category <span class="text-rose-500">*</span></label>
                         <select name="category_id" required class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:ring-2 focus:ring-brand-500 focus:bg-white focus:outline-none">
                             @foreach($categories as $category)
-                                <option value="{{ $category->id }}" {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
-                                    {{ $category->name }}
+                                <option value="{{ $category->id }}" {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }} class="font-bold text-slate-900">
+                                    📁 {{ $category->name }}
                                 </option>
+                                @if($category->subcategories && $category->subcategories->count() > 0)
+                                    @foreach($category->subcategories as $sub)
+                                        <option value="{{ $sub->id }}" {{ old('category_id', $product->category_id) == $sub->id ? 'selected' : '' }} class="text-slate-600">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;↳ {{ $sub->name }}
+                                        </option>
+                                    @endforeach
+                                @endif
                             @endforeach
                         </select>
                     </div>

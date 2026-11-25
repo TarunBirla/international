@@ -88,114 +88,114 @@
             
             <!-- Core -->
             <div>
-                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Main Dashboard</p>
+                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">General</p>
                 <div class="space-y-1">
                     <a href="{{ route('admin.dashboard') }}" 
                        class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('admin.dashboard') ? 'bg-brand-50 text-brand-700 shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                         <i class="fa-solid fa-chart-pie w-4 text-center {{ request()->routeIs('admin.dashboard') ? 'text-brand-600' : 'text-slate-400' }}"></i>
-                        <span>Dashboard Overview</span>
+                        <span>Dashboard</span>
                     </a>
                     <a href="{{ route('home') }}" target="_blank"
                        class="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition">
                         <span class="flex items-center space-x-3">
                             <i class="fa-solid fa-arrow-up-right-from-square w-4 text-center text-slate-400"></i>
-                            <span>View Public Store</span>
+                            <span>Live Store</span>
                         </span>
-                        <span class="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">Live</span>
+                        <span class="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">View</span>
                     </a>
                 </div>
             </div>
 
             <!-- User Management -->
             <div>
-                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Users & Partners</p>
+                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Accounts</p>
                 <div class="space-y-1">
                     <a href="{{ route('admin.users.index') }}" 
                        class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-bold transition {{ request()->routeIs('admin.users.*') ? 'bg-brand-50 text-brand-700 shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                         <i class="fa-solid fa-users-gear w-4 text-center {{ request()->routeIs('admin.users.*') ? 'text-brand-600' : 'text-slate-400' }}"></i>
-                        <span>All Users (CRUD)</span>
+                        <span>Users</span>
                     </a>
                     <a href="{{ route('admin.suppliers') }}" 
                        class="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition {{ request()->routeIs('admin.suppliers*') ? 'bg-brand-50 text-brand-700 shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                         <span class="flex items-center space-x-3">
                             <i class="fa-solid fa-industry w-4 text-center {{ request()->routeIs('admin.suppliers*') ? 'text-brand-600' : 'text-slate-400' }}"></i>
-                            <span>Suppliers & Verification</span>
+                            <span>Suppliers</span>
                         </span>
                         <span class="text-[10px] bg-emerald-50 text-emerald-700 font-bold px-1.5 py-0.5 rounded border border-emerald-200">KYC</span>
                     </a>
                     <a href="{{ route('admin.buyers') }}" 
                        class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-bold transition {{ request()->routeIs('admin.buyers*') ? 'bg-brand-50 text-brand-700 shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                         <i class="fa-solid fa-briefcase w-4 text-center {{ request()->routeIs('admin.buyers*') ? 'text-brand-600' : 'text-slate-400' }}"></i>
-                        <span>Registered Buyers</span>
+                        <span>Buyers</span>
                     </a>
                 </div>
             </div>
 
             <!-- Catalog Management -->
             <div>
-                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Catalog & Products</p>
+                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Catalog</p>
                 <div class="space-y-1">
                     <a href="{{ route('admin.categories') }}" 
                        class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-bold transition {{ request()->routeIs('admin.categories*') ? 'bg-brand-50 text-brand-700 shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                         <i class="fa-solid fa-folder-tree w-4 text-center {{ request()->routeIs('admin.categories*') ? 'text-brand-600' : 'text-slate-400' }}"></i>
-                        <span>Categories & Subcats</span>
+                        <span>Categories</span>
                     </a>
                     <a href="{{ route('admin.products') }}" 
                        class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-bold transition {{ request()->routeIs('admin.products*') ? 'bg-brand-50 text-brand-700 shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                         <i class="fa-solid fa-boxes-stacked w-4 text-center {{ request()->routeIs('admin.products*') ? 'text-brand-600' : 'text-slate-400' }}"></i>
-                        <span>Products Catalog</span>
+                        <span>Products</span>
                     </a>
                     <a href="{{ route('admin.products.create') }}" 
                        class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition">
                         <i class="fa-solid fa-plus-circle w-4 text-center text-slate-400"></i>
-                        <span>Add New Product</span>
+                        <span>Add Product</span>
                     </a>
                 </div>
             </div>
 
             <!-- B2B Trade & Orders -->
             <div>
-                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Trade Operations</p>
+                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Trade</p>
                 <div class="space-y-1">
                     <a href="{{ route('admin.orders') }}" 
                        class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-bold transition {{ request()->routeIs('admin.orders*') ? 'bg-brand-50 text-brand-700 shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                         <i class="fa-solid fa-receipt w-4 text-center {{ request()->routeIs('admin.orders*') ? 'text-brand-600' : 'text-slate-400' }}"></i>
-                        <span>Orders & Split POs</span>
+                        <span>Orders</span>
                     </a>
                     <a href="{{ route('admin.rfqs') }}" 
                        class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-bold transition {{ request()->routeIs('admin.rfqs*') ? 'bg-brand-50 text-brand-700 shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                         <i class="fa-solid fa-file-invoice-dollar w-4 text-center {{ request()->routeIs('admin.rfqs*') ? 'text-brand-600' : 'text-slate-400' }}"></i>
-                        <span>RFQs & Quotes</span>
+                        <span>RFQs</span>
                     </a>
                     <a href="{{ route('admin.shipments') }}" 
                        class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-bold transition {{ request()->routeIs('admin.shipments*') ? 'bg-brand-50 text-brand-700 shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                         <i class="fa-solid fa-truck-fast w-4 text-center {{ request()->routeIs('admin.shipments*') ? 'text-brand-600' : 'text-slate-400' }}"></i>
-                        <span>Shipments & Tracking</span>
+                        <span>Shipments</span>
                     </a>
                     <a href="{{ route('admin.customs') }}" 
                        class="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition {{ request()->routeIs('admin.customs*') ? 'bg-brand-50 text-brand-700 shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                         <span class="flex items-center space-x-3">
                             <i class="fa-solid fa-stamp w-4 text-center {{ request()->routeIs('admin.customs*') ? 'text-brand-600' : 'text-slate-400' }}"></i>
-                            <span>Customs & Clearance</span>
+                            <span>Customs</span>
                         </span>
-                        <span class="text-[10px] bg-amber-50 text-amber-700 font-bold px-1.5 py-0.5 rounded border border-amber-200">Junaid</span>
+                        <span class="text-[10px] bg-amber-50 text-amber-700 font-bold px-1.5 py-0.5 rounded border border-amber-200">UK</span>
                     </a>
                 </div>
             </div>
 
             <!-- System & Maintenance -->
             <div>
-                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Analytics & Server</p>
+                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">System</p>
                 <div class="space-y-1">
                     <a href="{{ route('admin.reports') }}" 
                        class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-bold transition {{ request()->routeIs('admin.reports*') ? 'bg-brand-50 text-brand-700 shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                         <i class="fa-solid fa-chart-line w-4 text-center {{ request()->routeIs('admin.reports*') ? 'text-brand-600' : 'text-slate-400' }}"></i>
-                        <span>Reports & Export CSV</span>
+                        <span>Reports</span>
                     </a>
                     <a href="{{ route('setup.index') }}" 
                        class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-bold text-amber-700 bg-amber-50 hover:bg-amber-100 transition border border-amber-200/60">
                         <i class="fa-solid fa-server w-4 text-center text-amber-600"></i>
-                        <span>Database Server Setup</span>
+                        <span>Setup</span>
                     </a>
                 </div>
             </div>

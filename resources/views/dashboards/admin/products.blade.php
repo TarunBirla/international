@@ -18,8 +18,15 @@
                         <option value="">All Categories</option>
                         @foreach($categories as $cat)
                             <option value="{{ $cat->id }}" {{ request('category_id') == $cat->id ? 'selected' : '' }}>
-                                {{ $cat->name }}
+                                📁 {{ $cat->name }}
                             </option>
+                            @if($cat->subcategories && $cat->subcategories->count() > 0)
+                                @foreach($cat->subcategories as $sub)
+                                    <option value="{{ $sub->id }}" {{ request('category_id') == $sub->id ? 'selected' : '' }}>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;↳ {{ $sub->name }}
+                                    </option>
+                                @endforeach
+                            @endif
                         @endforeach
                     </select>
 

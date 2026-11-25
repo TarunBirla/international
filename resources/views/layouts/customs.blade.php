@@ -82,41 +82,41 @@
         <nav class="flex-1 overflow-y-auto px-4 py-5 space-y-6">
             
             <div>
-                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Clearance Operations</p>
+                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Operations</p>
                 <div class="space-y-1">
                     <a href="{{ route('customs.dashboard') }}" 
                        class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('customs.dashboard') ? 'bg-amber-50 text-amber-800 shadow-sm border border-amber-200/50' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                         <i class="fa-solid fa-stamp w-4 text-center {{ request()->routeIs('customs.dashboard') ? 'text-amber-600' : 'text-slate-400' }}"></i>
-                        <span>C88 Declarations</span>
+                        <span>Declarations</span>
                     </a>
                     <a href="{{ route('customs.orders') }}" 
                        class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('customs.orders') ? 'bg-amber-50 text-amber-800 shadow-sm border border-amber-200/50' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                         <i class="fa-solid fa-boxes-packing w-4 text-center {{ request()->routeIs('customs.orders') ? 'text-amber-600' : 'text-slate-400' }}"></i>
-                        <span>Consignment Orders</span>
+                        <span>Orders</span>
                     </a>
                     <a href="{{ route('calculator.index') }}" 
                        class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition">
                         <i class="fa-solid fa-calculator w-4 text-center text-slate-400"></i>
-                        <span>UK Tariff & Landed Calc</span>
+                        <span>Calculator</span>
                     </a>
                     <a href="{{ route('home') }}" target="_blank"
                        class="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition">
                         <span class="flex items-center space-x-3">
                             <i class="fa-solid fa-arrow-up-right-from-square w-4 text-center text-slate-400"></i>
-                            <span>Marketplace Storefront</span>
+                            <span>Live Store</span>
                         </span>
-                        <span class="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">Store</span>
+                        <span class="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">View</span>
                     </a>
                 </div>
             </div>
 
             <div>
-                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Communication</p>
+                <p class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Messages</p>
                 <div class="space-y-1">
                     <a href="{{ route('messages.index') }}" 
                        class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-bold transition text-slate-600 hover:bg-slate-100 hover:text-slate-900">
                         <i class="fa-solid fa-comments w-4 text-center text-slate-400"></i>
-                        <span>Messages Inbox</span>
+                        <span>Messages</span>
                     </a>
                 </div>
             </div>
