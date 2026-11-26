@@ -75,11 +75,17 @@
         <!-- Horizontal Stepper Bar (Responsive Scrolling) -->
         <div class="overflow-x-auto pb-4">
             <div class="flex items-center justify-between min-w-[850px] relative">
+                @php 
+                    $totalStages = count($allStages);
+                    $currentStageIndex = $order->stage_index; 
+                    $lineWidthPercent = $currentStageIndex <= 1 ? 0 : min(100, (($currentStageIndex - 1) / max(1, $totalStages - 1)) * 100);
+                    $idx = 1; 
+                @endphp
                 <!-- Background Progress Line -->
-                <div class="absolute top-5 left-6 right-6 h-1 bg-slate-100 -z-0"></div>
-                <div class="absolute top-5 left-6 h-1 bg-brand-600 -z-0 transition-all duration-500" style="width: {{ min(100, max(5, ($order->stage_index / 12) * 100)) }}%;"></div>
+                <div class="absolute top-5 left-12 right-12 h-1 bg-slate-100 -z-0">
+                    <div class="h-full bg-brand-600 transition-all duration-500" style="width: {{ $lineWidthPercent }}%;"></div>
+                </div>
 
-                @php $currentStageIndex = $order->stage_index; $idx = 1; @endphp
                 @foreach($allStages as $stageKey => $s)
                     @php 
                         $isCompleted = $idx < $currentStageIndex; 
@@ -130,26 +136,29 @@
         <!-- Admin / Partner Status Update Form -->
         @if(!Auth::user()->isBuyer())
             <div class="mt-6 pt-6 border-t border-slate-200 bg-slate-50 p-4 rounded-2xl">
-                <h4 class="text-xs font-bold text-slate-800 mb-2 flex items-center">
-                    <i class="fa-solid fa-pen-to-square text-brand-700 mr-1.5"></i> Update Tracking Milestones (Staff & Partners Only)
-                </h4>
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 gap-2">
+                    <h4 class="text-xs font-bold text-slate-800 flex items-center">
+                        <i class="fa-solid fa-pen-to-square text-brand-700 mr-1.5"></i> Update Tracking Milestones (Staff & Partners Only)
+                    </h4>
+                    <span class="text-[11px] text-slate-500">Advance order milestone to update progress bar and notify buyer.</span>
+                </div>
                 <form action="{{ route('orders.update-status', $order->id) }}" method="POST" class="grid grid-cols-1 sm:grid-cols-4 gap-3">
                     @csrf
                     <div>
-                        <select name="stage" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-bold bg-white">
+                        <select name="stage" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-bold bg-white focus:ring-2 focus:ring-brand-500 focus:outline-none">
                             @foreach($allStages as $k => $st)
                                 <option value="{{ $k }}" {{ $order->order_status === $k ? 'selected' : '' }}>{{ $st['label'] }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div>
-                        <input type="text" name="title" placeholder="Event headline (e.g. Customs Cleared)" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs bg-white">
+                        <input type="text" name="title" placeholder="Event headline (Optional)" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs bg-white focus:ring-2 focus:ring-brand-500 focus:outline-none">
                     </div>
                     <div>
-                        <input type="text" name="location" placeholder="Location (e.g. Felixstowe Port)" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs bg-white">
+                        <input type="text" name="location" placeholder="Location (e.g. Felixstowe Port)" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs bg-white focus:ring-2 focus:ring-brand-500 focus:outline-none">
                     </div>
                     <div>
-                        <button type="submit" class="w-full py-2 bg-brand-700 hover:bg-brand-800 text-white font-bold rounded-xl text-xs transition">
+                        <button type="submit" class="w-full py-2 bg-brand-700 hover:bg-brand-800 text-white font-bold rounded-xl text-xs transition shadow-sm">
                             Record Checkpoint
                         </button>
                     </div>

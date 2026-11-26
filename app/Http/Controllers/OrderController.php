@@ -263,12 +263,30 @@ class OrderController extends Controller
             abort(403, 'Buyers cannot update internal tracking status.');
         }
 
+        $allStages = [
+            'order_placed' => 'Order Placed',
+            'payment_confirmed' => 'Payment Confirmed',
+            'supplier_confirmed' => 'Supplier Confirmed',
+            'processing' => 'In Production & QC',
+            'ready_for_dispatch' => 'Ready for Dispatch',
+            'dispatched' => 'Dispatched from Factory',
+            'in_transit' => 'International Transit',
+            'customs_pending' => 'Customs Pending',
+            'customs_cleared' => 'Customs Cleared',
+            'arrived_in_uk' => 'Arrived in UK',
+            'out_for_delivery' => 'Out for UK Delivery',
+            'delivered' => 'Delivered to Buyer',
+        ];
+
         $validated = $request->validate([
             'stage' => 'required|string',
-            'title' => 'required|string|max:255',
+            'title' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'location' => 'nullable|string|max:255',
         ]);
+
+        $stageLabel = $allStages[$validated['stage']] ?? ucwords(str_replace('_', ' ', $validated['stage']));
+        $title = !empty($validated['title']) ? $validated['title'] : $stageLabel;
 
         $order->update(['order_status' => $validated['stage']]);
 
@@ -276,13 +294,13 @@ class OrderController extends Controller
             'order_id' => $order->id,
             'shipment_id' => $order->shipments->first()->id ?? null,
             'stage' => $validated['stage'],
-            'title' => $validated['title'],
-            'description' => $validated['description'] ?? null,
+            'title' => $title,
+            'description' => $validated['description'] ?? "Milestone reached: {$stageLabel}",
             'location' => $validated['location'] ?? 'International Transit Hub',
             'updated_by_user_id' => $user->id,
             'occurred_at' => now(),
         ]);
 
-        return back()->with('success', "Order tracking updated to {$validated['stage']}.");
+        return back()->with('success', "Order tracking milestone updated to \"{$stageLabel}\".");
     }
 }
