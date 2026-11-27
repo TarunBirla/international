@@ -38,7 +38,7 @@ class HomeController extends Controller
         $popularSubcategories = Category::whereNotNull('parent_id')
             ->where('show_on_home', true)
             ->orderBy('sort_order', 'asc')
-            ->take(12)
+            ->take(20)
             ->get();
 
         if ($popularSubcategories->count() < 8) {

@@ -219,7 +219,7 @@
         </div>
 
         <!-- 8-12 Cards Grid: 2 cols mobile, 6 cols desktop -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5 sm:gap-4">
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2.5 sm:gap-4">
             @foreach($popularSubcategories as $sub)
                 <a href="{{ route('products.index', ['category' => $sub->slug]) }}" 
                    class="group bg-white rounded-2xl p-2.5 sm:p-3 border border-slate-200 hover:border-brand-500 hover:shadow-md transition flex flex-col items-center text-center">
