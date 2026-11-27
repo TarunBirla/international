@@ -140,6 +140,11 @@
                         <i class="fa-solid fa-folder-tree w-4 text-center {{ request()->routeIs('admin.categories*') ? 'text-brand-600' : 'text-slate-400' }}"></i>
                         <span>Categories</span>
                     </a>
+                    <a href="{{ route('admin.cities') }}" 
+                       class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-bold transition {{ request()->routeIs('admin.cities*') ? 'bg-brand-50 text-brand-700 shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
+                        <i class="fa-solid fa-city w-4 text-center {{ request()->routeIs('admin.cities*') ? 'text-brand-600' : 'text-slate-400' }}"></i>
+                        <span>Cities</span>
+                    </a>
                     <a href="{{ route('admin.products') }}" 
                        class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-bold transition {{ request()->routeIs('admin.products*') ? 'bg-brand-50 text-brand-700 shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                         <i class="fa-solid fa-boxes-stacked w-4 text-center {{ request()->routeIs('admin.products*') ? 'text-brand-600' : 'text-slate-400' }}"></i>

@@ -61,7 +61,7 @@
                                 <a href="{{ route('suppliers.show', $company->slug) }}">{{ $company->company_name }}</a>
                             </h3>
                             <div class="flex items-center space-x-1.5 text-xs text-slate-500 mt-1">
-                                <span>{{ $company->country === 'India' ? '🇮🇳' : ($company->country === 'China' ? '🇨🇳' : '🇩🇪') }} {{ $company->city }}, {{ $company->country }}</span>
+                                <span>{{ $company->country_flag }} {{ $company->city }}, {{ $company->country }}</span>
                             </div>
                         </div>
                     </div>

@@ -385,4 +385,73 @@ class DatabaseSetupController extends Controller
             ]);
         }
     }
+
+    /**
+     * 1-Click Route: Visit /setup-cities to run migrations for cities and seed 10 global trade hubs
+     */
+    public function setupCities()
+    {
+        @set_time_limit(300);
+        @ini_set('memory_limit', '512M');
+
+        try {
+            Artisan::call('migrate', ['--force' => true]);
+
+            $citiesData = [
+                ['name' => 'Pune', 'slug' => 'pune', 'country' => 'India', 'image' => 'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=600&h=450&fit=crop', 'sort_order' => 1],
+                ['name' => 'Shenzhen', 'slug' => 'shenzhen', 'country' => 'China', 'image' => 'https://images.unsplash.com/photo-1508873696983-2df5293cb32f?w=600&h=450&fit=crop', 'sort_order' => 2],
+                ['name' => 'London', 'slug' => 'london', 'country' => 'United Kingdom', 'image' => 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=600&h=450&fit=crop', 'sort_order' => 3],
+                ['name' => 'Birmingham', 'slug' => 'birmingham', 'country' => 'United Kingdom', 'image' => 'https://images.unsplash.com/photo-1596701062351-8c2c14d1fdd0?w=600&h=450&fit=crop', 'sort_order' => 4],
+                ['name' => 'Shanghai', 'slug' => 'shanghai', 'country' => 'China', 'image' => 'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=600&h=450&fit=crop', 'sort_order' => 5],
+                ['name' => 'Stuttgart', 'slug' => 'stuttgart', 'country' => 'Germany', 'image' => 'https://images.unsplash.com/photo-1582233479366-6d38bc390a08?w=600&h=450&fit=crop', 'sort_order' => 6],
+                ['name' => 'Ahmedabad', 'slug' => 'ahmedabad', 'country' => 'India', 'image' => 'https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?w=600&h=450&fit=crop', 'sort_order' => 7],
+                ['name' => 'Manchester', 'slug' => 'manchester', 'country' => 'United Kingdom', 'image' => 'https://images.unsplash.com/photo-1579282240050-352db0a14c21?w=600&h=450&fit=crop', 'sort_order' => 8],
+                ['name' => 'Munich', 'slug' => 'munich', 'country' => 'Germany', 'image' => 'https://images.unsplash.com/photo-1595867818082-083862f3d630?w=600&h=450&fit=crop', 'sort_order' => 9],
+                ['name' => 'Mumbai', 'slug' => 'mumbai', 'country' => 'India', 'image' => 'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=600&h=450&fit=crop', 'sort_order' => 10],
+            ];
+
+            $count = 0;
+            foreach ($citiesData as $c) {
+                \App\Models\City::updateOrCreate(
+                    ['slug' => $c['slug']],
+                    [
+                        'name' => $c['name'],
+                        'country' => $c['country'],
+                        'image' => $c['image'],
+                        'status' => 'active',
+                        'sort_order' => $c['sort_order'],
+                        'show_on_home' => true,
+                    ]
+                );
+                $count++;
+            }
+
+            // Ensure categories also have images
+            $defaultCatImages = [
+                'industrial-machinery' => 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=600&h=450&fit=crop',
+                'building-construction' => 'https://images.unsplash.com/photo-1541888946425-d0fbb186156f?w=600&h=450&fit=crop',
+                'electronics-electrical' => 'https://images.unsplash.com/photo-1509391365360-2e959784a276?w=600&h=450&fit=crop',
+                'packaging-paper' => 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&h=450&fit=crop',
+                'chemicals-dyes' => 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=600&h=450&fit=crop',
+            ];
+
+            foreach ($defaultCatImages as $slug => $img) {
+                \App\Models\Category::where('slug', $slug)->whereNull('image')->update([
+                    'image' => $img,
+                    'show_on_home' => true,
+                ]);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => "Successfully seeded {$count} industrial cities and updated category images!",
+                'cities_count' => \App\Models\City::count(),
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
 }

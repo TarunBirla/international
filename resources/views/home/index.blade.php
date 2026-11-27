@@ -137,42 +137,139 @@
     </div>
 </section>
 
-<!-- Section 2: 5 Core Categories Grid -->
+<!-- Section 2: Core Product Categories (Image + Name + 4 Subcategories) -->
 <section class="py-12 bg-white border-b border-slate-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center max-w-2xl mx-auto mb-10">
-            <span class="text-xs font-bold text-brand-700 uppercase tracking-wider block">Browse by Industry</span>
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Core Product Categories</h2>
-            <p class="text-slate-500 text-xs sm:text-sm mt-1.5">Explore 5 verified industry sectors for all your wholesale requirements.</p>
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-3">
+            <div>
+                <span class="text-xs font-bold text-brand-700 uppercase tracking-wider block">Browse by Industry</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Core Product Categories</h2>
+                <p class="text-slate-500 text-xs sm:text-sm mt-1">Explore verified industry sectors for all your wholesale requirements.</p>
+            </div>
+            <a href="{{ route('categories.index') }}" class="text-xs sm:text-sm font-bold text-brand-700 hover:text-brand-800 transition flex items-center">
+                <span>View All Categories</span>
+                <i class="fa-solid fa-arrow-right ml-1.5"></i>
+            </a>
         </div>
 
-        <!-- 5 Category Cards Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            @foreach($featuredCategories as $category)
-                <a href="{{ route('categories.show', $category->slug) }}" class="group bg-white rounded-2xl p-5 border border-slate-200 hover:border-brand-500 hover:shadow-md transition flex flex-col justify-between">
+        <!-- 5-column desktop, 2-column mobile grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            @foreach($coreCategories as $category)
+                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:border-brand-500 hover:shadow-md transition flex flex-col justify-between group">
                     <div>
-                        <div class="w-12 h-12 rounded-xl bg-blue-50 text-brand-700 group-hover:bg-brand-700 group-hover:text-white transition flex items-center justify-center text-xl mb-3.5 shadow-sm">
-                            <i class="fa-solid {{ $category->icon }}"></i>
+                        <!-- Category Image (Aspect Ratio 4:3) -->
+                        <a href="{{ route('categories.show', $category->slug) }}" class="block relative aspect-[4/3] bg-slate-100 overflow-hidden">
+                            <img src="{{ $category->image_url }}" alt="{{ $category->name }}" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                                 loading="lazy">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+                        </a>
+
+                        <div class="p-3.5">
+                            <!-- Category Name -->
+                            <h3 class="font-bold text-slate-900 text-xs sm:text-sm hover:text-brand-700 transition leading-snug mb-2">
+                                <a href="{{ route('categories.show', $category->slug) }}" class="line-clamp-1">{{ $category->name }}</a>
+                            </h3>
+
+                            <!-- 4 Subcategories Text Links -->
+                            <div class="space-y-1">
+                                @forelse($category->subcategories->take(4) as $sub)
+                                    <a href="{{ route('products.index', ['category' => $sub->slug]) }}" 
+                                       class="block text-[11px] text-slate-500 hover:text-brand-700 hover:translate-x-0.5 transition truncate">
+                                        • {{ $sub->name }}
+                                    </a>
+                                @empty
+                                    <span class="text-[10px] text-slate-400 italic">Explore catalog &rarr;</span>
+                                @endforelse
+                            </div>
                         </div>
-                        <h3 class="font-bold text-slate-900 text-sm group-hover:text-brand-700 transition leading-snug">{{ $category->name }}</h3>
-                        <p class="text-xs text-slate-500 mt-1.5 line-clamp-2 leading-relaxed">{{ $category->description }}</p>
                     </div>
-                    <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-semibold text-slate-400 group-hover:text-brand-600 transition">
-                        <span>{{ count($category->subcategories) }} Items</span>
-                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+
+                    <div class="p-3.5 pt-0">
+                        <a href="{{ route('categories.show', $category->slug) }}" class="inline-flex items-center text-[11px] font-bold text-brand-700 hover:text-brand-800 transition">
+                            <span>View All</span>
+                            <i class="fa-solid fa-arrow-right text-[10px] ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+<!-- Section 2.1: Popular Subcategories (8-12 Cards: Image + Name) -->
+@if(isset($popularSubcategories) && $popularSubcategories->count() > 0)
+<section class="py-12 bg-slate-50/70 border-b border-slate-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-3">
+            <div>
+                <span class="text-xs font-bold text-brand-700 uppercase tracking-wider block">Trending Segments</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Popular Subcategories</h2>
+                <p class="text-slate-500 text-xs sm:text-sm mt-1">Source directly from specialized production lines and certified factories.</p>
+            </div>
+            <a href="{{ route('categories.index') }}" class="text-xs sm:text-sm font-bold text-brand-700 hover:text-brand-800 transition flex items-center">
+                <span>All Subcategories</span>
+                <i class="fa-solid fa-arrow-right ml-1.5"></i>
+            </a>
+        </div>
+
+        <!-- 8-12 Cards Grid: 2 cols mobile, 5 cols desktop -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            @foreach($popularSubcategories as $sub)
+                <a href="{{ route('products.index', ['category' => $sub->slug]) }}" 
+                   class="group bg-white rounded-2xl p-3 border border-slate-200 hover:border-brand-500 hover:shadow-md transition flex flex-col items-center text-center">
+                    <div class="w-full aspect-square rounded-xl bg-slate-100 overflow-hidden mb-2.5 relative">
+                        <img src="{{ $sub->image_url }}" alt="{{ $sub->name }}" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-300"
+                             loading="lazy">
+                    </div>
+                    <span class="font-bold text-slate-900 text-xs group-hover:text-brand-700 transition line-clamp-2 leading-tight">
+                        {{ $sub->name }}
+                    </span>
+                </a>
+            @endforeach
+        </div>
+    </div>
+</section>
+@endif
+
+<!-- Section 2.2: Top Cities (8-10 Cards: Image + Name) -->
+@if(isset($topCities) && $topCities->count() > 0)
+<section class="py-12 bg-white border-b border-slate-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-3">
+            <div>
+                <span class="text-xs font-bold text-brand-700 uppercase tracking-wider block">Global Manufacturing Hubs</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Top Sourcing Cities</h2>
+                <p class="text-slate-500 text-xs sm:text-sm mt-1">Connect with industrial clusters and manufacturers in prime trade centers.</p>
+            </div>
+            <a href="{{ route('suppliers.index') }}" class="text-xs sm:text-sm font-bold text-brand-700 hover:text-brand-800 transition flex items-center">
+                <span>View All Hubs</span>
+                <i class="fa-solid fa-arrow-right ml-1.5"></i>
+            </a>
+        </div>
+
+        <!-- 8-10 Cards Grid: 2 cols mobile, 5 cols desktop -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            @foreach($topCities as $city)
+                <a href="{{ route('products.index', ['city' => $city->slug]) }}" 
+                   class="group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:border-brand-500 hover:shadow-md transition">
+                    <div class="aspect-[4/3] bg-slate-100 overflow-hidden relative">
+                        <img src="{{ $city->image_url }}" alt="{{ $city->name }}" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                             loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-black/20 to-transparent"></div>
+                        <div class="absolute bottom-2.5 left-3 right-3 text-white">
+                            <h3 class="font-extrabold text-sm text-white drop-shadow-sm group-hover:text-blue-200 transition">{{ $city->name }}</h3>
+                            <p class="text-[11px] text-slate-200 font-medium drop-shadow-xs">{{ $city->country }}</p>
+                        </div>
                     </div>
                 </a>
             @endforeach
         </div>
-
-        <div class="text-center mt-8">
-            <a href="{{ route('categories.index') }}" class="inline-flex items-center px-6 py-2.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs sm:text-sm shadow-sm transition">
-                <span>View All Categories</span>
-                <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
-            </a>
-        </div>
     </div>
 </section>
+@endif
 
 <!-- Section 3: 5 Featured Products Grid -->
 <section class="py-12 bg-white border-b border-slate-200">
@@ -188,18 +285,20 @@
             </a>
         </div>
 
-        <!-- 5 Product Cards Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        <!-- 5 Product Cards Grid: 2 cols mobile, 5 cols desktop -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
             @foreach($featuredProducts as $product)
                 <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-lg transition duration-200 flex flex-col justify-between group">
                     <div>
-                        <!-- Product Image -->
-                        <div class="relative h-44 bg-slate-100 overflow-hidden">
-                            <img src="{{ $product->main_image }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        <!-- Product Image (Aspect Ratio 4:3) -->
+                        <div class="relative aspect-[4/3] bg-slate-100 overflow-hidden">
+                            <img src="{{ $product->main_image }}" alt="{{ $product->name }}" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                                 loading="lazy">
                             
-                            <!-- Origin Country Badge -->
+                            <!-- Origin Country Badge (Fixed Country Flag & Name) -->
                             <div class="absolute top-2 left-2 bg-white/95 backdrop-blur-sm px-2 py-0.5 rounded-md text-[10px] font-bold text-slate-800 shadow-sm flex items-center space-x-1">
-                                <span>{{ $product->origin_country === 'India' ? '🇮🇳' : ($product->origin_country === 'China' ? '🇨🇳' : '🇩🇪') }}</span>
+                                <span>{{ $product->country_flag }}</span>
                                 <span>{{ $product->origin_country }}</span>
                             </div>
 
@@ -261,6 +360,8 @@
                 </div>
             @endforeach
         </div>
+    </div>
+</section>
     </div>
 </section>
 

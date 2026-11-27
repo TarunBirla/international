@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Company;
+use App\Models\City;
 
 class ProductController extends Controller
 {
@@ -36,6 +37,32 @@ class ProductController extends Controller
                 $catIds = $category->subcategories->pluck('id')->push($category->id);
                 $query->whereIn('category_id', $catIds);
             }
+        }
+
+        // Subcategory Filter
+        if ($request->filled('subcategory')) {
+            $subParam = $request->input('subcategory');
+            $subCategory = is_numeric($subParam)
+                ? Category::find($subParam)
+                : Category::where('slug', $subParam)->first();
+            if ($subCategory) {
+                $query->where('category_id', $subCategory->id);
+            }
+        }
+
+        // City Filter (/products?city={slug} or /products?city={name})
+        if ($request->filled('city')) {
+            $cityParam = $request->input('city');
+            $cityObj = City::where('slug', $cityParam)->orWhere('name', $cityParam)->first();
+            $cityName = $cityObj ? $cityObj->name : $cityParam;
+
+            $query->where(function ($q) use ($cityName) {
+                $q->whereHas('company', function ($c) use ($cityName) {
+                    $c->where('city', 'like', "%{$cityName}%");
+                })->orWhereHas('supplier', function ($u) use ($cityName) {
+                    $u->where('city', 'like', "%{$cityName}%");
+                });
+            });
         }
 
         // Country of Origin Filter
@@ -90,8 +117,9 @@ class ProductController extends Controller
 
         $categories = Category::whereNull('parent_id')->with('subcategories')->get();
         $countries = ['India', 'China', 'Germany', 'United Kingdom', 'Italy', 'France'];
+        $cities = City::where('status', 'active')->orderBy('sort_order', 'asc')->get();
 
-        return view('products.index', compact('products', 'categories', 'countries'));
+        return view('products.index', compact('products', 'categories', 'countries', 'cities'));
     }
 
     public function show($slug)

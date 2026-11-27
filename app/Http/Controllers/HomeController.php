@@ -8,17 +8,59 @@ use App\Models\Product;
 use App\Models\Company;
 use App\Models\User;
 use App\Models\Rfq;
+use App\Models\City;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        // 1. Featured Top Categories
-        $featuredCategories = Category::whereNull('parent_id')
-            ->where('is_featured', true)
-            ->with(['subcategories'])
-            ->take(8)
+        // 1. Core Product Categories (with images and up to 4 subcategories)
+        $coreCategories = Category::whereNull('parent_id')
+            ->where('show_on_home', true)
+            ->with(['subcategories' => function ($q) {
+                $q->where('show_on_home', true)->orderBy('sort_order', 'asc');
+            }])
+            ->orderBy('sort_order', 'asc')
+            ->take(10)
             ->get();
+
+        if ($coreCategories->isEmpty()) {
+            $coreCategories = Category::whereNull('parent_id')
+                ->with(['subcategories' => function ($q) {
+                    $q->orderBy('sort_order', 'asc');
+                }])
+                ->orderBy('sort_order', 'asc')
+                ->take(10)
+                ->get();
+        }
+
+        // 1.1 Popular Subcategories (8-12 cards with image & name)
+        $popularSubcategories = Category::whereNotNull('parent_id')
+            ->where('show_on_home', true)
+            ->orderBy('sort_order', 'asc')
+            ->take(12)
+            ->get();
+
+        if ($popularSubcategories->count() < 8) {
+            $popularSubcategories = Category::whereNotNull('parent_id')
+                ->orderBy('sort_order', 'asc')
+                ->take(12)
+                ->get();
+        }
+
+        // 1.2 Top Cities (8-10 industrial hubs)
+        $topCities = City::where('status', 'active')
+            ->where('show_on_home', true)
+            ->orderBy('sort_order', 'asc')
+            ->take(10)
+            ->get();
+
+        if ($topCities->count() < 8) {
+            $topCities = City::where('status', 'active')
+                ->orderBy('sort_order', 'asc')
+                ->take(10)
+                ->get();
+        }
 
         $allParentCategories = Category::whereNull('parent_id')
             ->with('subcategories')
@@ -76,7 +118,9 @@ class HomeController extends Controller
         ];
 
         return view('home.index', compact(
-            'featuredCategories',
+            'coreCategories',
+            'popularSubcategories',
+            'topCities',
             'allParentCategories',
             'featuredProducts',
             'indiaProducts',

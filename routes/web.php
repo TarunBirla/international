@@ -42,6 +42,7 @@ Route::get('/install', [DatabaseSetupController::class, 'index'])->name('install
 Route::get('/setup-users', [DatabaseSetupController::class, 'setupUsers'])->name('setup.users');
 Route::get('/reset-users', [DatabaseSetupController::class, 'setupUsers'])->name('setup.reset-users');
 Route::get('/seed-users', [DatabaseSetupController::class, 'setupUsers'])->name('setup.seed-users');
+Route::get('/setup-cities', [DatabaseSetupController::class, 'setupCities'])->name('setup.cities');
 
 // ==========================================
 // 2. PUBLIC MARKETPLACE WEBSITE
@@ -192,6 +193,12 @@ Route::middleware(['auth', 'role:super_admin,admin'])->prefix('admin')->name('ad
     Route::post('/categories', [AdminDashboardController::class, 'storeCategory'])->name('categories.store');
     Route::put('/categories/{id}', [AdminDashboardController::class, 'updateCategory'])->name('categories.update');
     Route::delete('/categories/{id}', [AdminDashboardController::class, 'deleteCategory'])->name('categories.destroy');
+
+    // 7.4.1 Cities CRUD
+    Route::get('/cities', [AdminDashboardController::class, 'cities'])->name('cities');
+    Route::post('/cities', [AdminDashboardController::class, 'storeCity'])->name('cities.store');
+    Route::put('/cities/{id}', [AdminDashboardController::class, 'updateCity'])->name('cities.update');
+    Route::delete('/cities/{id}', [AdminDashboardController::class, 'deleteCity'])->name('cities.destroy');
 
     // 7.5 Products CRUD
     Route::get('/products', [AdminDashboardController::class, 'products'])->name('products');

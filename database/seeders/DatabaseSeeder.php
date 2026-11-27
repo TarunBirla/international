@@ -21,6 +21,7 @@ use App\Models\SubscriptionPlan;
 use App\Models\SupplierSubscription;
 use App\Models\HsCodeDuty;
 use App\Models\Review;
+use App\Models\City;
 
 class DatabaseSeeder extends Seeder
 {
@@ -44,6 +45,9 @@ class DatabaseSeeder extends Seeder
         CustomsClearance::truncate();
         TrackingUpdate::truncate();
         SupplierSubscription::truncate();
+        if (\Illuminate\Support\Facades\Schema::hasTable('cities')) {
+            City::truncate();
+        }
         \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
 
         // 1. Subscription Plans
@@ -561,47 +565,82 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
-        // 4. Product Categories & Subcategories (5 Standard Core Categories)
+        // 4. Product Categories & Subcategories (5 Standard Core Categories with images & 4 subcategories each)
         $categoriesData = [
             [
                 'name' => 'Industrial Machinery & Equipment',
                 'slug' => 'industrial-machinery',
                 'icon' => 'fa-cogs',
+                'image' => 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=600&h=450&fit=crop',
                 'description' => 'CNC machines, hydraulic presses, lathe machines, and automated manufacturing equipment.',
                 'is_featured' => true,
-                'subs' => ['CNC Machines', 'Hydraulic Presses', 'Lathe & Milling Tools'],
+                'show_on_home' => true,
+                'subs' => [
+                    ['name' => 'CNC Machines', 'image' => 'https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=400&h=400&fit=crop'],
+                    ['name' => 'Hydraulic Presses', 'image' => 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=400&h=400&fit=crop'],
+                    ['name' => 'Lathe & Milling Tools', 'image' => 'https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?w=400&h=400&fit=crop'],
+                    ['name' => 'Robotics & Automation', 'image' => 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=400&fit=crop'],
+                ],
             ],
             [
                 'name' => 'Building & Construction Material',
                 'slug' => 'building-construction',
                 'icon' => 'fa-building',
+                'image' => 'https://images.unsplash.com/photo-1541888946425-d0fbb186156f?w=600&h=450&fit=crop',
                 'description' => 'TMT steel bars, industrial cement, structural beams, and construction hardware.',
                 'is_featured' => true,
-                'subs' => ['TMT Steel Bars', 'Industrial Cement', 'Structural Steel Pipes'],
+                'show_on_home' => true,
+                'subs' => [
+                    ['name' => 'TMT Steel Bars', 'image' => 'https://images.unsplash.com/photo-1535813547-99c456a41d4a?w=400&h=400&fit=crop'],
+                    ['name' => 'Industrial Cement', 'image' => 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&h=400&fit=crop'],
+                    ['name' => 'Structural Steel Pipes', 'image' => 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&h=400&fit=crop'],
+                    ['name' => 'Scaffolding & Formwork', 'image' => 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=400&h=400&fit=crop'],
+                ],
             ],
             [
                 'name' => 'Electronics & Electrical Goods',
                 'slug' => 'electronics-electrical',
                 'icon' => 'fa-bolt',
+                'image' => 'https://images.unsplash.com/photo-1509391365360-2e959784a276?w=600&h=450&fit=crop',
                 'description' => 'Solar panels, 3-phase electric motors, power transformers, and switchgear equipment.',
                 'is_featured' => true,
-                'subs' => ['Solar Energy Panels', '3-Phase Electric Motors', 'Power Transformers'],
+                'show_on_home' => true,
+                'subs' => [
+                    ['name' => 'Solar Energy Panels', 'image' => 'https://images.unsplash.com/photo-1508873696983-2df5293cb32f?w=400&h=400&fit=crop'],
+                    ['name' => '3-Phase Electric Motors', 'image' => 'https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=400&h=400&fit=crop'],
+                    ['name' => 'Power Transformers', 'image' => 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=400&h=400&fit=crop'],
+                    ['name' => 'Switchgear & Relays', 'image' => 'https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=400&h=400&fit=crop'],
+                ],
             ],
             [
                 'name' => 'Packaging & Paper Supplies',
                 'slug' => 'packaging-paper',
                 'icon' => 'fa-box-open',
+                'image' => 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&h=450&fit=crop',
                 'description' => 'Corrugated shipping boxes, stretch film rolls, packing tapes, and warehouse supplies.',
                 'is_featured' => true,
-                'subs' => ['Corrugated Shipping Boxes', 'Packaging Film & Tape', 'Storage Crates'],
+                'show_on_home' => true,
+                'subs' => [
+                    ['name' => 'Corrugated Shipping Boxes', 'image' => 'https://images.unsplash.com/photo-1530587191325-3db32d826c18?w=400&h=400&fit=crop'],
+                    ['name' => 'Packaging Film & Tape', 'image' => 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=400&h=400&fit=crop'],
+                    ['name' => 'Storage Crates & Pallets', 'image' => 'https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=400&h=400&fit=crop'],
+                    ['name' => 'Industrial Strapping Tape', 'image' => 'https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=400&h=400&fit=crop'],
+                ],
             ],
             [
                 'name' => 'Chemicals, Dyes & Solvents',
                 'slug' => 'chemicals-dyes',
                 'icon' => 'fa-flask',
+                'image' => 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=600&h=450&fit=crop',
                 'description' => 'Industrial grade solvents, pure acetone, organic dyes, and surface cleaning chemicals.',
                 'is_featured' => true,
-                'subs' => ['Industrial Solvents', 'Organic Pigments & Dyes', 'Water Treatment Chemicals'],
+                'show_on_home' => true,
+                'subs' => [
+                    ['name' => 'Industrial Solvents', 'image' => 'https://images.unsplash.com/photo-1603555501671-8f96b3fce8b5?w=400&h=400&fit=crop'],
+                    ['name' => 'Organic Pigments & Dyes', 'image' => 'https://images.unsplash.com/photo-1507668077129-56e32842fceb?w=400&h=400&fit=crop'],
+                    ['name' => 'Water Treatment Chemicals', 'image' => 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&h=400&fit=crop'],
+                    ['name' => 'Polymer Resins', 'image' => 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&h=400&fit=crop'],
+                ],
             ],
         ];
 
@@ -612,23 +651,53 @@ class DatabaseSeeder extends Seeder
                 'name' => $catData['name'],
                 'slug' => $catData['slug'],
                 'icon' => $catData['icon'],
+                'image' => $catData['image'],
                 'description' => $catData['description'],
                 'is_featured' => $catData['is_featured'],
+                'show_on_home' => $catData['show_on_home'],
                 'sort_order' => $order++,
             ]);
             $categoryMap[$catData['slug']] = $parent;
 
-            foreach ($catData['subs'] as $subName) {
+            foreach ($catData['subs'] as $subItem) {
                 Category::create([
                     'parent_id' => $parent->id,
-                    'name' => $subName,
-                    'slug' => \Illuminate\Support\Str::slug($subName),
+                    'name' => $subItem['name'],
+                    'slug' => \Illuminate\Support\Str::slug($subItem['name']),
                     'icon' => $catData['icon'],
-                    'description' => "Subcategory for {$subName}",
+                    'image' => $subItem['image'],
+                    'description' => "Subcategory for {$subItem['name']}",
                     'is_featured' => false,
+                    'show_on_home' => true,
                     'sort_order' => $order++,
                 ]);
             }
+        }
+
+        // 4.1 Seed 10 Global Industrial Cities
+        $citiesData = [
+            ['name' => 'Pune', 'slug' => 'pune', 'country' => 'India', 'image' => 'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=600&h=450&fit=crop', 'sort_order' => 1],
+            ['name' => 'Shenzhen', 'slug' => 'shenzhen', 'country' => 'China', 'image' => 'https://images.unsplash.com/photo-1508873696983-2df5293cb32f?w=600&h=450&fit=crop', 'sort_order' => 2],
+            ['name' => 'London', 'slug' => 'london', 'country' => 'United Kingdom', 'image' => 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=600&h=450&fit=crop', 'sort_order' => 3],
+            ['name' => 'Birmingham', 'slug' => 'birmingham', 'country' => 'United Kingdom', 'image' => 'https://images.unsplash.com/photo-1596701062351-8c2c14d1fdd0?w=600&h=450&fit=crop', 'sort_order' => 4],
+            ['name' => 'Shanghai', 'slug' => 'shanghai', 'country' => 'China', 'image' => 'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=600&h=450&fit=crop', 'sort_order' => 5],
+            ['name' => 'Stuttgart', 'slug' => 'stuttgart', 'country' => 'Germany', 'image' => 'https://images.unsplash.com/photo-1582233479366-6d38bc390a08?w=600&h=450&fit=crop', 'sort_order' => 6],
+            ['name' => 'Ahmedabad', 'slug' => 'ahmedabad', 'country' => 'India', 'image' => 'https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?w=600&h=450&fit=crop', 'sort_order' => 7],
+            ['name' => 'Manchester', 'slug' => 'manchester', 'country' => 'United Kingdom', 'image' => 'https://images.unsplash.com/photo-1579282240050-352db0a14c21?w=600&h=450&fit=crop', 'sort_order' => 8],
+            ['name' => 'Munich', 'slug' => 'munich', 'country' => 'Germany', 'image' => 'https://images.unsplash.com/photo-1595867818082-083862f3d630?w=600&h=450&fit=crop', 'sort_order' => 9],
+            ['name' => 'Mumbai', 'slug' => 'mumbai', 'country' => 'India', 'image' => 'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=600&h=450&fit=crop', 'sort_order' => 10],
+        ];
+
+        foreach ($citiesData as $c) {
+            City::create([
+                'name' => $c['name'],
+                'slug' => $c['slug'],
+                'country' => $c['country'],
+                'image' => $c['image'],
+                'status' => 'active',
+                'sort_order' => $c['sort_order'],
+                'show_on_home' => true,
+            ]);
         }
 
         // 5. Exactly 5 Clean, Real Products matching the 5 Core Categories

@@ -14,7 +14,7 @@
                 <img src="{{ $company->logo_url }}" class="w-20 h-20 md:w-24 md:h-24 rounded-2xl object-cover bg-white p-1 border-2 border-white/20 shadow-xl" alt="{{ $company->company_name }}">
                 <div>
                     <div class="flex items-center space-x-2 mb-1.5">
-                        <span class="text-xl">{{ $company->country === 'India' ? '🇮🇳' : ($company->country === 'China' ? '🇨🇳' : '🇩🇪') }}</span>
+                        <span class="text-xl">{{ $company->country_flag }}</span>
                         <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight">{{ $company->company_name }}</h1>
                     </div>
                     <div class="flex flex-wrap items-center gap-3 text-xs text-slate-300">

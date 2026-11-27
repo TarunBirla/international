@@ -55,6 +55,23 @@ class Company extends Model
         return 'https://ui-avatars.com/api/?name=' . urlencode($this->company_name) . '&background=059669&color=fff&bold=true';
     }
 
+    public function getCountryFlagAttribute(): string
+    {
+        $country = trim($this->country ?? '');
+        return match ($country) {
+            'India' => '🇮🇳',
+            'China' => '🇨🇳',
+            'United Kingdom', 'UK', 'GB', 'Great Britain' => '🇬🇧',
+            'Germany', 'Deutschland' => '🇩🇪',
+            'United States', 'USA', 'US' => '🇺🇸',
+            'Japan' => '🇯🇵',
+            'Italy', 'Italia' => '🇮🇹',
+            'France' => '🇫🇷',
+            'Spain' => '🇪🇸',
+            default => '🌐',
+        };
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

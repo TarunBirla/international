@@ -209,47 +209,8 @@
                 </div>
             </div>
 
-            <!-- Secondary Subnav with Dynamic Category Dropdown -->
+            <!-- Secondary Subnav -->
             <nav class="hidden lg:flex items-center space-x-6 py-2.5 border-t border-slate-100 text-xs font-semibold text-slate-600">
-                <!-- <div class="relative" x-data="{ catOpen: false }">
-                    <button @click="catOpen = !catOpen" 
-                            @mouseenter="catOpen = true"
-                            class="text-brand-700 hover:text-brand-800 flex items-center font-bold focus:outline-none py-1">
-                        <i class="fa-solid fa-bars mr-1.5"></i> All Categories
-                        <i class="fa-solid fa-chevron-down text-[9px] ml-1.5 transition-transform" :class="catOpen ? 'rotate-180' : ''"></i>
-                    </button>
-                    <div x-show="catOpen" 
-                         @mouseleave="catOpen = false" 
-                         @click.away="catOpen = false" 
-                         x-cloak 
-                         class="absolute left-0 mt-2 w-72 bg-white rounded-2xl shadow-2xl border border-slate-200 py-2 z-50 divide-y divide-slate-100">
-                        @if(isset($globalCategories) && $globalCategories->count() > 0)
-                            @foreach($globalCategories as $gCat)
-                                <div class="p-2">
-                                    <a href="{{ route('categories.show', $gCat->slug) }}" class="flex items-center px-3 py-2 rounded-xl text-xs font-bold text-slate-800 hover:bg-brand-50 hover:text-brand-700 transition">
-                                        <i class="fa-solid {{ $gCat->icon ?? 'fa-cube' }} w-4 text-center mr-2 text-brand-600"></i>
-                                        <span class="truncate">{{ $gCat->name }}</span>
-                                    </a>
-                                    @if($gCat->subcategories && $gCat->subcategories->count() > 0)
-                                        <div class="pl-6 pt-1 space-y-0.5">
-                                            @foreach($gCat->subcategories->take(4) as $gSub)
-                                                <a href="{{ route('products.index', ['category' => $gSub->slug]) }}" class="block px-3 py-1 rounded-lg text-[11px] font-medium text-slate-500 hover:text-brand-700 hover:bg-slate-50 transition truncate">
-                                                    ↳ {{ $gSub->name }}
-                                                </a>
-                                            @endforeach
-                                        </div>
-                                    @endif
-                                </div>
-                            @endforeach
-                        @endif
-                        <div class="p-2 bg-slate-50/60 rounded-b-2xl">
-                            <a href="{{ route('categories.index') }}" class="block text-center text-xs font-bold text-brand-700 hover:underline py-1">
-                                View All Categories &rarr;
-                            </a>
-                        </div>
-                    </div>
-                </div> -->
-
                 <a href="{{ route('categories.index') }}" class="hover:text-brand-700 transition">
                     All Categories
                 </a>
@@ -362,13 +323,13 @@
                 <!-- Col 3: Logistics & Customs -->
                 <div>
                     <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider">Logistics & Customs</h4>
-                    <!-- <ul class="space-y-2 text-xs text-slate-400">
+                    <ul class="space-y-2 text-xs text-slate-400">
                         <li><a href="{{ route('calculator.index') }}" class="hover:text-white transition">UK Landed Cost Calculator</a></li>
                         <li><a href="{{ route('shipping') }}" class="hover:text-white transition">LCL & FCL Ocean Freight</a></li>
                         <li><a href="{{ route('shipping') }}" class="hover:text-white transition">Air Cargo Express (DHL/FedEx)</a></li>
                         <li><a href="{{ route('customs') }}" class="hover:text-white transition">Junaid & Co. Customs Clearance</a></li>
                         <li><a href="{{ route('customs') }}" class="hover:text-white transition">HMRC CDS & C88 Processing</a></li>
-                    </ul> -->
+                    </ul>
                 </div>
 
                 <!-- Col 4: International Offices -->
@@ -389,7 +350,7 @@
                         </li>
                         <li class="flex items-start space-x-2">
                             <i class="fa-solid fa-envelope mt-0.5 text-blue-500"></i>
-                            <span>support@mart.com</span>
+                            <span>support@international.nexteck.uk</span>
                         </li>
                     </ul>
                 </div>

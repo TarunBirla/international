@@ -28,7 +28,7 @@
                     <img src="{{ $product->main_image }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
                     
                     <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-bold text-slate-800 shadow flex items-center space-x-1.5">
-                        <span>{{ $product->origin_country === 'India' ? '🇮🇳' : ($product->origin_country === 'China' ? '🇨🇳' : '🇩🇪') }}</span>
+                        <span>{{ $product->country_flag }}</span>
                         <span>Origin: {{ $product->origin_country }}</span>
                     </div>
 

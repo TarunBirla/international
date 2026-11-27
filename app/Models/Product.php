@@ -114,4 +114,21 @@ class Product extends Model
 
         return asset(ltrim($value, '/'));
     }
+
+    public function getCountryFlagAttribute(): string
+    {
+        $country = trim($this->origin_country ?? '');
+        return match ($country) {
+            'India' => '🇮🇳',
+            'China' => '🇨🇳',
+            'United Kingdom', 'UK', 'GB', 'Great Britain' => '🇬🇧',
+            'Germany', 'Deutschland' => '🇩🇪',
+            'United States', 'USA', 'US' => '🇺🇸',
+            'Japan' => '🇯🇵',
+            'Italy', 'Italia' => '🇮🇹',
+            'France' => '🇫🇷',
+            'Spain' => '🇪🇸',
+            default => '🌐',
+        };
+    }
 }

@@ -143,7 +143,7 @@
                                     <img src="{{ $product->main_image }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                                     
                                     <div class="absolute top-2.5 left-2.5 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-full text-[11px] font-bold text-slate-800 shadow-sm flex items-center space-x-1">
-                                        <span>{{ $product->origin_country === 'India' ? '🇮🇳' : ($product->origin_country === 'China' ? '🇨🇳' : '🇩🇪') }}</span>
+                                        <span>{{ $product->country_flag }}</span>
                                         <span>{{ $product->origin_country }}</span>
                                     </div>
 

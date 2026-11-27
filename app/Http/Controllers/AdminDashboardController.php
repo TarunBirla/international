@@ -13,6 +13,8 @@ use App\Models\Order;
 use App\Models\Shipment;
 use App\Models\CustomsClearance;
 use App\Models\TrackingUpdate;
+use App\Models\City;
+use App\Services\ImageService;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -562,9 +564,10 @@ class AdminDashboardController extends Controller
     {
         $categories = Category::whereNull('parent_id')
             ->with(['subcategories' => function ($q) {
-                $q->withCount('products');
+                $q->withCount('products')->orderBy('sort_order', 'asc');
             }])
             ->withCount('products')
+            ->orderBy('sort_order', 'asc')
             ->get();
 
         $allParents = Category::whereNull('parent_id')->orderBy('name')->get();
@@ -580,15 +583,27 @@ class AdminDashboardController extends Controller
             'icon' => 'nullable|string|max:50',
             'description' => 'nullable|string',
             'is_featured' => 'nullable|boolean',
+            'show_on_home' => 'nullable|boolean',
+            'sort_order' => 'nullable|integer',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
+
+        $folder = !empty($validated['parent_id']) ? 'subcategories' : 'categories';
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = ImageService::uploadAndResize($request->file('image'), $folder, 400, 400);
+        }
 
         Category::create([
             'name' => $validated['name'],
             'slug' => Str::slug($validated['name']) . '-' . rand(100, 999),
             'parent_id' => $validated['parent_id'] ?? null,
             'icon' => $validated['icon'] ?? 'fa-cube',
+            'image' => $imagePath,
             'description' => $validated['description'] ?? null,
             'is_featured' => $request->boolean('is_featured'),
+            'show_on_home' => $request->has('show_on_home') ? $request->boolean('show_on_home') : true,
+            'sort_order' => $validated['sort_order'] ?? 0,
         ]);
 
         return back()->with('success', 'Category created successfully.');
@@ -604,19 +619,31 @@ class AdminDashboardController extends Controller
             'icon' => 'nullable|string|max:50',
             'description' => 'nullable|string',
             'is_featured' => 'nullable|boolean',
+            'show_on_home' => 'nullable|boolean',
+            'sort_order' => 'nullable|integer',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
-        if ($validated['parent_id'] && $validated['parent_id'] == $category->id) {
+        if (!empty($validated['parent_id']) && $validated['parent_id'] == $category->id) {
             return back()->with('error', 'Category cannot be its own parent.');
         }
 
-        $category->update([
+        $folder = !empty($validated['parent_id']) ? 'subcategories' : 'categories';
+        $data = [
             'name' => $validated['name'],
             'parent_id' => $validated['parent_id'] ?? null,
             'icon' => $validated['icon'] ?? $category->icon,
             'description' => $validated['description'] ?? null,
             'is_featured' => $request->boolean('is_featured'),
-        ]);
+            'show_on_home' => $request->boolean('show_on_home'),
+            'sort_order' => $validated['sort_order'] ?? $category->sort_order,
+        ];
+
+        if ($request->hasFile('image')) {
+            $data['image'] = ImageService::uploadAndResize($request->file('image'), $folder, 400, 400);
+        }
+
+        $category->update($data);
 
         return back()->with('success', "Category '{$category->name}' updated successfully.");
     }
@@ -632,6 +659,103 @@ class AdminDashboardController extends Controller
         $category->delete();
 
         return back()->with('success', "Category '{$name}' deleted successfully.");
+    }
+
+    // =========================================================================
+    // 4.1 CITIES CRUD
+    // =========================================================================
+    public function cities(Request $request)
+    {
+        $query = City::query();
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('country', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $cities = $query->orderBy('sort_order', 'asc')->orderBy('name', 'asc')->paginate(20)->withQueryString();
+
+        return view('dashboards.admin.cities', compact('cities'));
+    }
+
+    public function storeCity(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:100',
+            'country' => 'required|string|max:100',
+            'status' => 'required|in:active,inactive',
+            'sort_order' => 'nullable|integer',
+            'show_on_home' => 'nullable|boolean',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+        ]);
+
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = ImageService::uploadAndResize($request->file('image'), 'cities', 400, 400);
+        }
+
+        $slug = Str::slug($validated['name']);
+        if (City::where('slug', $slug)->exists()) {
+            $slug .= '-' . Str::slug($validated['country']);
+        }
+
+        City::create([
+            'name' => $validated['name'],
+            'slug' => $slug,
+            'country' => $validated['country'],
+            'image' => $imagePath,
+            'status' => $validated['status'],
+            'sort_order' => $validated['sort_order'] ?? 0,
+            'show_on_home' => $request->boolean('show_on_home'),
+        ]);
+
+        return back()->with('success', "City '{$validated['name']}' created successfully.");
+    }
+
+    public function updateCity(Request $request, $id)
+    {
+        $city = City::findOrFail($id);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:100',
+            'country' => 'required|string|max:100',
+            'status' => 'required|in:active,inactive',
+            'sort_order' => 'nullable|integer',
+            'show_on_home' => 'nullable|boolean',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+        ]);
+
+        $data = [
+            'name' => $validated['name'],
+            'country' => $validated['country'],
+            'status' => $validated['status'],
+            'sort_order' => $validated['sort_order'] ?? 0,
+            'show_on_home' => $request->boolean('show_on_home'),
+        ];
+
+        if ($request->hasFile('image')) {
+            $data['image'] = ImageService::uploadAndResize($request->file('image'), 'cities', 400, 400);
+        }
+
+        $city->update($data);
+
+        return back()->with('success', "City '{$city->name}' updated successfully.");
+    }
+
+    public function deleteCity($id)
+    {
+        $city = City::findOrFail($id);
+        $name = $city->name;
+        $city->delete();
+
+        return back()->with('success', "City '{$name}' deleted successfully.");
     }
 
     // =========================================================================
