@@ -188,4 +188,201 @@ class DatabaseSetupController extends Controller
         $request->merge(['force_fresh' => true]);
         return $this->execute($request);
     }
+
+    /**
+     * Direct 1-Click Route: Visit /setup-users or /reset-users to create all role accounts
+     * with clean demo emails: superadmin@demo.com, admin@demo.com, supplier@demo.com, buyer@demo.com, etc.
+     */
+    public function setupUsers()
+    {
+        @set_time_limit(300);
+        @ini_set('memory_limit', '512M');
+
+        try {
+            // Ensure migrations have executed so tables exist
+            Artisan::call('migrate', ['--force' => true]);
+
+            $password = \Illuminate\Support\Facades\Hash::make('password123');
+
+            $demoUsers = [
+                [
+                    'role' => 'super_admin',
+                    'name' => 'Super Administrator',
+                    'email' => 'superadmin@demo.com',
+                    'phone' => '+44 20 7946 0991',
+                    'country' => 'United Kingdom',
+                    'city' => 'London',
+                    'badge' => 'Super Admin',
+                    'badge_color' => 'purple',
+                    'company' => null,
+                ],
+                [
+                    'role' => 'admin',
+                    'name' => 'Operations Admin',
+                    'email' => 'admin@demo.com',
+                    'phone' => '+44 20 7946 0992',
+                    'country' => 'United Kingdom',
+                    'city' => 'London',
+                    'badge' => 'Operations Admin',
+                    'badge_color' => 'indigo',
+                    'company' => null,
+                ],
+                [
+                    'role' => 'supplier',
+                    'name' => 'Rohit (Indian Manufacturer)',
+                    'email' => 'supplier@demo.com',
+                    'phone' => '+91 98250 12345',
+                    'country' => 'India',
+                    'city' => 'Pune',
+                    'badge' => 'Verified Supplier',
+                    'badge_color' => 'emerald',
+                    'company' => [
+                        'company_name' => 'Rohit Precision Forgings Pvt Ltd',
+                        'slug' => 'rohit-precision-forgings-demo',
+                        'business_type' => 'manufacturer',
+                        'country' => 'India',
+                        'city' => 'Pune',
+                        'export_markets' => 'UK, Germany, France, UAE, USA',
+                        'is_verified' => true,
+                        'description' => 'Premier ISO 9001:2015 and CE certified heavy engineering manufacturer specializing in forged industrial flanges, CNC turned components, and steel valves.',
+                    ],
+                ],
+                [
+                    'role' => 'supplier',
+                    'name' => 'Tarry (China Automation)',
+                    'email' => 'supplier2@demo.com',
+                    'phone' => '+86 755 8345 6789',
+                    'country' => 'China',
+                    'city' => 'Shenzhen',
+                    'badge' => 'Verified Supplier',
+                    'badge_color' => 'emerald',
+                    'company' => [
+                        'company_name' => 'Tarry Automation & CNC Systems Ltd',
+                        'slug' => 'tarry-automation-cnc-demo',
+                        'business_type' => 'manufacturer',
+                        'country' => 'China',
+                        'city' => 'Shenzhen',
+                        'export_markets' => 'UK, Europe, North America',
+                        'is_verified' => true,
+                        'description' => 'Leading producer of 5-Axis CNC machining centers, automated robotic arms, and industrial servo drive units.',
+                    ],
+                ],
+                [
+                    'role' => 'buyer',
+                    'name' => 'Navdeep (UK Procurement)',
+                    'email' => 'buyer@demo.com',
+                    'phone' => '+44 121 496 0884',
+                    'country' => 'United Kingdom',
+                    'city' => 'Birmingham',
+                    'badge' => 'Verified Buyer',
+                    'badge_color' => 'sky',
+                    'company' => [
+                        'company_name' => 'Navdeep Industrial UK Ltd',
+                        'slug' => 'navdeep-industrial-uk-demo',
+                        'business_type' => 'distributor',
+                        'country' => 'United Kingdom',
+                        'city' => 'Birmingham',
+                        'is_verified' => true,
+                        'description' => 'Major British engineering and industrial turnkey contractor supplying components to UK infrastructure projects.',
+                    ],
+                ],
+                [
+                    'role' => 'logistics_partner',
+                    'name' => 'Harry (Freight Forwarder)',
+                    'email' => 'logistics@demo.com',
+                    'phone' => '+44 20 8759 2300',
+                    'country' => 'United Kingdom',
+                    'city' => 'Heathrow',
+                    'badge' => 'Logistics Partner',
+                    'badge_color' => 'amber',
+                    'company' => [
+                        'company_name' => 'Harry Global Express & Freight Forwarding Ltd',
+                        'slug' => 'harry-global-freight-demo',
+                        'business_type' => 'distributor',
+                        'country' => 'United Kingdom',
+                        'city' => 'Heathrow',
+                        'is_verified' => true,
+                        'description' => 'Specialist international air & sea freight forwarder handling containerized LCL/FCL shipments across the UK.',
+                    ],
+                ],
+                [
+                    'role' => 'customs_partner',
+                    'name' => 'Nasar (Junaid & Co. Customs)',
+                    'email' => 'customs@demo.com',
+                    'phone' => '+44 1394 670 120',
+                    'country' => 'United Kingdom',
+                    'city' => 'Felixstowe',
+                    'badge' => 'Customs Partner',
+                    'badge_color' => 'blue',
+                    'company' => [
+                        'company_name' => 'Junaid & Co. UK Customs Clearance Specialists',
+                        'slug' => 'junaid-co-customs-clearance-demo',
+                        'business_type' => 'distributor',
+                        'country' => 'United Kingdom',
+                        'city' => 'Felixstowe',
+                        'is_verified' => true,
+                        'description' => 'Authorised Economic Operator (AEO-F) customs broker providing HMRC CDS clearances, C88 processing, and import VAT optimization.',
+                    ],
+                ],
+            ];
+
+            $createdUsers = [];
+
+            foreach ($demoUsers as $item) {
+                $user = \App\Models\User::updateOrCreate(
+                    ['email' => $item['email']],
+                    [
+                        'name' => $item['name'],
+                        'password' => $password,
+                        'role' => $item['role'],
+                        'phone' => $item['phone'],
+                        'country' => $item['country'],
+                        'city' => $item['city'],
+                        'status' => 'active',
+                        'email_verified_at' => now(),
+                    ]
+                );
+
+                if (!empty($item['company'])) {
+                    \App\Models\Company::updateOrCreate(
+                        ['user_id' => $user->id],
+                        array_merge($item['company'], [
+                            'user_id' => $user->id,
+                        ])
+                    );
+                }
+
+                $portalRoute = match($item['role']) {
+                    'super_admin', 'admin' => route('admin.dashboard'),
+                    'supplier' => route('supplier.dashboard'),
+                    'buyer' => route('buyer.dashboard'),
+                    'logistics_partner' => route('logistics.dashboard'),
+                    'customs_partner' => route('customs.dashboard'),
+                    default => url('/'),
+                };
+
+                $createdUsers[] = [
+                    'role' => $item['role'],
+                    'badge' => $item['badge'],
+                    'badge_color' => $item['badge_color'],
+                    'name' => $item['name'],
+                    'email' => $item['email'],
+                    'password' => 'password123',
+                    'portal' => $portalRoute,
+                ];
+            }
+
+            return view('setup.users', [
+                'success' => true,
+                'message' => 'All Role-based Demo Accounts have been created and verified!',
+                'users' => $createdUsers,
+            ]);
+        } catch (\Exception $e) {
+            return view('setup.users', [
+                'success' => false,
+                'message' => 'Error setting up users: ' . $e->getMessage(),
+                'users' => [],
+            ]);
+        }
+    }
 }

@@ -201,6 +201,18 @@ class DatabaseSeeder extends Seeder
 
         // Alias for easy testing
         User::create([
+            'name' => 'Super Administrator',
+            'email' => 'superadmin@demo.com',
+            'phone' => '+44 20 7946 0991',
+            'password' => $password,
+            'role' => 'super_admin',
+            'status' => 'active',
+            'country' => 'United Kingdom',
+            'city' => 'London',
+            'email_verified_at' => now(),
+        ]);
+
+        User::create([
             'name' => 'Tarun Birla (Admin Alias)',
             'email' => 'admin@perlcon.com',
             'phone' => '+44 20 7946 0991',
@@ -214,6 +226,18 @@ class DatabaseSeeder extends Seeder
 
         // 2. Hariom Birla (Operations & Sourcing Director / Admin)
         $admin = User::create([
+            'name' => 'Operations Admin',
+            'email' => 'admin@demo.com',
+            'phone' => '+44 20 7946 0992',
+            'password' => $password,
+            'role' => 'admin',
+            'status' => 'active',
+            'country' => 'United Kingdom',
+            'city' => 'London',
+            'email_verified_at' => now(),
+        ]);
+
+        User::create([
             'name' => 'Hariom Birla',
             'email' => 'hariom@perlcon.com',
             'phone' => '+44 20 7946 0992',
@@ -268,6 +292,18 @@ class DatabaseSeeder extends Seeder
         User::create([
             'name' => 'Navdeep (Buyer Alias)',
             'email' => 'buyer@perlcon.com',
+            'phone' => '+44 121 496 0884',
+            'password' => $password,
+            'role' => 'buyer',
+            'status' => 'active',
+            'country' => 'United Kingdom',
+            'city' => 'Birmingham',
+            'email_verified_at' => now(),
+        ]);
+
+        User::create([
+            'name' => 'Verified Buyer',
+            'email' => 'buyer@demo.com',
             'phone' => '+44 121 496 0884',
             'password' => $password,
             'role' => 'buyer',
@@ -337,6 +373,18 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
+        User::create([
+            'name' => 'Rohit Precision Forgings (Supplier)',
+            'email' => 'supplier@demo.com',
+            'phone' => '+91 98250 12345',
+            'password' => $password,
+            'role' => 'supplier',
+            'status' => 'active',
+            'country' => 'India',
+            'city' => 'Pune',
+            'email_verified_at' => now(),
+        ]);
+
         // 5. Tarry (Supplier 2: China - CNC Machinery & Industrial Automation)
         $supplierChina = User::create([
             'name' => 'Tarry',
@@ -397,6 +445,18 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
+        User::create([
+            'name' => 'Tarry CNC Systems (Supplier 2)',
+            'email' => 'supplier2@demo.com',
+            'phone' => '+86 755 8345 6789',
+            'password' => $password,
+            'role' => 'supplier',
+            'status' => 'active',
+            'country' => 'China',
+            'city' => 'Shenzhen',
+            'email_verified_at' => now(),
+        ]);
+
         // 6. Harry (Logistics Partner - Air, Sea, & UK Intermodal Freight)
         $logisticsUser = User::create([
             'name' => 'Harry',
@@ -437,6 +497,18 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
+        User::create([
+            'name' => 'Harry Global Logistics',
+            'email' => 'logistics@demo.com',
+            'phone' => '+44 20 8759 2300',
+            'password' => $password,
+            'role' => 'logistics_partner',
+            'status' => 'active',
+            'country' => 'United Kingdom',
+            'city' => 'Heathrow',
+            'email_verified_at' => now(),
+        ]);
+
         // 7. Nasar (Customs Clearance Partner - C88 & HMRC CDS Specialist)
         $customsUser = User::create([
             'name' => 'Nasar',
@@ -468,6 +540,18 @@ class DatabaseSeeder extends Seeder
         User::create([
             'name' => 'Nasar (Customs Alias)',
             'email' => 'customs@perlcon.com',
+            'phone' => '+44 1394 670 120',
+            'password' => $password,
+            'role' => 'customs_partner',
+            'status' => 'active',
+            'country' => 'United Kingdom',
+            'city' => 'Felixstowe',
+            'email_verified_at' => now(),
+        ]);
+
+        User::create([
+            'name' => 'Junaid & Co. Customs Clearance',
+            'email' => 'customs@demo.com',
             'phone' => '+44 1394 670 120',
             'password' => $password,
             'role' => 'customs_partner',

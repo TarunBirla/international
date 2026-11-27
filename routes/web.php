@@ -38,6 +38,11 @@ Route::get('/clean-db', [DatabaseSetupController::class, 'quickRun'])->name('cle
 Route::get('/reset-db', [DatabaseSetupController::class, 'quickRun'])->name('reset.db');
 Route::get('/install', [DatabaseSetupController::class, 'index'])->name('install');
 
+// 1-Click Role Accounts Setup
+Route::get('/setup-users', [DatabaseSetupController::class, 'setupUsers'])->name('setup.users');
+Route::get('/reset-users', [DatabaseSetupController::class, 'setupUsers'])->name('setup.reset-users');
+Route::get('/seed-users', [DatabaseSetupController::class, 'setupUsers'])->name('setup.seed-users');
+
 // ==========================================
 // 2. PUBLIC MARKETPLACE WEBSITE
 // ==========================================
