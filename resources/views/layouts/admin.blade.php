@@ -230,13 +230,13 @@
     <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-white">
         
         <!-- TOPBAR -->
-        <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 sm:px-6 z-20 flex-shrink-0">
-            <div class="flex items-center space-x-3 sm:space-x-4">
-                <button @click="sidebarOpen = true" class="lg:hidden text-slate-500 hover:text-slate-700 p-2 rounded-lg hover:bg-slate-100">
+        <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-3 sm:px-6 z-20 flex-shrink-0">
+            <div class="flex items-center space-x-2 sm:space-x-4 min-w-0">
+                <button @click="sidebarOpen = true" class="lg:hidden text-slate-500 hover:text-slate-700 p-2 rounded-lg hover:bg-slate-100 flex-shrink-0">
                     <i class="fa-solid fa-bars text-lg"></i>
                 </button>
-                <div>
-                    <h1 class="text-base sm:text-lg font-black text-slate-900 tracking-tight leading-none">
+                <div class="min-w-0">
+                    <h1 class="text-sm sm:text-lg font-black text-slate-900 tracking-tight leading-none truncate max-w-[150px] sm:max-w-none">
                         @yield('header_title', 'Super Admin Dashboard')
                     </h1>
                     <p class="text-[11px] text-slate-500 hidden sm:block mt-0.5">
@@ -246,18 +246,19 @@
             </div>
 
             <!-- Topbar Quick Actions -->
-            <div class="flex items-center space-x-2 sm:space-x-3">
-                <a href="{{ route('admin.users.create') }}" class="hidden sm:inline-flex items-center space-x-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition">
+            <div class="flex items-center space-x-1.5 sm:space-x-3 flex-shrink-0">
+                <a href="{{ route('admin.users.create') }}" class="hidden md:inline-flex items-center space-x-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition">
                     <i class="fa-solid fa-user-plus text-slate-500"></i>
                     <span>+ Add User</span>
                 </a>
-                <a href="{{ route('admin.products.create') }}" class="inline-flex items-center space-x-1.5 px-3.5 py-1.5 bg-brand-700 hover:bg-brand-800 text-white rounded-lg text-xs font-bold transition shadow-sm">
-                    <i class="fa-solid fa-plus"></i>
-                    <span>+ Add Product</span>
+                <a href="{{ route('admin.products.create') }}" class="inline-flex items-center space-x-1 px-2.5 sm:px-3.5 py-1.5 bg-brand-700 hover:bg-brand-800 text-white rounded-lg text-xs font-bold transition shadow-sm">
+                    <i class="fa-solid fa-plus text-xs"></i>
+                    <span class="hidden sm:inline">Add Product</span>
+                    <span class="sm:hidden">Product</span>
                 </a>
                 
                 <!-- Public Store Link -->
-                <a href="{{ route('home') }}" target="_blank" title="Go to storefront" class="p-2 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 transition">
+                <a href="{{ route('home') }}" target="_blank" title="Go to storefront" class="p-1.5 sm:p-2 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 transition">
                     <i class="fa-solid fa-globe text-base"></i>
                 </a>
 
@@ -309,7 +310,7 @@
         @include('partials.toaster')
 
         <!-- MAIN SCROLLABLE CONTENT -->
-        <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+        <main class="flex-1 overflow-y-auto p-3 sm:p-6 lg:p-8">
             @yield('content')
         </main>
 

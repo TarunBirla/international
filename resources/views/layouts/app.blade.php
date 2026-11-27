@@ -68,16 +68,16 @@
     <!-- Main Navigation Header -->
     <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm" x-data="{ mobileMenuOpen: false }">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20 gap-4">
+            <div class="flex items-center justify-between h-16 sm:h-20 gap-2 sm:gap-4">
                 
                 <!-- Logo & Brand -->
-                <div class="flex items-center space-x-3 flex-shrink-0">
-                    <a href="{{ route('home') }}" class="flex items-center space-x-2.5 group">
-                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-700 to-blue-500 flex items-center justify-center text-white text-xl font-black shadow-md shadow-brand-700/20 group-hover:scale-105 transition transform">
+                <div class="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
+                    <a href="{{ route('home') }}" class="flex items-center space-x-2 sm:space-x-2.5 group">
+                        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-brand-700 to-blue-500 flex items-center justify-center text-white text-lg sm:text-xl font-black shadow-md shadow-brand-700/20 group-hover:scale-105 transition transform">
                             <i class="fa-solid fa-bag-shopping"></i>
                         </div>
                         <div>
-                            <span class="text-2xl font-black tracking-tight text-slate-900 flex items-center">
+                            <span class="text-xl sm:text-2xl font-black tracking-tight text-slate-900 flex items-center">
                                 Mart
                             </span>
                         </div>
@@ -192,19 +192,19 @@
                             </div>
                         </div>
                     @else
-                        <div class="flex items-center space-x-2">
-                            <a href="{{ route('login') }}" class="text-sm font-bold text-slate-700 hover:text-brand-700 px-3 py-2 rounded-xl transition">
+                        <div class="flex items-center space-x-1 sm:space-x-2">
+                            <a href="{{ route('login') }}" class="text-xs sm:text-sm font-bold text-slate-700 hover:text-brand-700 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl transition">
                                 Sign In
                             </a>
-                            <a href="{{ route('register') }}" class="text-sm font-bold bg-brand-700 hover:bg-brand-800 text-white px-4 py-2.5 rounded-xl shadow-sm transition">
+                            <a href="{{ route('register') }}" class="text-xs sm:text-sm font-bold bg-brand-700 hover:bg-brand-800 text-white px-3 py-1.5 sm:px-4 sm:py-2.5 rounded-xl shadow-sm transition">
                                 Register
                             </a>
                         </div>
                     @endauth
 
                     <!-- Mobile Menu Toggle Button -->
-                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden p-2 text-slate-600 hover:text-slate-900 rounded-lg">
-                        <i class="fa-solid fa-bars text-xl"></i>
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden p-2 text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition" aria-label="Toggle Navigation">
+                        <i class="fa-solid" :class="mobileMenuOpen ? 'fa-xmark text-xl' : 'fa-bars text-lg'"></i>
                     </button>
                 </div>
             </div>
@@ -235,41 +235,87 @@
             </nav>
         </div>
 
-        <!-- Mobile Menu Drawer -->
-        <div x-show="mobileMenuOpen" x-cloak class="lg:hidden border-t border-slate-200 bg-white px-4 py-4 space-y-3">
-            <form action="{{ route('products.index') }}" method="GET" class="flex rounded-xl border border-slate-200 overflow-hidden mb-3">
-                <input type="text" name="q" placeholder="Search products..." class="flex-1 px-3 py-2 text-sm focus:outline-none">
-                <button type="submit" class="bg-brand-700 text-white px-4">
+        <!-- Mobile Menu Drawer (Responsive, Touch-Friendly) -->
+        <div x-show="mobileMenuOpen" 
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 -translate-y-2"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 -translate-y-2"
+             x-cloak 
+             class="lg:hidden border-t border-slate-200 bg-white px-4 py-4 space-y-4 max-h-[85vh] overflow-y-auto shadow-xl">
+            
+            <!-- Mobile Search Bar -->
+            <form action="{{ route('products.index') }}" method="GET" class="flex rounded-xl border border-slate-200 overflow-hidden shadow-xs">
+                <input type="text" name="q" placeholder="Search products, suppliers, HS code..." class="flex-1 px-3.5 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none">
+                <button type="submit" class="bg-brand-700 text-white px-4 text-xs font-bold flex items-center justify-center">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </form>
-            <div class="grid grid-cols-2 gap-2 text-xs font-semibold text-slate-700">
-                <a href="{{ route('categories.index') }}" class="p-2 bg-slate-50 rounded-lg text-center font-bold text-brand-700">Categories</a>
-                <a href="{{ route('products.index') }}" class="p-2 bg-slate-50 rounded-lg text-center">Products</a>
-                <a href="{{ route('suppliers.index') }}" class="p-2 bg-slate-50 rounded-lg text-center">Suppliers</a>
-                <a href="{{ route('rfqs.index') }}" class="p-2 bg-slate-50 rounded-lg text-center">RFQs</a>
-                <a href="{{ route('shipping') }}" class="p-2 bg-slate-50 rounded-lg text-center">Shipping</a>
-                <a href="{{ route('calculator.index') }}" class="p-2 bg-slate-50 rounded-lg text-center">Calculator</a>
+
+            <!-- Quick Navigation Tiles -->
+            <div class="grid grid-cols-2 gap-2 text-xs font-bold text-slate-700">
+                <a href="{{ route('categories.index') }}" class="p-2.5 bg-slate-50 hover:bg-brand-50 hover:text-brand-700 rounded-xl flex items-center space-x-2 transition border border-slate-100">
+                    <i class="fa-solid fa-folder-tree text-brand-600 w-4"></i>
+                    <span>Categories</span>
+                </a>
+                <a href="{{ route('products.index') }}" class="p-2.5 bg-slate-50 hover:bg-brand-50 hover:text-brand-700 rounded-xl flex items-center space-x-2 transition border border-slate-100">
+                    <i class="fa-solid fa-boxes-stacked text-brand-600 w-4"></i>
+                    <span>Products</span>
+                </a>
+                <a href="{{ route('suppliers.index') }}" class="p-2.5 bg-slate-50 hover:bg-brand-50 hover:text-brand-700 rounded-xl flex items-center space-x-2 transition border border-slate-100">
+                    <i class="fa-solid fa-industry text-brand-600 w-4"></i>
+                    <span>Suppliers</span>
+                </a>
+                <a href="{{ route('rfqs.index') }}" class="p-2.5 bg-slate-50 hover:bg-brand-50 hover:text-brand-700 rounded-xl flex items-center space-x-2 transition border border-slate-100">
+                    <i class="fa-solid fa-file-invoice text-brand-600 w-4"></i>
+                    <span>RFQs</span>
+                </a>
+                <a href="{{ route('shipping') }}" class="p-2.5 bg-slate-50 hover:bg-brand-50 hover:text-brand-700 rounded-xl flex items-center space-x-2 transition border border-slate-100">
+                    <i class="fa-solid fa-ship text-brand-600 w-4"></i>
+                    <span>Shipping</span>
+                </a>
+                <a href="{{ route('customs') }}" class="p-2.5 bg-slate-50 hover:bg-brand-50 hover:text-brand-700 rounded-xl flex items-center space-x-2 transition border border-slate-100">
+                    <i class="fa-solid fa-stamp text-brand-600 w-4"></i>
+                    <span>Customs</span>
+                </a>
+                <a href="{{ route('calculator.index') }}" class="p-2.5 bg-slate-50 hover:bg-brand-50 hover:text-brand-700 rounded-xl flex items-center space-x-2 transition border border-slate-100 col-span-2">
+                    <i class="fa-solid fa-calculator text-brand-600 w-4"></i>
+                    <span>Duty & Landed Cost Calculator</span>
+                </a>
             </div>
 
-            <!-- Dynamic Mobile Category List -->
-            @if(isset($globalCategories) && $globalCategories->count() > 0)
-                <div class="pt-2 border-t border-slate-100">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Categories</p>
-                    <div class="space-y-1">
-                        @foreach($globalCategories as $mCat)
-                            <a href="{{ route('categories.show', $mCat->slug) }}" class="flex items-center justify-between px-3 py-1.5 text-xs text-slate-700 hover:bg-slate-50 rounded-lg">
-                                <span class="font-medium truncate">{{ $mCat->name }}</span>
-                                <i class="fa-solid fa-chevron-right text-[9px] text-slate-400"></i>
-                            </a>
-                        @endforeach
-                    </div>
-                </div>
-            @endif
-
-            <a href="{{ route('rfqs.create') }}" class="block text-center py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl text-sm transition shadow-sm">
-                <i class="fa-solid fa-file-pen mr-1"></i> Post RFQ
+            <!-- Post RFQ CTA -->
+            <a href="{{ route('rfqs.create') }}" class="block text-center py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-bold rounded-xl text-xs sm:text-sm shadow-md transition">
+                <i class="fa-solid fa-file-pen mr-1.5"></i> Post Free Requirement (RFQ)
             </a>
+
+            @auth
+                <!-- Mobile Auth Quick Links -->
+                <div class="pt-3 border-t border-slate-100 space-y-1">
+                    <div class="px-2 py-1 text-[11px] font-bold text-slate-400 uppercase">My Account ({{ Auth::user()->role }})</div>
+                    <a href="
+                        @if(Auth::user()->isSuperAdmin() || Auth::user()->isAdmin()) {{ route('admin.dashboard') }}
+                        @elseif(Auth::user()->isSupplier()) {{ route('supplier.dashboard') }}
+                        @elseif(Auth::user()->isLogistics()) {{ route('logistics.dashboard') }}
+                        @elseif(Auth::user()->isCustoms()) {{ route('customs.dashboard') }}
+                        @else {{ route('buyer.dashboard') }}
+                        @endif
+                    " class="flex items-center px-3 py-2 text-xs font-bold text-brand-700 hover:bg-brand-50 rounded-xl">
+                        <i class="fa-solid fa-gauge-high mr-2.5 text-brand-600"></i> Go to Dashboard
+                    </a>
+                    <a href="{{ route('messages.index') }}" class="flex items-center px-3 py-2 text-xs font-medium text-slate-700 hover:bg-slate-50 rounded-xl">
+                        <i class="fa-solid fa-comments mr-2.5 text-slate-400"></i> Messages & Enquiries
+                    </a>
+                    <form action="{{ route('logout') }}" method="POST" class="pt-1">
+                        @csrf
+                        <button type="submit" class="w-full text-left flex items-center px-3 py-2 text-xs font-bold text-rose-600 hover:bg-rose-50 rounded-xl">
+                            <i class="fa-solid fa-right-from-bracket mr-2.5"></i> Sign Out
+                        </button>
+                    </form>
+                </div>
+            @endauth
         </div>
     </header>
 

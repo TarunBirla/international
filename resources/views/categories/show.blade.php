@@ -13,9 +13,9 @@
             <span class="text-slate-900 font-semibold">{{ $category->name }}</span>
         </div>
         <div class="flex items-center space-x-4">
-            <div class="w-12 h-12 rounded-2xl bg-blue-100 text-brand-700 flex items-center justify-center text-2xl shadow-sm">
-                <i class="fa-solid {{ $category->icon }}"></i>
-            </div>
+            <img src="{{ $category->image_url }}" alt="{{ $category->name }}" 
+                 class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl object-cover border border-slate-200 shadow-sm flex-shrink-0"
+                 loading="lazy">
             <div>
                 <h1 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">{{ $category->name }}</h1>
                 <p class="text-slate-600 text-xs sm:text-sm mt-0.5">{{ $category->description ?? 'Browse verified industrial suppliers for ' . $category->name }}</p>
@@ -25,14 +25,28 @@
 </div>
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <!-- Subcategory Pills -->
+    <!-- Subcategories Grid (Image + Name Cards) -->
     @if($category->subcategories->isNotEmpty())
-        <div class="flex flex-wrap gap-2 mb-8">
-            @foreach($category->subcategories as $sub)
-                <a href="{{ route('categories.show', $sub->slug) }}" class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:border-brand-500 hover:text-brand-700 transition">
-                    {{ $sub->name }}
-                </a>
-            @endforeach
+        <div class="mb-10 bg-white p-5 sm:p-6 rounded-3xl border border-slate-200 shadow-xs">
+            <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3.5">Subcategories in {{ $category->name }}</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3 sm:gap-4">
+                @foreach($category->subcategories as $sub)
+                    <a href="{{ route('categories.show', $sub->slug) }}" 
+                       class="group bg-slate-50/70 hover:bg-white p-2.5 rounded-2xl border border-slate-200/80 hover:border-brand-500 hover:shadow-md transition flex flex-col items-center text-center">
+                        <div class="w-full aspect-square rounded-xl bg-white overflow-hidden mb-2 relative border border-slate-100 shadow-xs">
+                            <img src="{{ $sub->image_url }}" alt="{{ $sub->name }}" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                                 loading="lazy">
+                        </div>
+                        <span class="font-bold text-slate-900 text-xs group-hover:text-brand-700 transition line-clamp-1 leading-tight">
+                            {{ $sub->name }}
+                        </span>
+                        @if(isset($sub->products_count) && $sub->products_count > 0)
+                            <span class="text-[10px] text-slate-400 mt-0.5 font-medium">{{ $sub->products_count }} Products</span>
+                        @endif
+                    </a>
+                @endforeach
+            </div>
         </div>
     @endif
 
@@ -47,30 +61,31 @@
             </a>
         </div>
     @else
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             @foreach($products as $product)
                 <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-lg transition duration-200 flex flex-col justify-between group">
                     <div>
-                        <div class="relative h-48 bg-slate-100 overflow-hidden">
-                            <img src="{{ $product->main_image }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                            <div class="absolute top-2.5 left-2.5 bg-white/95 px-2.5 py-1 rounded-full text-[11px] font-bold text-slate-800 shadow-sm">
-                                {{ $product->origin_country }}
+                        <div class="relative h-40 sm:h-48 bg-slate-100 overflow-hidden">
+                            <img src="{{ $product->main_image }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy">
+                            <div class="absolute top-2 sm:top-2.5 left-2 sm:left-2.5 bg-white/95 backdrop-blur-xs px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-bold text-slate-800 shadow-xs flex items-center space-x-1">
+                                <span>{{ $product->country_flag }}</span>
+                                <span class="truncate max-w-[80px] sm:max-w-none">{{ $product->origin_country }}</span>
                             </div>
                         </div>
-                        <div class="p-4">
-                            <h3 class="font-bold text-slate-900 text-sm leading-snug hover:text-brand-700 transition line-clamp-2 mb-1">
+                        <div class="p-3 sm:p-4">
+                            <h3 class="font-bold text-slate-900 text-xs sm:text-sm leading-snug hover:text-brand-700 transition line-clamp-2 mb-1">
                                 <a href="{{ route('products.show', $product->slug) }}">{{ $product->name }}</a>
                             </h3>
-                            <span class="text-xs text-slate-500 block mb-3">{{ $product->company->company_name ?? 'Supplier' }}</span>
-                            <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100 flex items-baseline justify-between">
-                                <span class="font-black text-slate-900 text-base">£{{ number_format($product->base_price, 2) }}</span>
-                                <span class="text-xs text-slate-500">MOQ: {{ $product->moq }}</span>
+                            <span class="text-[11px] sm:text-xs text-slate-500 block mb-2 sm:mb-3 line-clamp-1">{{ $product->company->company_name ?? 'Supplier' }}</span>
+                            <div class="bg-slate-50 p-2 sm:p-2.5 rounded-xl border border-slate-100 flex items-baseline justify-between">
+                                <span class="font-black text-slate-900 text-xs sm:text-base">£{{ number_format($product->base_price, 2) }}</span>
+                                <span class="text-[10px] sm:text-xs text-slate-500">MOQ: {{ $product->moq }}</span>
                             </div>
                         </div>
                     </div>
-                    <div class="p-4 pt-0">
+                    <div class="p-3 sm:p-4 pt-0">
                         <a href="{{ route('products.show', $product->slug) }}" class="block text-center py-2 bg-brand-700 hover:bg-brand-800 text-white font-bold rounded-xl text-xs transition">
-                            View Product Details
+                            View Details
                         </a>
                     </div>
                 </div>

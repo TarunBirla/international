@@ -15,12 +15,27 @@
     </div>
 </div>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8" x-data="{ filtersOpen: false }">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8">
         
         <!-- Left Column: Filters Sidebar -->
         <div class="lg:col-span-1">
-            <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm sticky top-24 space-y-6">
+            <!-- Mobile Filter Toggle Button -->
+            <button @click="filtersOpen = !filtersOpen" 
+                    type="button"
+                    class="lg:hidden w-full flex items-center justify-between p-3.5 bg-white border border-slate-200 rounded-2xl text-xs font-bold text-slate-800 shadow-sm mb-4">
+                <span class="flex items-center space-x-2">
+                    <i class="fa-solid fa-filter text-brand-700"></i>
+                    <span>Filter Products</span>
+                    @if(request()->anyFilled(['q', 'category', 'country', 'min_price', 'max_price', 'max_moq', 'verified', 'direct_purchase', 'city']))
+                        <span class="px-1.5 py-0.2 rounded-full bg-brand-100 text-brand-700 text-[10px] font-extrabold">Active</span>
+                    @endif
+                </span>
+                <i class="fa-solid text-xs text-slate-400 transition-transform duration-200" :class="filtersOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+            </button>
+
+            <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm lg:sticky lg:top-24 space-y-6"
+                 :class="filtersOpen ? 'block mb-6' : 'hidden lg:block'">
                 <div class="flex items-center justify-between pb-3 border-b border-slate-100">
                     <h2 class="text-sm font-extrabold text-slate-900 flex items-center">
                         <i class="fa-solid fa-filter text-brand-700 mr-2"></i> Filters
@@ -134,56 +149,56 @@
                     <a href="{{ route('products.index') }}" class="inline-block mt-4 px-4 py-2 bg-brand-700 text-white font-bold rounded-xl text-xs">Reset All Filters</a>
                 </div>
             @else
-                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div class="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-6">
                     @foreach($products as $product)
                         <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-lg transition duration-200 flex flex-col justify-between group">
                             <div>
                                 <!-- Image & Tags -->
-                                <div class="relative h-48 bg-slate-100 overflow-hidden">
-                                    <img src="{{ $product->main_image }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                <div class="relative aspect-[4/3] bg-slate-100 overflow-hidden">
+                                    <img src="{{ $product->main_image }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy">
                                     
-                                    <div class="absolute top-2.5 left-2.5 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-full text-[11px] font-bold text-slate-800 shadow-sm flex items-center space-x-1">
+                                    <div class="absolute top-1.5 left-1.5 sm:top-2.5 sm:left-2.5 bg-white/95 backdrop-blur-sm px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-bold text-slate-800 shadow-sm flex items-center space-x-1">
                                         <span>{{ $product->country_flag }}</span>
-                                        <span>{{ $product->origin_country }}</span>
+                                        <span class="hidden sm:inline">{{ $product->origin_country }}</span>
                                     </div>
 
                                     @if($product->company && $product->company->is_verified)
-                                        <div class="absolute top-2.5 right-2.5 bg-emerald-600 text-white px-2 py-0.5 rounded text-[10px] font-bold uppercase shadow">
+                                        <div class="absolute top-1.5 right-1.5 sm:top-2.5 sm:right-2.5 bg-emerald-600 text-white px-1.5 py-0.5 rounded text-[8px] sm:text-[10px] font-bold uppercase shadow">
                                             Verified
                                         </div>
                                     @endif
                                 </div>
 
-                                <div class="p-4">
-                                    <span class="text-[10px] font-mono font-bold text-slate-400 block mb-1">HS: {{ $product->hs_code }}</span>
-                                    <h3 class="font-bold text-slate-900 text-sm leading-snug hover:text-brand-700 transition line-clamp-2 mb-1.5">
+                                <div class="p-2.5 sm:p-4">
+                                    <span class="text-[9px] sm:text-[10px] font-mono font-bold text-slate-400 block mb-0.5 sm:mb-1">HS: {{ $product->hs_code }}</span>
+                                    <h3 class="font-bold text-slate-900 text-xs sm:text-sm leading-snug hover:text-brand-700 transition line-clamp-2 mb-1 min-h-[32px] sm:min-h-[38px]">
                                         <a href="{{ route('products.show', $product->slug) }}">{{ $product->name }}</a>
                                     </h3>
                                     
-                                    <div class="text-xs text-slate-500 mb-3 truncate">
-                                        By <strong class="text-slate-700">{{ $product->company->company_name ?? 'Industrial Supplier' }}</strong>
+                                    <div class="text-[10px] sm:text-xs text-slate-500 mb-2 sm:mb-3 truncate">
+                                        <span class="hidden sm:inline">By </span><strong class="text-slate-700">{{ $product->company->company_name ?? 'Industrial Supplier' }}</strong>
                                     </div>
 
-                                    <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100 mb-3">
-                                        <div class="flex items-baseline justify-between">
+                                    <div class="bg-slate-50 p-2 sm:p-2.5 rounded-xl border border-slate-100 mb-2 sm:mb-3">
+                                        <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-0.5 sm:gap-1">
                                             <div>
                                                 @if($product->price_on_request)
-                                                    <span class="text-xs font-extrabold text-amber-600">Price on Request</span>
+                                                    <span class="text-[11px] sm:text-xs font-extrabold text-amber-600">Price on Request</span>
                                                 @else
-                                                    <span class="text-base font-black text-slate-900">£{{ number_format($product->base_price, 2) }}</span>
-                                                    <span class="text-[10px] text-slate-500">/ {{ $product->unit }}</span>
+                                                    <span class="text-xs sm:text-base font-black text-slate-900">£{{ number_format($product->base_price, 2) }}</span>
+                                                    <span class="text-[9px] sm:text-[10px] text-slate-500">/ {{ $product->unit }}</span>
                                                 @endif
                                             </div>
-                                            <div class="text-[11px] font-semibold text-slate-500">
-                                                MOQ: <span class="text-slate-900 font-bold">{{ $product->moq }} {{ $product->unit }}</span>
+                                            <div class="text-[9px] sm:text-[11px] font-semibold text-slate-500">
+                                                MOQ: <span class="text-slate-900 font-bold">{{ $product->moq }}</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="p-4 pt-0 grid grid-cols-2 gap-2">
-                                <a href="{{ route('products.show', $product->slug) }}" class="text-center py-2 px-2 rounded-xl text-xs font-bold border border-slate-200 text-slate-700 hover:bg-slate-50 transition">
+                            <div class="p-2.5 sm:p-4 pt-0 grid grid-cols-2 gap-1.5 sm:gap-2">
+                                <a href="{{ route('products.show', $product->slug) }}" class="text-center py-1.5 sm:py-2 px-1 rounded-xl text-[11px] sm:text-xs font-bold border border-slate-200 text-slate-700 hover:bg-slate-50 transition">
                                     Details
                                 </a>
 
@@ -192,14 +207,14 @@
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $product->id }}">
                                         <input type="hidden" name="quantity" value="{{ $product->moq }}">
-                                        <button type="submit" class="w-full text-center py-2 px-2 rounded-xl text-xs font-bold bg-brand-700 hover:bg-brand-800 text-white transition flex items-center justify-center space-x-1">
-                                            <i class="fa-solid fa-cart-plus text-[10px]"></i>
-                                            <span>Buy Now</span>
+                                        <button type="submit" class="w-full text-center py-1.5 sm:py-2 px-1 rounded-xl text-[11px] sm:text-xs font-bold bg-brand-700 hover:bg-brand-800 text-white transition flex items-center justify-center space-x-1">
+                                            <i class="fa-solid fa-cart-plus text-[9px] sm:text-[10px]"></i>
+                                            <span>Buy</span>
                                         </button>
                                     </form>
                                 @else
-                                    <a href="{{ route('products.show', $product->slug) }}#enquiry" class="text-center py-2 px-2 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-600 text-white transition">
-                                        Enquiry
+                                    <a href="{{ route('products.show', $product->slug) }}#enquiry" class="text-center py-1.5 sm:py-2 px-1 rounded-xl text-[11px] sm:text-xs font-bold bg-amber-500 hover:bg-amber-600 text-white transition">
+                                        Enquire
                                     </a>
                                 @endif
                             </div>

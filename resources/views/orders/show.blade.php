@@ -61,26 +61,33 @@
 <div class="{{ auth()->check() ? 'space-y-8' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10' }}">
     
     <!-- 14-Stage Visual Order Tracking Stepper -->
-    <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
-        <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
+    <div class="bg-white rounded-2xl sm:rounded-3xl border border-slate-200 p-4 sm:p-6 md:p-8 shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-slate-100 gap-2">
             <div>
-                <span class="text-xs font-bold text-brand-700 uppercase tracking-wider block">End-to-End International Traceability</span>
-                <h2 class="text-lg font-black text-slate-900">Shipment & Customs Tracking Timeline</h2>
+                <span class="text-[10px] sm:text-xs font-bold text-brand-700 uppercase tracking-wider block">End-to-End International Traceability</span>
+                <h2 class="text-base sm:text-lg font-black text-slate-900">Shipment & Customs Tracking Timeline</h2>
             </div>
-            <div class="text-xs font-mono font-bold text-slate-500 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
-                Consignment Tracking: {{ $order->tracking_number ?? 'PRL-UK-IN-TRANSIT' }}
+            <div class="text-[11px] sm:text-xs font-mono font-bold text-slate-500 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200 w-fit">
+                Tracking: {{ $order->tracking_number ?? 'PRL-UK-IN-TRANSIT' }}
             </div>
         </div>
 
-        <!-- Horizontal Stepper Bar (Responsive Scrolling) -->
-        <div class="overflow-x-auto pb-4">
+        @php 
+            $totalStages = count($allStages);
+            $currentStageIndex = $order->stage_index; 
+            $lineWidthPercent = $currentStageIndex <= 1 ? 0 : min(100, (($currentStageIndex - 1) / max(1, $totalStages - 1)) * 100);
+            $idx = 1; 
+        @endphp
+
+        <!-- Mobile Scroll Indicator -->
+        <div class="flex items-center justify-between text-[11px] text-brand-700 font-bold mb-3 md:hidden bg-brand-50/70 px-3 py-1.5 rounded-xl border border-brand-100">
+            <span class="flex items-center"><i class="fa-solid fa-arrows-left-right mr-1.5 text-xs"></i> Swipe timeline</span>
+            <span class="text-[10px] text-slate-500">Stage {{ $currentStageIndex }} of {{ $totalStages }}</span>
+        </div>
+
+        <!-- Horizontal Stepper Bar (Responsive Smooth Touch Scrolling) -->
+        <div class="overflow-x-auto pb-4 scrollbar-thin">
             <div class="flex items-center justify-between min-w-[850px] relative">
-                @php 
-                    $totalStages = count($allStages);
-                    $currentStageIndex = $order->stage_index; 
-                    $lineWidthPercent = $currentStageIndex <= 1 ? 0 : min(100, (($currentStageIndex - 1) / max(1, $totalStages - 1)) * 100);
-                    $idx = 1; 
-                @endphp
                 <!-- Background Progress Line -->
                 <div class="absolute top-5 left-12 right-12 h-1 bg-slate-100 -z-0">
                     <div class="h-full bg-brand-600 transition-all duration-500" style="width: {{ $lineWidthPercent }}%;"></div>
@@ -134,7 +141,7 @@
         </div>
 
         <!-- Admin / Partner Status Update Form -->
-        @if(!Auth::user()->isBuyer())
+        @if(auth()->check() && !auth()->user()->isBuyer())
             <div class="mt-6 pt-6 border-t border-slate-200 bg-slate-50 p-4 rounded-2xl">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 gap-2">
                     <h4 class="text-xs font-bold text-slate-800 flex items-center">

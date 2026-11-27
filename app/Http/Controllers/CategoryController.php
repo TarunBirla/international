@@ -11,7 +11,9 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::whereNull('parent_id')
-            ->with(['subcategories'])
+            ->with(['subcategories' => function($q) {
+                $q->withCount('products')->orderBy('sort_order', 'asc');
+            }])
             ->withCount('products')
             ->orderBy('sort_order', 'asc')
             ->get();
@@ -22,7 +24,9 @@ class CategoryController extends Controller
     public function show($slug)
     {
         $category = Category::where('slug', $slug)
-            ->with(['subcategories', 'parent'])
+            ->with(['subcategories' => function($q) {
+                $q->withCount('products')->orderBy('sort_order', 'asc');
+            }, 'parent'])
             ->firstOrFail();
 
         $catIds = $category->subcategories->pluck('id')->push($category->id);
