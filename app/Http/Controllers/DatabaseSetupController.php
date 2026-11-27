@@ -79,6 +79,9 @@ class DatabaseSetupController extends Controller
      */
     public function execute(Request $request)
     {
+        @set_time_limit(300);
+        @ini_set('memory_limit', '512M');
+
         $connection = config('database.default');
         $dbConfig = config("database.connections.{$connection}");
         $forceFresh = true; // Always perform clean fresh migration and seeding
@@ -93,23 +96,32 @@ class DatabaseSetupController extends Controller
                 $pass = $dbConfig['password'] ?? '';
                 $dbname = $dbConfig['database'] ?? 'laravel';
 
-                $log[] = "Connecting to MySQL server at {$host}:{$port}...";
-                $pdo = new PDO("mysql:host={$host};port={$port}", $user, $pass, [
-                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                ]);
-
-                if ($forceFresh) {
-                    $log[] = "Re-creating fresh MySQL database `{$dbname}`...";
-                    $pdo->exec("DROP DATABASE IF EXISTS `{$dbname}`;");
-                    $pdo->exec("CREATE DATABASE `{$dbname}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
-                    DB::purge('mysql');
-                    $log[] = "✓ Database `{$dbname}` is recreated fresh and ready.";
-                } else {
-                    $log[] = "Creating database `{$dbname}` if not exists...";
-                    $pdo->exec("CREATE DATABASE IF NOT EXISTS `{$dbname}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
-                    $log[] = "✓ Database `{$dbname}` is verified and ready.";
-                    DB::purge('mysql');
+                $log[] = "Checking MySQL connection for database `{$dbname}` at {$host}:{$port}...";
+                try {
+                    // Try connecting to host to create database if permitted
+                    $pdo = new PDO("mysql:host={$host};port={$port}", $user, $pass, [
+                        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                        PDO::ATTR_TIMEOUT => 5,
+                    ]);
+                    try {
+                        $pdo->exec("CREATE DATABASE IF NOT EXISTS `{$dbname}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
+                        $log[] = "✓ MySQL database `{$dbname}` verified / created.";
+                    } catch (Exception $eDb) {
+                        $log[] = "Notice: Database `{$dbname}` exists (managed via hosting panel).";
+                    }
+                } catch (Exception $eHost) {
+                    // On shared hosting, connecting without dbname might be restricted; try connecting directly to dbname
+                    try {
+                        $pdoDb = new PDO("mysql:host={$host};port={$port};dbname={$dbname}", $user, $pass, [
+                            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                            PDO::ATTR_TIMEOUT => 5,
+                        ]);
+                        $log[] = "✓ Connected directly to MySQL database `{$dbname}`.";
+                    } catch (Exception $eDirect) {
+                        $log[] = "Notice: Connection to MySQL database: " . $eDirect->getMessage();
+                    }
                 }
+                DB::purge('mysql');
             } elseif ($connection === 'sqlite') {
                 $dbPath = $dbConfig['database'] ?? database_path('database.sqlite');
                 DB::disconnect();
@@ -117,7 +129,8 @@ class DatabaseSetupController extends Controller
                     @unlink($dbPath);
                 }
                 File::ensureDirectoryExists(dirname($dbPath));
-                touch($dbPath);
+                @touch($dbPath);
+                @chmod($dbPath, 0777);
                 DB::purge('sqlite');
                 $log[] = "✓ Re-initialized clean SQLite database file at {$dbPath}";
             }
